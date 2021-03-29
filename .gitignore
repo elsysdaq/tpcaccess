@@ -3,3 +3,14 @@
 ################################################################################
 
 /.vs
+/bin/x64/continuouse-measurement.pdb
+/bin/x64/continuouse-measurement.ilk
+/bin/x64/continuouse-measurement.exe
+/examples/cpp/vs-projects/.vs/vs-projects/v16/ipch/AutoPCH
+/examples/cpp/vs-projects/.vs/vs-projects/v16
+/examples/cpp/vs-projects/continuouse-measurement/x64/Debug
+/examples/cpp/vs-projects/continuouse-measurement/data_ch0.bin
+/examples/cpp/vs-projects/continuouse-measurement/data_ch1.bin
+/examples/cpp/vs-projects/x64/Debug
+/examples/cpp/vs-projects/continuouse-measurement/Debug
+/examples/cpp/vs-projects/Debug
