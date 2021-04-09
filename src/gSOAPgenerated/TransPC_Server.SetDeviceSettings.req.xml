@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:SetDeviceSettings>
+   <Settings>
+    <deviceID>0</deviceID>
+    <serverSoftwareVersion>0</serverSoftwareVersion>
+    <simulatedHardware>false</simulatedHardware>
+    <deviceName></deviceName>
+    <DeviceDescription></DeviceDescription>
+    <UseLocalTime>false</UseLocalTime>
+    <AutoStartMeasurement>false</AutoStartMeasurement>
+    <AutoStartAutosequence>false</AutoStartAutosequence>
+    <ServerPort>0</ServerPort>
+    <ServerPortTwoinOne>0</ServerPortTwoinOne>
+    <TargetPort>0</TargetPort>
+    <TwoInOne>false</TwoInOne>
+    <TwoInOnepassword></TwoInOnepassword>
+    <DataFileName></DataFileName>
+    <NumberOfBackupFiles>0</NumberOfBackupFiles>
+    <HdFlushInterval>0</HdFlushInterval>
+    <WriteTroughCache>false</WriteTroughCache>
+    <ModelType>0</ModelType>
+    <SyncLinkDetected>0</SyncLinkDetected>
+   </Settings>
+  </ns:SetDeviceSettings>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

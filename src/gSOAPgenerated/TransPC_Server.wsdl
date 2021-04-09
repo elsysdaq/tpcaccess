@@ -1,0 +1,1379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="TransPC_Server"
+ targetNamespace="urn:elsys-TransPC-device"
+ xmlns:tns="urn:elsys-TransPC-device"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:elsys-TransPC-device"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns="urn:elsys-TransPC-device"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="TpcConstants">
+   <restriction base="xsd:QName">
+    <enumeration value="ns:maxBoards"/><!-- enum const = 16 -->
+    <enumeration value="ns:maxInputs"/><!-- enum const = 8 -->
+    <enumeration value="ns:maxInputRanges"/><!-- enum const = 11 -->
+   </restriction>
+  </simpleType>
+  <complexType name="DateTime">
+   <sequence>
+     <element name="year" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="month" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="day" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hour" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="minute" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="second" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="milliSecond" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="DeviceInfo">
+   <sequence>
+     <element name="deviceID" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="serverSoftwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="simulatedHardware" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="deviceName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="DeviceDescription" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="UseLocalTime" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="AutoStartMeasurement" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="AutoStartAutosequence" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="ServerPort" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="ServerPortTwoinOne" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="TargetPort" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="TwoInOne" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="TwoInOnepassword" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="DataFileName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="NumberOfBackupFiles" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="HdFlushInterval" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="WriteTroughCache" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="ModelType" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="SyncLinkDetected" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardInfo">
+   <sequence>
+     <element name="boardClass" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hardwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="serialNr" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="driverVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="firmwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfInputs" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxMemory" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="operationModeOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="averageOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="lastFactoryCalibration" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="lastUserCalibration" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="maxAdcSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="boardClock" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="InputInfo">
+   <sequence>
+     <element name="inputClass" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hardwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxAdcSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="adcResolution" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="offsetOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="filterOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="diffOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputCouplingOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputRanges" type="ns:Array11Ofdouble" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="maxMarkerMask" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TaggedBoardInfo">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="info" type="ns:BoardInfo" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TaggedInputInfo">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="info" type="ns:InputInfo" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardInfoArray">
+   <sequence>
+    <element name="item" type="ns:TaggedBoardInfo" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="InputInfoArray">
+   <sequence>
+    <element name="item" type="ns:TaggedInputInfo" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Parameter">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="parameterIndex" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ParameterList">
+   <sequence>
+    <element name="item" type="ns:Parameter" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="SetParameterResultList">
+   <sequence>
+    <element name="item" type="ns:SetOneParameterResult" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Attribute">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="value" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="AttributeList">
+   <sequence>
+    <element name="item" type="ns:Attribute" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationChannel">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationChannelList">
+   <sequence>
+    <element name="item" type="ns:AssociationChannel" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationRow">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="associatedChannels" type="ns:AssociationChannelList" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationRowList">
+   <sequence>
+    <element name="item" type="ns:AssociationRow" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSLog">
+   <sequence>
+     <element name="GPSFrame" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSLogList">
+   <sequence>
+    <element name="item" type="ns:GPSLog" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <simpleType name="DeviceData">
+   <restriction base="xsd:base64Binary">
+   </restriction>
+  </simpleType>
+  <complexType name="InputStatus">
+   <sequence>
+     <element name="OverloadLive" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="OverloadMeas" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardStatus">
+   <sequence>
+     <element name="recordingState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="blockCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="dataCounter" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+     <element name="dataLostCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="blockLostCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputs" type="ns:Array8Ofns__InputStatus" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSStatus">
+   <sequence>
+     <element name="locked" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="NrOfSatVisible" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="gpsTime" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="lastFrame" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="nrOfloggedPositions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TempStatus">
+   <sequence>
+     <element name="CPUTemp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="BoardTemp" type="ns:Array16Ofint" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="Res1Temp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="Res2Temp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="DeviceStatus">
+   <sequence>
+     <element name="deviceError" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="boards" type="ns:Array16Ofns__BoardStatus" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="settingsChangesCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="startTime" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="measurementNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="startInProgress" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="autosequenceState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="extStartState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="gpsStatus" type="ns:GPSStatus" minOccurs="1" maxOccurs="1"/>
+     <element name="tempStatus" type="ns:TempStatus" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="Metadata">
+   <sequence>
+     <element name="triggerTime" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerSample" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="blockLength" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="stopTriggerSample" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="MetadataList">
+   <sequence>
+    <element name="item" type="ns:Metadata" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="YMetadata">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="isActive" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="resolutionInBits" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="analogMask" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="markerMask" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfMarkerBits" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="bytesPerSample" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="binToVoltFactor" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="binToVoltConst" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="voltToPhysicalFactor" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="voltToPhysicalConstant" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="YMetadataList">
+   <sequence>
+    <element name="item" type="ns:YMetadata" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="DataSpecification">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="blockNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="RangeDataSpecification">
+   <complexContent>
+    <extension base="ns:DataSpecification">
+     <sequence>
+     <element name="readoutType" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="dataStart" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="dataLength" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="resultLength" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     </sequence>
+    </extension>
+   </complexContent>
+  </complexType>
+  <complexType name="IndexList">
+   <sequence>
+    <element name="item" type="xsd:unsignedLong" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="EnvelopeDataSpecification">
+   <complexContent>
+    <extension base="ns:DataSpecification">
+     <sequence>
+     <element name="indices" type="ns:IndexList" minOccurs="1" maxOccurs="1" nillable="true"/>
+     </sequence>
+    </extension>
+   </complexContent>
+  </complexType>
+  <complexType name="DataSpecificationArray">
+   <sequence>
+    <element name="item" type="ns:DataSpecification" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="Data">
+   <simpleContent>
+    <extension base="xsd:base64Binary">
+     <attribute name="href" type="xsd:anyURI" use="optional"/>
+    </extension>
+   </simpleContent>
+  </complexType>
+  <complexType name="DataBlockHeader">
+   <sequence>
+     <element name="error" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfSamples" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="sampleFormat" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="totalBytes" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="AutoSequence">
+   <sequence>
+    <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Array16Ofns__BoardStatus">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns:BoardStatus[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array8Ofns__InputStatus">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns:InputStatus[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array128Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array8Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array16Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array11Ofdouble">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array16Ofint">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+ </schema>
+
+</types>
+
+<message name="GetInterfaceVersionRequest">
+</message>
+
+<message name="GetInterfaceVersionResponse">
+ <part name="version" type="xsd:int"/>
+</message>
+
+<message name="ResetConfiguration">
+</message>
+
+<message name="DummyResponse">
+</message>
+
+<message name="AcquireDeviceLock">
+</message>
+
+<message name="ReleaseDeviceLock">
+</message>
+
+<message name="GetClusterConfiguration">
+</message>
+
+<message name="ClusterConfiguration">
+ <part name="clusterNumbers" type="ns:Array16Ofint"/>
+</message>
+
+<message name="SetClusterConfiguration">
+ <part name="clusters" type="ns:ClusterConfiguration"/>
+</message>
+
+<message name="GetHardwareInfo">
+</message>
+
+<message name="HardwareInfo">
+ <part name="device" type="ns:DeviceInfo"/>
+ <part name="boards" type="ns:BoardInfoArray"/>
+ <part name="inputs" type="ns:InputInfoArray"/>
+</message>
+
+<message name="SetOneParameter">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="inputNumber" type="xsd:int"/>
+ <part name="parameterIndex" type="xsd:int"/>
+ <part name="value" type="xsd:double"/>
+</message>
+
+<message name="SetOneParameterResult">
+ <part name="roundedValue" type="xsd:double"/>
+ <part name="error" type="xsd:int"/>
+</message>
+
+<message name="SetMultipleParametersRequest">
+ <part name="parameters" type="ns:ParameterList"/>
+</message>
+
+<message name="SetMultipleParametersResponse">
+ <part name="result" type="ns:SetParameterResultList"/>
+</message>
+
+<message name="GetAllCurrentParametersRequest">
+</message>
+
+<message name="GetAllCurrentParametersResponse">
+ <part name="parameters" type="ns:ParameterList"/>
+</message>
+
+<message name="GetAllPreviousParametersRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+</message>
+
+<message name="GetAllPreviousParametersResponse">
+ <part name="parameters" type="ns:ParameterList"/>
+</message>
+
+<message name="SetAttributes">
+ <part name="values" type="ns:AttributeList"/>
+</message>
+
+<message name="GetAllCurrentAttributesRequest">
+</message>
+
+<message name="GetAllCurrentAttributesResponse">
+ <part name="result" type="ns:AttributeList"/>
+</message>
+
+<message name="GetAllPreviousAttributesRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+</message>
+
+<message name="GetAllPreviousAttributesResponse">
+ <part name="result" type="ns:AttributeList"/>
+</message>
+
+<message name="GetSerTrgProtocolRequest">
+ <part name="boardAddress" type="xsd:int"/>
+</message>
+
+<message name="GetSerTrgProtocolResponse">
+ <part name="prot" type="xsd:int"/>
+</message>
+
+<message name="ResetSerTrg">
+ <part name="boardAddress" type="xsd:int"/>
+</message>
+
+<message name="SetI2CTrigger">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="settings" type="ns:I2CTriggerSettings"/>
+</message>
+
+<message name="GetI2CTrigger">
+ <part name="boardAddress" type="xsd:int"/>
+</message>
+
+<message name="I2CTriggerSettings">
+ <part name="mode" type="xsd:int"/>
+ <part name="chDataInputNumber" type="xsd:int"/>
+ <part name="chDataInputSignal" type="xsd:int"/>
+ <part name="chDataLevelL" type="xsd:double"/>
+ <part name="chDataLevelH" type="xsd:double"/>
+ <part name="chClockInputNumber" type="xsd:int"/>
+ <part name="chClockInputSignal" type="xsd:int"/>
+ <part name="chClockLevelL" type="xsd:double"/>
+ <part name="chClockLevelH" type="xsd:double"/>
+ <part name="ack" type="xsd:int"/>
+ <part name="adrRWBit" type="xsd:int"/>
+ <part name="adrType" type="xsd:int"/>
+ <part name="adrInRange" type="xsd:boolean"/>
+ <part name="adrLow" type="xsd:int"/>
+ <part name="adrHigh" type="xsd:int"/>
+ <part name="adrMask" type="xsd:int"/>
+ <part name="dataStartByte" type="xsd:int"/>
+ <part name="dataLength" type="xsd:int"/>
+ <part name="dataInRange" type="xsd:boolean"/>
+ <part name="dataLow" type="ns:Array16Ofbyte"/>
+ <part name="dataHigh" type="ns:Array16Ofbyte"/>
+ <part name="dataMask" type="ns:Array16Ofbyte"/>
+</message>
+
+<message name="SetCANTrigger">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="settings" type="ns:CANTriggerSettings"/>
+</message>
+
+<message name="GetCANTrigger">
+ <part name="boardAddress" type="xsd:int"/>
+</message>
+
+<message name="CANTriggerSettings">
+ <part name="mode" type="xsd:int"/>
+ <part name="chDataInputNumber" type="xsd:int"/>
+ <part name="chDataInputSignal" type="xsd:int"/>
+ <part name="chDataLevelL" type="xsd:double"/>
+ <part name="chDataLevelH" type="xsd:double"/>
+ <part name="bitRate" type="xsd:int"/>
+ <part name="bitSamplePoint" type="xsd:double"/>
+ <part name="idFormat" type="xsd:int"/>
+ <part name="idInRange" type="xsd:boolean"/>
+ <part name="idLow" type="xsd:int"/>
+ <part name="idHigh" type="xsd:int"/>
+ <part name="idMask" type="xsd:int"/>
+ <part name="dataLength" type="xsd:int"/>
+ <part name="dataInRange" type="xsd:boolean"/>
+ <part name="dataLow" type="ns:Array8Ofbyte"/>
+ <part name="dataHigh" type="ns:Array8Ofbyte"/>
+ <part name="dataMask" type="ns:Array8Ofbyte"/>
+</message>
+
+<message name="GetAllCurrentAssociationsRequest">
+</message>
+
+<message name="GetAllCurrentAssociationsResponse">
+ <part name="result" type="ns:AssociationRowList"/>
+</message>
+
+<message name="GetAllPreviousAssociationsRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+</message>
+
+<message name="GetAllPreviousAssociationsResponse">
+ <part name="result" type="ns:AssociationRowList"/>
+</message>
+
+<message name="SetAssociations">
+ <part name="associations" type="ns:AssociationRowList"/>
+</message>
+
+<message name="GetGPSLogListRequest">
+ <part name="from" type="xsd:int"/>
+ <part name="to" type="xsd:int"/>
+</message>
+
+<message name="GetGPSLogListResponse">
+ <part name="result" type="ns:GPSLogList"/>
+</message>
+
+<message name="WriteDev">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="type" type="xsd:int"/>
+ <part name="data" type="ns:DeviceData"/>
+ <part name="aux1" type="xsd:unsignedInt"/>
+ <part name="aux2" type="xsd:unsignedInt"/>
+</message>
+
+<message name="ReadDevRequest">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="type" type="xsd:int"/>
+ <part name="count" type="xsd:unsignedInt"/>
+ <part name="aux1" type="xsd:unsignedInt"/>
+ <part name="aux2" type="xsd:unsignedInt"/>
+</message>
+
+<message name="ReadDevResponse">
+ <part name="result" type="ns:DeviceData"/>
+</message>
+
+<message name="ReadWriteTwiRequest">
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="amplifier" type="xsd:unsignedInt"/>
+ <part name="data" type="ns:DeviceData"/>
+</message>
+
+<message name="ReadWriteTwiResponse">
+ <part name="result" type="ns:DeviceData"/>
+</message>
+
+<message name="PrepareStartRequest">
+</message>
+
+<message name="PrepareStartResponse">
+ <part name="delayTime" type="xsd:double"/>
+</message>
+
+<message name="SetStartInfo">
+ <part name="startTime" type="ns:DateTime"/>
+ <part name="measurementNr" type="xsd:int"/>
+</message>
+
+<message name="ExecuteCommand">
+ <part name="command" type="xsd:int"/>
+</message>
+
+<message name="StartCalibration">
+ <part name="type" type="xsd:int"/>
+</message>
+
+<message name="GetStatus">
+</message>
+
+<message name="Status">
+ <part name="eventCounter" type="xsd:unsignedInt"/>
+ <part name="status" type="ns:DeviceStatus"/>
+ <part name="clusters" type="ns:ClusterConfiguration"/>
+</message>
+
+<message name="WaitForStatusChange">
+ <part name="eventCounter" type="xsd:unsignedInt"/>
+</message>
+
+<message name="LeaveWaitStatus">
+</message>
+
+<message name="GetMetadataRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+ <part name="boardAddress" type="xsd:int"/>
+ <part name="blockFrom" type="xsd:int"/>
+ <part name="blockTo" type="xsd:int"/>
+</message>
+
+<message name="GetMetadataResponse">
+ <part name="metadata" type="ns:MetadataList"/>
+</message>
+
+<message name="GetAllYMetadataRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+</message>
+
+<message name="GetAllYMetadataResponse">
+ <part name="metadata" type="ns:YMetadataList"/>
+</message>
+
+<message name="GetDataRequest">
+ <part name="currentMeasurementNumber" type="xsd:int"/>
+ <part name="requests" type="ns:DataSpecificationArray"/>
+</message>
+
+<message name="GetDataResponse">
+ <part name="data" type="ns:Data"/>
+</message>
+
+<message name="SendServerCustomCommandRequest">
+ <part name="command" type="xsd:string"/>
+</message>
+
+<message name="SendServerCustomCommandResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="LoadAutosequenceRequest">
+ <part name="Sequence" type="ns:AutoSequence"/>
+</message>
+
+<message name="LoadAutosequenceResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="StartAutoSequenceRequest">
+</message>
+
+<message name="StartAutoSequenceResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="StopAutoSequenceRequest">
+</message>
+
+<message name="StopAutoSequenceResponse">
+ <part name="result" type="xsd:string"/>
+</message>
+
+<message name="GetAutoSequenceRequest">
+</message>
+
+<message name="GetAutoSequenceResponse">
+ <part name="result" type="ns:AutoSequence"/>
+</message>
+
+<message name="SetDeviceSettings">
+ <part name="Settings" type="ns:DeviceInfo"/>
+</message>
+
+<message name="GetFreeDiskSpace">
+</message>
+
+<message name="DiskSpace">
+ <part name="freeDiskSpace" type="xsd:unsignedLong"/>
+ <part name="DiskSize" type="xsd:unsignedLong"/>
+</message>
+
+<message name="GetMACAddressRequest">
+ <part name="IPAddress" type="xsd:string"/>
+</message>
+
+<message name="GetMACAddressResponse">
+ <part name="MACAddress" type="xsd:unsignedLong"/>
+</message>
+
+<portType name="TransPC_ServerPortType">
+ <operation name="GetInterfaceVersion">
+  <documentation>Service definition of function ns__GetInterfaceVersion</documentation>
+  <input message="tns:GetInterfaceVersionRequest"/>
+  <output message="tns:GetInterfaceVersionResponse"/>
+ </operation>
+ <operation name="ResetConfiguration">
+  <documentation>Service definition of function ns__ResetConfiguration</documentation>
+  <input message="tns:ResetConfiguration"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="AcquireDeviceLock">
+  <documentation>Service definition of function ns__AcquireDeviceLock</documentation>
+  <input message="tns:AcquireDeviceLock"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="ReleaseDeviceLock">
+  <documentation>Service definition of function ns__ReleaseDeviceLock</documentation>
+  <input message="tns:ReleaseDeviceLock"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetClusterConfiguration">
+  <documentation>Service definition of function ns__GetClusterConfiguration</documentation>
+  <input message="tns:GetClusterConfiguration"/>
+  <output message="tns:ClusterConfiguration"/>
+ </operation>
+ <operation name="SetClusterConfiguration">
+  <documentation>Service definition of function ns__SetClusterConfiguration</documentation>
+  <input message="tns:SetClusterConfiguration"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetHardwareInfo">
+  <documentation>Service definition of function ns__GetHardwareInfo</documentation>
+  <input message="tns:GetHardwareInfo"/>
+  <output message="tns:HardwareInfo"/>
+ </operation>
+ <operation name="SetOneParameter">
+  <documentation>Service definition of function ns__SetOneParameter</documentation>
+  <input message="tns:SetOneParameter"/>
+  <output message="tns:SetOneParameterResult"/>
+ </operation>
+ <operation name="SetMultipleParameters">
+  <documentation>Service definition of function ns__SetMultipleParameters</documentation>
+  <input message="tns:SetMultipleParametersRequest"/>
+  <output message="tns:SetMultipleParametersResponse"/>
+ </operation>
+ <operation name="GetAllCurrentParameters">
+  <documentation>Service definition of function ns__GetAllCurrentParameters</documentation>
+  <input message="tns:GetAllCurrentParametersRequest"/>
+  <output message="tns:GetAllCurrentParametersResponse"/>
+ </operation>
+ <operation name="GetAllPreviousParameters">
+  <documentation>Service definition of function ns__GetAllPreviousParameters</documentation>
+  <input message="tns:GetAllPreviousParametersRequest"/>
+  <output message="tns:GetAllPreviousParametersResponse"/>
+ </operation>
+ <operation name="SetAttributes">
+  <documentation>Service definition of function ns__SetAttributes</documentation>
+  <input message="tns:SetAttributes"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetAllCurrentAttributes">
+  <documentation>Service definition of function ns__GetAllCurrentAttributes</documentation>
+  <input message="tns:GetAllCurrentAttributesRequest"/>
+  <output message="tns:GetAllCurrentAttributesResponse"/>
+ </operation>
+ <operation name="GetAllPreviousAttributes">
+  <documentation>Service definition of function ns__GetAllPreviousAttributes</documentation>
+  <input message="tns:GetAllPreviousAttributesRequest"/>
+  <output message="tns:GetAllPreviousAttributesResponse"/>
+ </operation>
+ <operation name="GetSerTrgProtocol">
+  <documentation>Service definition of function ns__GetSerTrgProtocol</documentation>
+  <input message="tns:GetSerTrgProtocolRequest"/>
+  <output message="tns:GetSerTrgProtocolResponse"/>
+ </operation>
+ <operation name="ResetSerTrg">
+  <documentation>Service definition of function ns__ResetSerTrg</documentation>
+  <input message="tns:ResetSerTrg"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="SetI2CTrigger">
+  <documentation>Service definition of function ns__SetI2CTrigger</documentation>
+  <input message="tns:SetI2CTrigger"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetI2CTrigger">
+  <documentation>Service definition of function ns__GetI2CTrigger</documentation>
+  <input message="tns:GetI2CTrigger"/>
+  <output message="tns:I2CTriggerSettings"/>
+ </operation>
+ <operation name="SetCANTrigger">
+  <documentation>Service definition of function ns__SetCANTrigger</documentation>
+  <input message="tns:SetCANTrigger"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetCANTrigger">
+  <documentation>Service definition of function ns__GetCANTrigger</documentation>
+  <input message="tns:GetCANTrigger"/>
+  <output message="tns:CANTriggerSettings"/>
+ </operation>
+ <operation name="GetAllCurrentAssociations">
+  <documentation>Service definition of function ns__GetAllCurrentAssociations</documentation>
+  <input message="tns:GetAllCurrentAssociationsRequest"/>
+  <output message="tns:GetAllCurrentAssociationsResponse"/>
+ </operation>
+ <operation name="GetAllPreviousAssociations">
+  <documentation>Service definition of function ns__GetAllPreviousAssociations</documentation>
+  <input message="tns:GetAllPreviousAssociationsRequest"/>
+  <output message="tns:GetAllPreviousAssociationsResponse"/>
+ </operation>
+ <operation name="SetAssociations">
+  <documentation>Service definition of function ns__SetAssociations</documentation>
+  <input message="tns:SetAssociations"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetGPSLogList">
+  <documentation>Service definition of function ns__GetGPSLogList</documentation>
+  <input message="tns:GetGPSLogListRequest"/>
+  <output message="tns:GetGPSLogListResponse"/>
+ </operation>
+ <operation name="WriteDev">
+  <documentation>Service definition of function ns__WriteDev</documentation>
+  <input message="tns:WriteDev"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="ReadDev">
+  <documentation>Service definition of function ns__ReadDev</documentation>
+  <input message="tns:ReadDevRequest"/>
+  <output message="tns:ReadDevResponse"/>
+ </operation>
+ <operation name="ReadWriteTwi">
+  <documentation>Service definition of function ns__ReadWriteTwi</documentation>
+  <input message="tns:ReadWriteTwiRequest"/>
+  <output message="tns:ReadWriteTwiResponse"/>
+ </operation>
+ <operation name="PrepareStart">
+  <documentation>Service definition of function ns__PrepareStart</documentation>
+  <input message="tns:PrepareStartRequest"/>
+  <output message="tns:PrepareStartResponse"/>
+ </operation>
+ <operation name="SetStartInfo">
+  <documentation>Service definition of function ns__SetStartInfo</documentation>
+  <input message="tns:SetStartInfo"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="ExecuteCommand">
+  <documentation>Service definition of function ns__ExecuteCommand</documentation>
+  <input message="tns:ExecuteCommand"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="StartCalibration">
+  <documentation>Service definition of function ns__StartCalibration</documentation>
+  <input message="tns:StartCalibration"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetStatus">
+  <documentation>Service definition of function ns__GetStatus</documentation>
+  <input message="tns:GetStatus"/>
+  <output message="tns:Status"/>
+ </operation>
+ <operation name="WaitForStatusChange">
+  <documentation>Service definition of function ns__WaitForStatusChange</documentation>
+  <input message="tns:WaitForStatusChange"/>
+  <output message="tns:Status"/>
+ </operation>
+ <operation name="LeaveWaitStatus">
+  <documentation>Service definition of function ns__LeaveWaitStatus</documentation>
+  <input message="tns:LeaveWaitStatus"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetMetadata">
+  <documentation>Service definition of function ns__GetMetadata</documentation>
+  <input message="tns:GetMetadataRequest"/>
+  <output message="tns:GetMetadataResponse"/>
+ </operation>
+ <operation name="GetAllYMetadata">
+  <documentation>Service definition of function ns__GetAllYMetadata</documentation>
+  <input message="tns:GetAllYMetadataRequest"/>
+  <output message="tns:GetAllYMetadataResponse"/>
+ </operation>
+ <operation name="GetData">
+  <documentation>Service definition of function ns__GetData</documentation>
+  <input message="tns:GetDataRequest"/>
+  <output message="tns:GetDataResponse"/>
+ </operation>
+ <operation name="SendServerCustomCommand">
+  <documentation>Service definition of function ns__SendServerCustomCommand</documentation>
+  <input message="tns:SendServerCustomCommandRequest"/>
+  <output message="tns:SendServerCustomCommandResponse"/>
+ </operation>
+ <operation name="LoadAutosequence">
+  <documentation>Service definition of function ns__LoadAutosequence</documentation>
+  <input message="tns:LoadAutosequenceRequest"/>
+  <output message="tns:LoadAutosequenceResponse"/>
+ </operation>
+ <operation name="StartAutoSequence">
+  <documentation>Service definition of function ns__StartAutoSequence</documentation>
+  <input message="tns:StartAutoSequenceRequest"/>
+  <output message="tns:StartAutoSequenceResponse"/>
+ </operation>
+ <operation name="StopAutoSequence">
+  <documentation>Service definition of function ns__StopAutoSequence</documentation>
+  <input message="tns:StopAutoSequenceRequest"/>
+  <output message="tns:StopAutoSequenceResponse"/>
+ </operation>
+ <operation name="GetAutoSequence">
+  <documentation>Service definition of function ns__GetAutoSequence</documentation>
+  <input message="tns:GetAutoSequenceRequest"/>
+  <output message="tns:GetAutoSequenceResponse"/>
+ </operation>
+ <operation name="SetDeviceSettings">
+  <documentation>Service definition of function ns__SetDeviceSettings</documentation>
+  <input message="tns:SetDeviceSettings"/>
+  <output message="tns:DummyResponse"/>
+ </operation>
+ <operation name="GetFreeDiskSpace">
+  <documentation>Service definition of function ns__GetFreeDiskSpace</documentation>
+  <input message="tns:GetFreeDiskSpace"/>
+  <output message="tns:DiskSpace"/>
+ </operation>
+ <operation name="GetMACAddress">
+  <documentation>Service definition of function ns__GetMACAddress</documentation>
+  <input message="tns:GetMACAddressRequest"/>
+  <output message="tns:GetMACAddressResponse"/>
+ </operation>
+</portType>
+
+<binding name="TransPC_Server" type="tns:TransPC_ServerPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="GetInterfaceVersion">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ResetConfiguration">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="AcquireDeviceLock">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ReleaseDeviceLock">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetClusterConfiguration">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetClusterConfiguration">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetHardwareInfo">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetOneParameter">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetMultipleParameters">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllCurrentParameters">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllPreviousParameters">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetAttributes">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllCurrentAttributes">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllPreviousAttributes">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetSerTrgProtocol">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ResetSerTrg">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetI2CTrigger">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetI2CTrigger">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetCANTrigger">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetCANTrigger">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllCurrentAssociations">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllPreviousAssociations">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetAssociations">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetGPSLogList">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="WriteDev">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ReadDev">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ReadWriteTwi">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="PrepareStart">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetStartInfo">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ExecuteCommand">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="StartCalibration">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetStatus">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="WaitForStatusChange">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="LeaveWaitStatus">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetMetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAllYMetadata">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetData">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SendServerCustomCommand">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="LoadAutosequence">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="StartAutoSequence">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="StopAutoSequence">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetAutoSequence">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="SetDeviceSettings">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetFreeDiskSpace">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="GetMACAddress">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:elsys-TransPC-device" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="TransPC_Server">
+ <documentation>gSOAP 2.7.12 generated service definition</documentation>
+ <port name="TransPC_Server" binding="tns:TransPC_Server">
+  <SOAP:address location="http://localhost:80"/>
+ </port>
+</service>
+
+</definitions>

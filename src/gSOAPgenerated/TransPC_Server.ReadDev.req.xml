@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:ReadDev>
+   <boardAddress>0</boardAddress>
+   <type>0</type>
+   <count>0</count>
+   <aux1>0</aux1>
+   <aux2>0</aux2>
+  </ns:ReadDev>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='iso-8859-1' ?>
+<xs:schema
+ targetNamespace     ='http://www.elsys.ch/schema/transas/tpcsettings-1.x.xsd'
+ xmlns               ='http://www.elsys.ch/schema/transas/tpcsettings-1.x.xsd'
+ xmlns:tns           ='http://www.elsys.ch/schema/transas/tpcsettings-1.x.xsd'
+ xmlns:xs            ='http://www.w3.org/2001/XMLSchema'
+ elementFormDefault  ='qualified'
+ attributeFormDefault='unqualified'
+>
+
+  <!-- ******************************************************************** -->
+  <!-- *                                                                  * -->
+  <!-- * Current version of this schema is 1.0                            * -->
+  <!-- *                                                                  * -->
+  <!-- * When this schema needs to be changed (compatible change):        * -->
+  <!-- * - increment the version number in the comment above              * -->
+  <!-- * - update the version number in the Empty_TcpSettings_XML         * -->
+  <!-- *   string constant in TpcSettingsToXml.cpp                        * -->
+  <!-- * - don't change the namespace                                     * -->
+  <!-- * - don't change existing elements or type; replace an occurance   * -->
+  <!-- *   of <xs:group ref='GenericExtension' /> by a single, optional   * -->
+  <!-- *   <Extension>...</Extension> element with the new data.          * -->
+  <!-- * - nest the GenericExtension into that extension element.         * -->
+  <!-- *   (it will be used be the next change)                           * -->
+  <!-- *                                                                  * -->
+  <!-- * When this schema needs to be radically changed (incompatible):   * -->
+  <!-- * - change namespace                                               * -->
+  <!-- * - start from scratch                                             * -->
+  <!-- *                                                                  * -->
+  <!-- ******************************************************************** -->
+  
+  <!-- ====== Generic Extension ====== -->
+
+  <xs:complexType name='GenericExtensionType'>
+    <xs:sequence>
+      <xs:any processContents='lax' namespace='##targetNamespace' minOccurs='0' maxOccurs='unbounded' />
+    </xs:sequence>
+    <xs:anyAttribute processContents='lax' namespace='##local' />
+  </xs:complexType>
+
+  <xs:group name='GenericExtension'>
+    <xs:sequence>
+      <xs:element name='Extension' type='GenericExtensionType' minOccurs='0' maxOccurs='1' />
+      <xs:any processContents='lax' namespace='##other' minOccurs='0' maxOccurs='unbounded' />
+    </xs:sequence>
+  </xs:group>
+	
+ 
+	
+  <!-- ====== Parameters ====== -->
+
+  <xs:complexType name='Parameter'>
+    <xs:simpleContent>
+      <xs:extension base='xs:double'>
+        <xs:attribute name='Name' type='xs:token' />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:group name='Parameters'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Parameters'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Parameter' type='Parameter' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Parameters'>
+          <xs:selector xpath='tns:Parameter' />
+          <xs:field xpath='@Name' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== Associations ====== -->
+
+  <xs:complexType name='Association'>
+    <xs:attribute name='Board' type='xs:int' use='required' />
+    <xs:attribute name='Input' type='xs:int' use='required' />
+  </xs:complexType>
+
+  <xs:group name='Associations'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Associations'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Association' type='Association' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Associations'>
+          <xs:selector xpath='tns:Association' />
+          <xs:field xpath='@Board' />
+          <xs:field xpath='@Input' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== Inputs ====== -->
+
+  <xs:complexType name='Input'>
+    <xs:sequence>
+      <xs:group ref='Parameters' />
+      <xs:group ref='Associations' />
+      <xs:group ref='GenericExtension' />
+    </xs:sequence>
+    <xs:attribute name='Number' type='xs:int' use='required' />
+  </xs:complexType>
+
+  <xs:group name='Inputs'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Inputs'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Input' type='Input' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Inputs'>
+          <xs:selector xpath='tns:Input' />
+          <xs:field xpath='@Number' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== Timebase ====== -->
+
+  <xs:complexType name='Timebase'>
+    <xs:sequence>
+      <xs:group ref='Parameters' />
+      <xs:group ref='GenericExtension' />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ====== Board ====== -->
+
+  <xs:complexType name='Board'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='ClusterNumber' type='xs:int'   />
+      <xs:element minOccurs='1' maxOccurs='1' name='Timebase'      type='Timebase' />
+      <xs:group                                ref='Inputs' />
+	  <xs:element name='HasRealDifferentialInputs' type='xs:boolean' minOccurs='0' maxOccurs='1' />
+      <xs:group ref='GenericExtension' />
+    </xs:sequence>
+    <xs:attribute name='Address' type='xs:int' use='required' />
+  </xs:complexType>
+
+  <xs:group name='Boards'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Boards'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Board' type='Board' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Boards'>
+          <xs:selector xpath='tns:Board' />
+          <xs:field xpath='@Address' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== Attributes ====== -->
+
+  <xs:complexType name='Attribute'>
+    <xs:simpleContent>
+      <xs:extension base='xs:string'>
+        <xs:attribute name='BoardAddress' type='xs:int'   use='required' />
+        <xs:attribute name='InputNumber'  type='xs:int'   use='required' />
+        <xs:attribute name='Name'         type='xs:token' use='required' />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:group name='Attributes'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Attributes'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Attribute' type='Attribute' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Attributes'>
+          <xs:selector xpath='tns:Attribute' />
+          <xs:field xpath='@BoardAddress' />
+          <xs:field xpath='@InputNumber' />
+          <xs:field xpath='@Name' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== Device ====== -->
+
+  <xs:complexType name='Device'>
+	<xs:sequence>
+	  <xs:element name="SyncClockOut" type="xs:boolean" minOccurs="0" maxOccurs='1'/>
+      <xs:group ref='Boards' />
+      <xs:group ref='Attributes' />
+      <xs:group ref='GenericExtension' />
+    </xs:sequence>
+    <xs:attribute name='Url' type='xs:string' use='required' />
+  </xs:complexType>
+
+  <xs:group name='Devices'>
+    <xs:sequence>
+      <xs:element minOccurs='1' maxOccurs='1' name='Devices'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs='0' maxOccurs='unbounded' name='Device' type='Device' />
+            <xs:group ref='GenericExtension' />
+          </xs:sequence>
+        </xs:complexType>
+        <xs:key name='Devices'>
+          <xs:selector xpath='tns:Device' />
+          <xs:field xpath='@Url' />
+        </xs:key>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- ====== TpcSettings ====== -->
+
+  <xs:element name='TpcSettings'>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref='Devices' />
+        <xs:group ref='GenericExtension' />
+      </xs:sequence>
+      <xs:attribute name='Version' type='xs:string' use='optional' />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

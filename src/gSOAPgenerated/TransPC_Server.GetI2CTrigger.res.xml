@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:I2CTriggerSettings>
+   <mode>0</mode>
+   <chDataInputNumber>0</chDataInputNumber>
+   <chDataInputSignal>0</chDataInputSignal>
+   <chDataLevelL>0.0</chDataLevelL>
+   <chDataLevelH>0.0</chDataLevelH>
+   <chClockInputNumber>0</chClockInputNumber>
+   <chClockInputSignal>0</chClockInputSignal>
+   <chClockLevelL>0.0</chClockLevelL>
+   <chClockLevelH>0.0</chClockLevelH>
+   <ack>0</ack>
+   <adrRWBit>0</adrRWBit>
+   <adrType>0</adrType>
+   <adrInRange>false</adrInRange>
+   <adrLow>0</adrLow>
+   <adrHigh>0</adrHigh>
+   <adrMask>0</adrMask>
+   <dataStartByte>0</dataStartByte>
+   <dataLength>0</dataLength>
+   <dataInRange>false</dataInRange>
+   <dataLow SOAP-ENC:arrayType="xsd:byte[16]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataLow>
+   <dataHigh SOAP-ENC:arrayType="xsd:byte[16]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataHigh>
+   <dataMask SOAP-ENC:arrayType="xsd:byte[16]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataMask>
+  </ns:I2CTriggerSettings>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

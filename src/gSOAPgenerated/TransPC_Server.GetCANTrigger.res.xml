@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:CANTriggerSettings>
+   <mode>0</mode>
+   <chDataInputNumber>0</chDataInputNumber>
+   <chDataInputSignal>0</chDataInputSignal>
+   <chDataLevelL>0.0</chDataLevelL>
+   <chDataLevelH>0.0</chDataLevelH>
+   <bitRate>0</bitRate>
+   <bitSamplePoint>0.0</bitSamplePoint>
+   <idFormat>0</idFormat>
+   <idInRange>false</idInRange>
+   <idLow>0</idLow>
+   <idHigh>0</idHigh>
+   <idMask>0</idMask>
+   <dataLength>0</dataLength>
+   <dataInRange>false</dataInRange>
+   <dataLow SOAP-ENC:arrayType="xsd:byte[8]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataLow>
+   <dataHigh SOAP-ENC:arrayType="xsd:byte[8]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataHigh>
+   <dataMask SOAP-ENC:arrayType="xsd:byte[8]">
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+   </dataMask>
+  </ns:CANTriggerSettings>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

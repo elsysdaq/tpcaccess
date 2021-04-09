@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <schema targetNamespace="urn:elsys-TransPC-device"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns="urn:elsys-TransPC-device"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="TpcConstants">
+   <restriction base="xsd:QName">
+    <enumeration value="ns:maxBoards"/><!-- enum const = 16 -->
+    <enumeration value="ns:maxInputs"/><!-- enum const = 8 -->
+    <enumeration value="ns:maxInputRanges"/><!-- enum const = 11 -->
+   </restriction>
+  </simpleType>
+  <complexType name="DateTime">
+   <sequence>
+     <element name="year" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="month" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="day" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hour" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="minute" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="second" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="milliSecond" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="DeviceInfo">
+   <sequence>
+     <element name="deviceID" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="serverSoftwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="simulatedHardware" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="deviceName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="DeviceDescription" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="UseLocalTime" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="AutoStartMeasurement" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="AutoStartAutosequence" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="ServerPort" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="ServerPortTwoinOne" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="TargetPort" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="TwoInOne" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="TwoInOnepassword" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="DataFileName" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="NumberOfBackupFiles" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="HdFlushInterval" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="WriteTroughCache" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="ModelType" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="SyncLinkDetected" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardInfo">
+   <sequence>
+     <element name="boardClass" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hardwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="serialNr" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="driverVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="firmwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfInputs" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxMemory" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="operationModeOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="averageOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="lastFactoryCalibration" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="lastUserCalibration" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="maxAdcSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="boardClock" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="InputInfo">
+   <sequence>
+     <element name="inputClass" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="hardwareVersion" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="maxAdcSpeed" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="adcResolution" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="offsetOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="filterOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="diffOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputCouplingOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputRanges" type="ns:Array11Ofdouble" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="maxMarkerMask" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TaggedBoardInfo">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="info" type="ns:BoardInfo" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TaggedInputInfo">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="info" type="ns:InputInfo" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardInfoArray">
+   <sequence>
+    <element name="item" type="ns:TaggedBoardInfo" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="InputInfoArray">
+   <sequence>
+    <element name="item" type="ns:TaggedInputInfo" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Parameter">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="parameterIndex" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="ParameterList">
+   <sequence>
+    <element name="item" type="ns:Parameter" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="SetParameterResultList">
+   <sequence>
+    <element name="item" type="ns:SetOneParameterResult" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Attribute">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+     <element name="value" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="AttributeList">
+   <sequence>
+    <element name="item" type="ns:Attribute" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationChannel">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationChannelList">
+   <sequence>
+    <element name="item" type="ns:AssociationChannel" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationRow">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="associatedChannels" type="ns:AssociationChannelList" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="AssociationRowList">
+   <sequence>
+    <element name="item" type="ns:AssociationRow" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSLog">
+   <sequence>
+     <element name="GPSFrame" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSLogList">
+   <sequence>
+    <element name="item" type="ns:GPSLog" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <simpleType name="DeviceData">
+   <restriction base="xsd:base64Binary">
+   </restriction>
+  </simpleType>
+  <complexType name="InputStatus">
+   <sequence>
+     <element name="OverloadLive" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="OverloadMeas" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="BoardStatus">
+   <sequence>
+     <element name="recordingState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="blockCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="dataCounter" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+     <element name="dataLostCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="blockLostCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputs" type="ns:Array8Ofns__InputStatus" minOccurs="1" maxOccurs="1" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="GPSStatus">
+   <sequence>
+     <element name="locked" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="NrOfSatVisible" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="gpsTime" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="lastFrame" type="ns:Array128Ofbyte" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="nrOfloggedPositions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="TempStatus">
+   <sequence>
+     <element name="CPUTemp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="BoardTemp" type="ns:Array16Ofint" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="Res1Temp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="Res2Temp" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="DeviceStatus">
+   <sequence>
+     <element name="deviceError" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="boards" type="ns:Array16Ofns__BoardStatus" minOccurs="1" maxOccurs="1" nillable="true"/>
+     <element name="settingsChangesCounter" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="startTime" type="ns:DateTime" minOccurs="1" maxOccurs="1"/>
+     <element name="measurementNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="startInProgress" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="autosequenceState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="extStartState" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="gpsStatus" type="ns:GPSStatus" minOccurs="1" maxOccurs="1"/>
+     <element name="tempStatus" type="ns:TempStatus" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="Metadata">
+   <sequence>
+     <element name="triggerTime" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="triggerSample" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="blockLength" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="stopTriggerSample" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="MetadataList">
+   <sequence>
+    <element name="item" type="ns:Metadata" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="YMetadata">
+   <sequence>
+     <element name="boardAddress" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="isActive" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+     <element name="resolutionInBits" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="analogMask" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="markerMask" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfMarkerBits" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="bytesPerSample" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="binToVoltFactor" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="binToVoltConst" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="voltToPhysicalFactor" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+     <element name="voltToPhysicalConstant" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="YMetadataList">
+   <sequence>
+    <element name="item" type="ns:YMetadata" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="DataSpecification">
+   <sequence>
+     <element name="boardAddress" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="inputNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="blockNumber" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="RangeDataSpecification">
+   <complexContent>
+    <extension base="ns:DataSpecification">
+     <sequence>
+     <element name="readoutType" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="dataStart" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="dataLength" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="resultLength" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     </sequence>
+    </extension>
+   </complexContent>
+  </complexType>
+  <complexType name="IndexList">
+   <sequence>
+    <element name="item" type="xsd:unsignedLong" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="EnvelopeDataSpecification">
+   <complexContent>
+    <extension base="ns:DataSpecification">
+     <sequence>
+     <element name="indices" type="ns:IndexList" minOccurs="1" maxOccurs="1" nillable="true"/>
+     </sequence>
+    </extension>
+   </complexContent>
+  </complexType>
+  <complexType name="DataSpecificationArray">
+   <sequence>
+    <element name="item" type="ns:DataSpecification" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+   </sequence>
+  </complexType>
+  <complexType name="Data">
+   <simpleContent>
+    <extension base="xsd:base64Binary">
+     <attribute name="href" type="xsd:anyURI" use="optional"/>
+    </extension>
+   </simpleContent>
+  </complexType>
+  <complexType name="DataBlockHeader">
+   <sequence>
+     <element name="error" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="numberOfSamples" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+     <element name="sampleFormat" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="totalBytes" type="xsd:unsignedInt" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+  <complexType name="AutoSequence">
+   <sequence>
+    <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+   </sequence>
+  </complexType>
+  <complexType name="Array16Ofns__BoardStatus">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns:BoardStatus[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array8Ofns__InputStatus">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns:InputStatus[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array128Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array8Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array16Ofbyte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array11Ofdouble">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array16Ofint">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+ </schema>
+

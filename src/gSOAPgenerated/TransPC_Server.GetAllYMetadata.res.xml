@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:elsys-TransPC-device">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:GetAllYMetadataResponse>
+   <metadata>
+    <item>
+     <boardAddress>0</boardAddress>
+     <inputNumber>0</inputNumber>
+     <isActive>false</isActive>
+     <resolutionInBits>0</resolutionInBits>
+     <analogMask>0</analogMask>
+     <markerMask>0</markerMask>
+     <numberOfMarkerBits>0</numberOfMarkerBits>
+     <bytesPerSample>0</bytesPerSample>
+     <binToVoltFactor>0.0</binToVoltFactor>
+     <binToVoltConst>0.0</binToVoltConst>
+     <voltToPhysicalFactor>0.0</voltToPhysicalFactor>
+     <voltToPhysicalConstant>0.0</voltToPhysicalConstant>
+    </item>
+   </metadata>
+  </ns:GetAllYMetadataResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
