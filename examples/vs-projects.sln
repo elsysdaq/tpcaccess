@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "continuous-measurement", "continuous-measurement\continuous-measurement.vcxproj", "{3E386BD0-A73D-4E77-98C3-233AF1FA4092}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "continuous-measurement", "cpp\continuous-measurement\continuous-measurement.vcxproj", "{3E386BD0-A73D-4E77-98C3-233AF1FA4092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
