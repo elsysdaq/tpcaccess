@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace></RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(ProjectDir)**\*.cs</DefaultItemExcludes>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /D /Y &quot;$(SolutionDir)..\bin\$(PlatformName)\TpcAccess.dll&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="Elsys.TpcAccess">
+      <HintPath>..\..\..\bin\x64\Elsys.TpcAccess.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
