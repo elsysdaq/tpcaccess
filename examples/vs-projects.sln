@@ -5,22 +5,36 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "continuous-measurement", "cpp\continuous-measurement\continuous-measurement.vcxproj", "{3E386BD0-A73D-4E77-98C3-233AF1FA4092}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "continuouse-measurement", "c#\continuouse-measurement\continuouse-measurement.csproj", "{C10239FD-82BC-404E-87CE-88F40B8882AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Debug|x64.ActiveCfg = Debug|x64
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Debug|x64.Build.0 = Debug|x64
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Debug|x86.ActiveCfg = Debug|Win32
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Debug|x86.Build.0 = Debug|Win32
+		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Release|Any CPU.ActiveCfg = Release|Win32
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Release|x64.ActiveCfg = Release|x64
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Release|x64.Build.0 = Release|x64
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Release|x86.ActiveCfg = Release|Win32
 		{3E386BD0-A73D-4E77-98C3-233AF1FA4092}.Release|x86.Build.0 = Release|Win32
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Debug|x64.ActiveCfg = Debug|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Debug|x64.Build.0 = Debug|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Debug|x86.ActiveCfg = Debug|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Release|Any CPU.ActiveCfg = Release|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Release|x64.ActiveCfg = Release|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Release|x64.Build.0 = Release|x64
+		{C10239FD-82BC-404E-87CE-88F40B8882AC}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
