@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="continuouse-measurement.cpp">
+    <ClCompile Include="continuous-measurement.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
