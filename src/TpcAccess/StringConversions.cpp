@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 // $Id: StringConversions.cpp 21 2014-01-14 16:12:52Z roman $
 

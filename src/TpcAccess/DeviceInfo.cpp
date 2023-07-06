@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
   $Id: DeviceInfo.cpp 2 2009-01-13 08:45:52Z roman $
@@ -54,7 +53,7 @@ BoardRestrictions Combine(const BoardRestrictions& a, const BoardRestrictions& b
 bool CanCombine(const BoardRestrictions& a, const BoardRestrictions& b)
 {
 	if (a.boardClock != b.boardClock) return false;
-	//### version auch noch prï¿½fen
+	//### version auch noch prüfen
 	return true;
 }
 

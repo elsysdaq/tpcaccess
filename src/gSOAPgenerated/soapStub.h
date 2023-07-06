@@ -19,7 +19,7 @@
 #ifndef SOAP_TYPE_ns__TpcConstants
 #define SOAP_TYPE_ns__TpcConstants (8)
 /* ns:TpcConstants */
-enum ns__TpcConstants {ns__maxBoards = 16, ns__maxInputs = 8, ns__maxInputRanges = 11};
+enum ns__TpcConstants {ns__maxBoards = 16, ns__maxInputs = 8, ns__maxInputRanges = 11, ns__maxChargeInputRanges = 12};
 #endif
 
 /******************************************************************************\
@@ -229,11 +229,12 @@ public:
 	int inputCouplingOptions;	/* required element of type xsd:int */
 	double inputRanges[11];	/* required element of type Array11Ofdouble */
 	int maxMarkerMask;	/* required element of type xsd:int */
+	int chargeInputRanges[12];	/* required element of type Array12Ofint */
 };
 #endif
 
 #ifndef SOAP_TYPE_ns__TaggedBoardInfo
-#define SOAP_TYPE_ns__TaggedBoardInfo (38)
+#define SOAP_TYPE_ns__TaggedBoardInfo (39)
 /* ns:TaggedBoardInfo */
 struct ns__TaggedBoardInfo
 {
@@ -244,7 +245,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__TaggedInputInfo
-#define SOAP_TYPE_ns__TaggedInputInfo (39)
+#define SOAP_TYPE_ns__TaggedInputInfo (40)
 /* ns:TaggedInputInfo */
 struct ns__TaggedInputInfo
 {
@@ -256,7 +257,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__BoardInfoArray
-#define SOAP_TYPE_ns__BoardInfoArray (40)
+#define SOAP_TYPE_ns__BoardInfoArray (41)
 /* Sequence of ns:BoardInfoArray schema type: */
 class SOAP_CMAC ns__BoardInfoArray
 {
@@ -264,7 +265,7 @@ public:
 	struct ns__TaggedBoardInfo *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 40; } /* = unique id SOAP_TYPE_ns__BoardInfoArray */
+	virtual int soap_type() const { return 41; } /* = unique id SOAP_TYPE_ns__BoardInfoArray */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -277,7 +278,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__InputInfoArray
-#define SOAP_TYPE_ns__InputInfoArray (42)
+#define SOAP_TYPE_ns__InputInfoArray (43)
 /* Sequence of ns:InputInfoArray schema type: */
 class SOAP_CMAC ns__InputInfoArray
 {
@@ -285,7 +286,7 @@ public:
 	struct ns__TaggedInputInfo *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 42; } /* = unique id SOAP_TYPE_ns__InputInfoArray */
+	virtual int soap_type() const { return 43; } /* = unique id SOAP_TYPE_ns__InputInfoArray */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -298,7 +299,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__HardwareInfo
-#define SOAP_TYPE_ns__HardwareInfo (44)
+#define SOAP_TYPE_ns__HardwareInfo (45)
 /* ns:HardwareInfo */
 struct ns__HardwareInfo
 {
@@ -310,7 +311,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetHardwareInfo
-#define SOAP_TYPE_ns__GetHardwareInfo (47)
+#define SOAP_TYPE_ns__GetHardwareInfo (48)
 /* ns:GetHardwareInfo */
 struct ns__GetHardwareInfo
 {
@@ -322,7 +323,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__Parameter
-#define SOAP_TYPE_ns__Parameter (48)
+#define SOAP_TYPE_ns__Parameter (49)
 /* ns:Parameter */
 struct ns__Parameter
 {
@@ -335,7 +336,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ParameterList
-#define SOAP_TYPE_ns__ParameterList (49)
+#define SOAP_TYPE_ns__ParameterList (50)
 /* Sequence of ns:ParameterList schema type: */
 class SOAP_CMAC ns__ParameterList
 {
@@ -343,7 +344,7 @@ public:
 	struct ns__Parameter *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 49; } /* = unique id SOAP_TYPE_ns__ParameterList */
+	virtual int soap_type() const { return 50; } /* = unique id SOAP_TYPE_ns__ParameterList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -356,7 +357,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetOneParameterResult
-#define SOAP_TYPE_ns__SetOneParameterResult (51)
+#define SOAP_TYPE_ns__SetOneParameterResult (52)
 /* ns:SetOneParameterResult */
 struct ns__SetOneParameterResult
 {
@@ -367,7 +368,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetParameterResultList
-#define SOAP_TYPE_ns__SetParameterResultList (52)
+#define SOAP_TYPE_ns__SetParameterResultList (53)
 /* Sequence of ns:SetParameterResultList schema type: */
 class SOAP_CMAC ns__SetParameterResultList
 {
@@ -375,7 +376,7 @@ public:
 	struct ns__SetOneParameterResult *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 52; } /* = unique id SOAP_TYPE_ns__SetParameterResultList */
+	virtual int soap_type() const { return 53; } /* = unique id SOAP_TYPE_ns__SetParameterResultList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -388,7 +389,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetOneParameter
-#define SOAP_TYPE_ns__SetOneParameter (56)
+#define SOAP_TYPE_ns__SetOneParameter (57)
 /* ns:SetOneParameter */
 struct ns__SetOneParameter
 {
@@ -401,7 +402,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetMultipleParametersResponse
-#define SOAP_TYPE_ns__SetMultipleParametersResponse (59)
+#define SOAP_TYPE_ns__SetMultipleParametersResponse (60)
 /* ns:SetMultipleParametersResponse */
 struct ns__SetMultipleParametersResponse
 {
@@ -411,7 +412,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetMultipleParameters
-#define SOAP_TYPE_ns__SetMultipleParameters (60)
+#define SOAP_TYPE_ns__SetMultipleParameters (61)
 /* ns:SetMultipleParameters */
 struct ns__SetMultipleParameters
 {
@@ -421,7 +422,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentParametersResponse
-#define SOAP_TYPE_ns__GetAllCurrentParametersResponse (63)
+#define SOAP_TYPE_ns__GetAllCurrentParametersResponse (64)
 /* ns:GetAllCurrentParametersResponse */
 struct ns__GetAllCurrentParametersResponse
 {
@@ -431,7 +432,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentParameters
-#define SOAP_TYPE_ns__GetAllCurrentParameters (64)
+#define SOAP_TYPE_ns__GetAllCurrentParameters (65)
 /* ns:GetAllCurrentParameters */
 struct ns__GetAllCurrentParameters
 {
@@ -443,7 +444,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousParametersResponse
-#define SOAP_TYPE_ns__GetAllPreviousParametersResponse (66)
+#define SOAP_TYPE_ns__GetAllPreviousParametersResponse (67)
 /* ns:GetAllPreviousParametersResponse */
 struct ns__GetAllPreviousParametersResponse
 {
@@ -453,7 +454,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousParameters
-#define SOAP_TYPE_ns__GetAllPreviousParameters (67)
+#define SOAP_TYPE_ns__GetAllPreviousParameters (68)
 /* ns:GetAllPreviousParameters */
 struct ns__GetAllPreviousParameters
 {
@@ -463,7 +464,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__Attribute
-#define SOAP_TYPE_ns__Attribute (68)
+#define SOAP_TYPE_ns__Attribute (69)
 /* ns:Attribute */
 struct ns__Attribute
 {
@@ -476,7 +477,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AttributeList
-#define SOAP_TYPE_ns__AttributeList (69)
+#define SOAP_TYPE_ns__AttributeList (70)
 /* Sequence of ns:AttributeList schema type: */
 class SOAP_CMAC ns__AttributeList
 {
@@ -484,7 +485,7 @@ public:
 	struct ns__Attribute *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 69; } /* = unique id SOAP_TYPE_ns__AttributeList */
+	virtual int soap_type() const { return 70; } /* = unique id SOAP_TYPE_ns__AttributeList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -497,7 +498,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetAttributes
-#define SOAP_TYPE_ns__SetAttributes (72)
+#define SOAP_TYPE_ns__SetAttributes (73)
 /* ns:SetAttributes */
 struct ns__SetAttributes
 {
@@ -507,7 +508,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentAttributesResponse
-#define SOAP_TYPE_ns__GetAllCurrentAttributesResponse (75)
+#define SOAP_TYPE_ns__GetAllCurrentAttributesResponse (76)
 /* ns:GetAllCurrentAttributesResponse */
 struct ns__GetAllCurrentAttributesResponse
 {
@@ -517,7 +518,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentAttributes
-#define SOAP_TYPE_ns__GetAllCurrentAttributes (76)
+#define SOAP_TYPE_ns__GetAllCurrentAttributes (77)
 /* ns:GetAllCurrentAttributes */
 struct ns__GetAllCurrentAttributes
 {
@@ -529,7 +530,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousAttributesResponse
-#define SOAP_TYPE_ns__GetAllPreviousAttributesResponse (78)
+#define SOAP_TYPE_ns__GetAllPreviousAttributesResponse (79)
 /* ns:GetAllPreviousAttributesResponse */
 struct ns__GetAllPreviousAttributesResponse
 {
@@ -539,7 +540,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousAttributes
-#define SOAP_TYPE_ns__GetAllPreviousAttributes (79)
+#define SOAP_TYPE_ns__GetAllPreviousAttributes (80)
 /* ns:GetAllPreviousAttributes */
 struct ns__GetAllPreviousAttributes
 {
@@ -549,7 +550,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__I2CTriggerSettings
-#define SOAP_TYPE_ns__I2CTriggerSettings (80)
+#define SOAP_TYPE_ns__I2CTriggerSettings (81)
 /* ns:I2CTriggerSettings */
 struct ns__I2CTriggerSettings
 {
@@ -580,7 +581,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__CANTriggerSettings
-#define SOAP_TYPE_ns__CANTriggerSettings (82)
+#define SOAP_TYPE_ns__CANTriggerSettings (83)
 /* ns:CANTriggerSettings */
 struct ns__CANTriggerSettings
 {
@@ -606,7 +607,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetSerTrgProtocolResponse
-#define SOAP_TYPE_ns__GetSerTrgProtocolResponse (85)
+#define SOAP_TYPE_ns__GetSerTrgProtocolResponse (86)
 /* ns:GetSerTrgProtocolResponse */
 struct ns__GetSerTrgProtocolResponse
 {
@@ -616,7 +617,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetSerTrgProtocol
-#define SOAP_TYPE_ns__GetSerTrgProtocol (86)
+#define SOAP_TYPE_ns__GetSerTrgProtocol (87)
 /* ns:GetSerTrgProtocol */
 struct ns__GetSerTrgProtocol
 {
@@ -626,7 +627,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ResetSerTrg
-#define SOAP_TYPE_ns__ResetSerTrg (88)
+#define SOAP_TYPE_ns__ResetSerTrg (89)
 /* ns:ResetSerTrg */
 struct ns__ResetSerTrg
 {
@@ -636,7 +637,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetI2CTrigger
-#define SOAP_TYPE_ns__SetI2CTrigger (90)
+#define SOAP_TYPE_ns__SetI2CTrigger (91)
 /* ns:SetI2CTrigger */
 struct ns__SetI2CTrigger
 {
@@ -647,7 +648,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetI2CTrigger
-#define SOAP_TYPE_ns__GetI2CTrigger (93)
+#define SOAP_TYPE_ns__GetI2CTrigger (94)
 /* ns:GetI2CTrigger */
 struct ns__GetI2CTrigger
 {
@@ -657,7 +658,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetCANTrigger
-#define SOAP_TYPE_ns__SetCANTrigger (95)
+#define SOAP_TYPE_ns__SetCANTrigger (96)
 /* ns:SetCANTrigger */
 struct ns__SetCANTrigger
 {
@@ -668,7 +669,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetCANTrigger
-#define SOAP_TYPE_ns__GetCANTrigger (98)
+#define SOAP_TYPE_ns__GetCANTrigger (99)
 /* ns:GetCANTrigger */
 struct ns__GetCANTrigger
 {
@@ -678,7 +679,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AssociationChannel
-#define SOAP_TYPE_ns__AssociationChannel (99)
+#define SOAP_TYPE_ns__AssociationChannel (100)
 /* ns:AssociationChannel */
 struct ns__AssociationChannel
 {
@@ -689,7 +690,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AssociationChannelList
-#define SOAP_TYPE_ns__AssociationChannelList (100)
+#define SOAP_TYPE_ns__AssociationChannelList (101)
 /* Sequence of ns:AssociationChannelList schema type: */
 struct ns__AssociationChannelList
 {
@@ -700,7 +701,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AssociationRow
-#define SOAP_TYPE_ns__AssociationRow (102)
+#define SOAP_TYPE_ns__AssociationRow (103)
 /* ns:AssociationRow */
 struct ns__AssociationRow
 {
@@ -712,7 +713,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AssociationRowList
-#define SOAP_TYPE_ns__AssociationRowList (103)
+#define SOAP_TYPE_ns__AssociationRowList (104)
 /* Sequence of ns:AssociationRowList schema type: */
 struct ns__AssociationRowList
 {
@@ -723,7 +724,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentAssociationsResponse
-#define SOAP_TYPE_ns__GetAllCurrentAssociationsResponse (107)
+#define SOAP_TYPE_ns__GetAllCurrentAssociationsResponse (108)
 /* ns:GetAllCurrentAssociationsResponse */
 struct ns__GetAllCurrentAssociationsResponse
 {
@@ -733,7 +734,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllCurrentAssociations
-#define SOAP_TYPE_ns__GetAllCurrentAssociations (108)
+#define SOAP_TYPE_ns__GetAllCurrentAssociations (109)
 /* ns:GetAllCurrentAssociations */
 struct ns__GetAllCurrentAssociations
 {
@@ -745,7 +746,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousAssociationsResponse
-#define SOAP_TYPE_ns__GetAllPreviousAssociationsResponse (110)
+#define SOAP_TYPE_ns__GetAllPreviousAssociationsResponse (111)
 /* ns:GetAllPreviousAssociationsResponse */
 struct ns__GetAllPreviousAssociationsResponse
 {
@@ -755,7 +756,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllPreviousAssociations
-#define SOAP_TYPE_ns__GetAllPreviousAssociations (111)
+#define SOAP_TYPE_ns__GetAllPreviousAssociations (112)
 /* ns:GetAllPreviousAssociations */
 struct ns__GetAllPreviousAssociations
 {
@@ -765,7 +766,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetAssociations
-#define SOAP_TYPE_ns__SetAssociations (113)
+#define SOAP_TYPE_ns__SetAssociations (114)
 /* ns:SetAssociations */
 struct ns__SetAssociations
 {
@@ -775,7 +776,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GPSLog
-#define SOAP_TYPE_ns__GPSLog (114)
+#define SOAP_TYPE_ns__GPSLog (115)
 /* ns:GPSLog */
 struct ns__GPSLog
 {
@@ -785,7 +786,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GPSLogList
-#define SOAP_TYPE_ns__GPSLogList (116)
+#define SOAP_TYPE_ns__GPSLogList (117)
 /* Sequence of ns:GPSLogList schema type: */
 struct ns__GPSLogList
 {
@@ -796,7 +797,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetGPSLogListResponse
-#define SOAP_TYPE_ns__GetGPSLogListResponse (120)
+#define SOAP_TYPE_ns__GetGPSLogListResponse (121)
 /* ns:GetGPSLogListResponse */
 struct ns__GetGPSLogListResponse
 {
@@ -806,7 +807,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetGPSLogList
-#define SOAP_TYPE_ns__GetGPSLogList (121)
+#define SOAP_TYPE_ns__GetGPSLogList (122)
 /* ns:GetGPSLogList */
 struct ns__GetGPSLogList
 {
@@ -817,7 +818,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DeviceData
-#define SOAP_TYPE_ns__DeviceData (122)
+#define SOAP_TYPE_ns__DeviceData (123)
 /* Base64 schema type: */
 class SOAP_CMAC ns__DeviceData
 {
@@ -825,7 +826,7 @@ public:
 	unsigned char *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 122; } /* = unique id SOAP_TYPE_ns__DeviceData */
+	virtual int soap_type() const { return 123; } /* = unique id SOAP_TYPE_ns__DeviceData */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -838,7 +839,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__WriteDev
-#define SOAP_TYPE_ns__WriteDev (126)
+#define SOAP_TYPE_ns__WriteDev (127)
 /* ns:WriteDev */
 struct ns__WriteDev
 {
@@ -852,7 +853,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ReadDevResponse
-#define SOAP_TYPE_ns__ReadDevResponse (129)
+#define SOAP_TYPE_ns__ReadDevResponse (130)
 /* ns:ReadDevResponse */
 struct ns__ReadDevResponse
 {
@@ -862,7 +863,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ReadDev
-#define SOAP_TYPE_ns__ReadDev (130)
+#define SOAP_TYPE_ns__ReadDev (131)
 /* ns:ReadDev */
 struct ns__ReadDev
 {
@@ -876,7 +877,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ReadWriteTwiResponse
-#define SOAP_TYPE_ns__ReadWriteTwiResponse (132)
+#define SOAP_TYPE_ns__ReadWriteTwiResponse (133)
 /* ns:ReadWriteTwiResponse */
 struct ns__ReadWriteTwiResponse
 {
@@ -886,7 +887,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ReadWriteTwi
-#define SOAP_TYPE_ns__ReadWriteTwi (133)
+#define SOAP_TYPE_ns__ReadWriteTwi (134)
 /* ns:ReadWriteTwi */
 struct ns__ReadWriteTwi
 {
@@ -898,7 +899,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__PrepareStartResponse
-#define SOAP_TYPE_ns__PrepareStartResponse (136)
+#define SOAP_TYPE_ns__PrepareStartResponse (137)
 /* ns:PrepareStartResponse */
 struct ns__PrepareStartResponse
 {
@@ -908,7 +909,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__PrepareStart
-#define SOAP_TYPE_ns__PrepareStart (137)
+#define SOAP_TYPE_ns__PrepareStart (138)
 /* ns:PrepareStart */
 struct ns__PrepareStart
 {
@@ -920,7 +921,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetStartInfo
-#define SOAP_TYPE_ns__SetStartInfo (139)
+#define SOAP_TYPE_ns__SetStartInfo (140)
 /* ns:SetStartInfo */
 struct ns__SetStartInfo
 {
@@ -931,7 +932,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__ExecuteCommand
-#define SOAP_TYPE_ns__ExecuteCommand (141)
+#define SOAP_TYPE_ns__ExecuteCommand (142)
 /* ns:ExecuteCommand */
 struct ns__ExecuteCommand
 {
@@ -941,7 +942,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__StartCalibration
-#define SOAP_TYPE_ns__StartCalibration (143)
+#define SOAP_TYPE_ns__StartCalibration (144)
 /* ns:StartCalibration */
 struct ns__StartCalibration
 {
@@ -951,7 +952,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__InputStatus
-#define SOAP_TYPE_ns__InputStatus (144)
+#define SOAP_TYPE_ns__InputStatus (145)
 /* ns:InputStatus */
 struct ns__InputStatus
 {
@@ -962,7 +963,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__BoardStatus
-#define SOAP_TYPE_ns__BoardStatus (145)
+#define SOAP_TYPE_ns__BoardStatus (146)
 /* ns:BoardStatus */
 struct ns__BoardStatus
 {
@@ -978,7 +979,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GPSStatus
-#define SOAP_TYPE_ns__GPSStatus (147)
+#define SOAP_TYPE_ns__GPSStatus (148)
 /* ns:GPSStatus */
 struct ns__GPSStatus
 {
@@ -992,7 +993,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__TempStatus
-#define SOAP_TYPE_ns__TempStatus (148)
+#define SOAP_TYPE_ns__TempStatus (149)
 /* ns:TempStatus */
 struct ns__TempStatus
 {
@@ -1005,7 +1006,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DeviceStatus
-#define SOAP_TYPE_ns__DeviceStatus (149)
+#define SOAP_TYPE_ns__DeviceStatus (150)
 /* ns:DeviceStatus */
 struct ns__DeviceStatus
 {
@@ -1024,7 +1025,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__Status
-#define SOAP_TYPE_ns__Status (151)
+#define SOAP_TYPE_ns__Status (152)
 /* ns:Status */
 struct ns__Status
 {
@@ -1036,7 +1037,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetStatus
-#define SOAP_TYPE_ns__GetStatus (154)
+#define SOAP_TYPE_ns__GetStatus (155)
 /* ns:GetStatus */
 struct ns__GetStatus
 {
@@ -1048,7 +1049,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__WaitForStatusChange
-#define SOAP_TYPE_ns__WaitForStatusChange (156)
+#define SOAP_TYPE_ns__WaitForStatusChange (157)
 /* ns:WaitForStatusChange */
 struct ns__WaitForStatusChange
 {
@@ -1058,7 +1059,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__LeaveWaitStatus
-#define SOAP_TYPE_ns__LeaveWaitStatus (158)
+#define SOAP_TYPE_ns__LeaveWaitStatus (159)
 /* ns:LeaveWaitStatus */
 struct ns__LeaveWaitStatus
 {
@@ -1070,7 +1071,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__Metadata
-#define SOAP_TYPE_ns__Metadata (159)
+#define SOAP_TYPE_ns__Metadata (160)
 /* ns:Metadata */
 struct ns__Metadata
 {
@@ -1085,7 +1086,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__MetadataList
-#define SOAP_TYPE_ns__MetadataList (160)
+#define SOAP_TYPE_ns__MetadataList (161)
 /* Sequence of ns:MetadataList schema type: */
 class SOAP_CMAC ns__MetadataList
 {
@@ -1093,7 +1094,7 @@ public:
 	struct ns__Metadata *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 160; } /* = unique id SOAP_TYPE_ns__MetadataList */
+	virtual int soap_type() const { return 161; } /* = unique id SOAP_TYPE_ns__MetadataList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1106,7 +1107,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetMetadataResponse
-#define SOAP_TYPE_ns__GetMetadataResponse (164)
+#define SOAP_TYPE_ns__GetMetadataResponse (165)
 /* ns:GetMetadataResponse */
 struct ns__GetMetadataResponse
 {
@@ -1116,7 +1117,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetMetadata
-#define SOAP_TYPE_ns__GetMetadata (165)
+#define SOAP_TYPE_ns__GetMetadata (166)
 /* ns:GetMetadata */
 struct ns__GetMetadata
 {
@@ -1129,7 +1130,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__YMetadata
-#define SOAP_TYPE_ns__YMetadata (166)
+#define SOAP_TYPE_ns__YMetadata (167)
 /* ns:YMetadata */
 struct ns__YMetadata
 {
@@ -1150,7 +1151,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__YMetadataList
-#define SOAP_TYPE_ns__YMetadataList (167)
+#define SOAP_TYPE_ns__YMetadataList (168)
 /* Sequence of ns:YMetadataList schema type: */
 class SOAP_CMAC ns__YMetadataList
 {
@@ -1158,7 +1159,7 @@ public:
 	struct ns__YMetadata *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 167; } /* = unique id SOAP_TYPE_ns__YMetadataList */
+	virtual int soap_type() const { return 168; } /* = unique id SOAP_TYPE_ns__YMetadataList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1171,7 +1172,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllYMetadataResponse
-#define SOAP_TYPE_ns__GetAllYMetadataResponse (171)
+#define SOAP_TYPE_ns__GetAllYMetadataResponse (172)
 /* ns:GetAllYMetadataResponse */
 struct ns__GetAllYMetadataResponse
 {
@@ -1181,7 +1182,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAllYMetadata
-#define SOAP_TYPE_ns__GetAllYMetadata (172)
+#define SOAP_TYPE_ns__GetAllYMetadata (173)
 /* ns:GetAllYMetadata */
 struct ns__GetAllYMetadata
 {
@@ -1191,7 +1192,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DataSpecification
-#define SOAP_TYPE_ns__DataSpecification (173)
+#define SOAP_TYPE_ns__DataSpecification (174)
 /* ns:DataSpecification */
 class SOAP_CMAC ns__DataSpecification
 {
@@ -1200,7 +1201,7 @@ public:
 	unsigned int inputNumber;	/* required element of type xsd:unsignedInt */
 	unsigned int blockNumber;	/* required element of type xsd:unsignedInt */
 public:
-	virtual int soap_type() const { return 173; } /* = unique id SOAP_TYPE_ns__DataSpecification */
+	virtual int soap_type() const { return 174; } /* = unique id SOAP_TYPE_ns__DataSpecification */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1213,7 +1214,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__RangeDataSpecification
-#define SOAP_TYPE_ns__RangeDataSpecification (174)
+#define SOAP_TYPE_ns__RangeDataSpecification (175)
 /* ns:RangeDataSpecification */
 class SOAP_CMAC ns__RangeDataSpecification : public ns__DataSpecification
 {
@@ -1223,7 +1224,7 @@ public:
 	ULONG64 dataLength;	/* required element of type xsd:unsignedLong */
 	unsigned int resultLength;	/* required element of type xsd:unsignedInt */
 public:
-	virtual int soap_type() const { return 174; } /* = unique id SOAP_TYPE_ns__RangeDataSpecification */
+	virtual int soap_type() const { return 175; } /* = unique id SOAP_TYPE_ns__RangeDataSpecification */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1236,7 +1237,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__IndexList
-#define SOAP_TYPE_ns__IndexList (175)
+#define SOAP_TYPE_ns__IndexList (176)
 /* Sequence of ns:IndexList schema type: */
 class SOAP_CMAC ns__IndexList
 {
@@ -1244,7 +1245,7 @@ public:
 	ULONG64 *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 175; } /* = unique id SOAP_TYPE_ns__IndexList */
+	virtual int soap_type() const { return 176; } /* = unique id SOAP_TYPE_ns__IndexList */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1257,14 +1258,14 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__EnvelopeDataSpecification
-#define SOAP_TYPE_ns__EnvelopeDataSpecification (177)
+#define SOAP_TYPE_ns__EnvelopeDataSpecification (178)
 /* ns:EnvelopeDataSpecification */
 class SOAP_CMAC ns__EnvelopeDataSpecification : public ns__DataSpecification
 {
 public:
 	ns__IndexList indices;	/* required element of type ns:IndexList */
 public:
-	virtual int soap_type() const { return 177; } /* = unique id SOAP_TYPE_ns__EnvelopeDataSpecification */
+	virtual int soap_type() const { return 178; } /* = unique id SOAP_TYPE_ns__EnvelopeDataSpecification */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1277,7 +1278,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DataSpecificationArray
-#define SOAP_TYPE_ns__DataSpecificationArray (178)
+#define SOAP_TYPE_ns__DataSpecificationArray (179)
 /* Sequence of ns:DataSpecificationArray schema type: */
 class SOAP_CMAC ns__DataSpecificationArray
 {
@@ -1285,7 +1286,7 @@ public:
 	ns__DataSpecification **__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 178; } /* = unique id SOAP_TYPE_ns__DataSpecificationArray */
+	virtual int soap_type() const { return 179; } /* = unique id SOAP_TYPE_ns__DataSpecificationArray */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1298,7 +1299,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__Data
-#define SOAP_TYPE_ns__Data (181)
+#define SOAP_TYPE_ns__Data (182)
 /* Base64 schema type: */
 class SOAP_CMAC ns__Data
 {
@@ -1310,7 +1311,7 @@ public:
 	char *options;	/* optional element of type xsd:string */
 	ns__Data();	/* transient */
 public:
-	virtual int soap_type() const { return 181; } /* = unique id SOAP_TYPE_ns__Data */
+	virtual int soap_type() const { return 182; } /* = unique id SOAP_TYPE_ns__Data */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1322,7 +1323,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetDataResponse
-#define SOAP_TYPE_ns__GetDataResponse (187)
+#define SOAP_TYPE_ns__GetDataResponse (188)
 /* ns:GetDataResponse */
 struct ns__GetDataResponse
 {
@@ -1332,7 +1333,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetData
-#define SOAP_TYPE_ns__GetData (188)
+#define SOAP_TYPE_ns__GetData (189)
 /* ns:GetData */
 struct ns__GetData
 {
@@ -1343,7 +1344,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DataBlockHeader
-#define SOAP_TYPE_ns__DataBlockHeader (189)
+#define SOAP_TYPE_ns__DataBlockHeader (190)
 /* ns:DataBlockHeader */
 struct ns__DataBlockHeader
 {
@@ -1356,7 +1357,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SendServerCustomCommandResponse
-#define SOAP_TYPE_ns__SendServerCustomCommandResponse (192)
+#define SOAP_TYPE_ns__SendServerCustomCommandResponse (193)
 /* ns:SendServerCustomCommandResponse */
 struct ns__SendServerCustomCommandResponse
 {
@@ -1366,7 +1367,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__SendServerCustomCommand
-#define SOAP_TYPE_ns__SendServerCustomCommand (193)
+#define SOAP_TYPE_ns__SendServerCustomCommand (194)
 /* ns:SendServerCustomCommand */
 struct ns__SendServerCustomCommand
 {
@@ -1376,7 +1377,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__AutoSequence
-#define SOAP_TYPE_ns__AutoSequence (194)
+#define SOAP_TYPE_ns__AutoSequence (195)
 /* Sequence of ns:AutoSequence schema type: */
 class SOAP_CMAC ns__AutoSequence
 {
@@ -1384,7 +1385,7 @@ public:
 	char *__ptr;
 	int __size;
 public:
-	virtual int soap_type() const { return 194; } /* = unique id SOAP_TYPE_ns__AutoSequence */
+	virtual int soap_type() const { return 195; } /* = unique id SOAP_TYPE_ns__AutoSequence */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1397,7 +1398,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__LoadAutosequenceResponse
-#define SOAP_TYPE_ns__LoadAutosequenceResponse (196)
+#define SOAP_TYPE_ns__LoadAutosequenceResponse (197)
 /* ns:LoadAutosequenceResponse */
 struct ns__LoadAutosequenceResponse
 {
@@ -1407,7 +1408,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__LoadAutosequence
-#define SOAP_TYPE_ns__LoadAutosequence (197)
+#define SOAP_TYPE_ns__LoadAutosequence (198)
 /* ns:LoadAutosequence */
 struct ns__LoadAutosequence
 {
@@ -1417,7 +1418,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__StartAutoSequenceResponse
-#define SOAP_TYPE_ns__StartAutoSequenceResponse (199)
+#define SOAP_TYPE_ns__StartAutoSequenceResponse (200)
 /* ns:StartAutoSequenceResponse */
 struct ns__StartAutoSequenceResponse
 {
@@ -1427,7 +1428,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__StartAutoSequence
-#define SOAP_TYPE_ns__StartAutoSequence (200)
+#define SOAP_TYPE_ns__StartAutoSequence (201)
 /* ns:StartAutoSequence */
 struct ns__StartAutoSequence
 {
@@ -1439,7 +1440,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__StopAutoSequenceResponse
-#define SOAP_TYPE_ns__StopAutoSequenceResponse (202)
+#define SOAP_TYPE_ns__StopAutoSequenceResponse (203)
 /* ns:StopAutoSequenceResponse */
 struct ns__StopAutoSequenceResponse
 {
@@ -1449,7 +1450,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__StopAutoSequence
-#define SOAP_TYPE_ns__StopAutoSequence (203)
+#define SOAP_TYPE_ns__StopAutoSequence (204)
 /* ns:StopAutoSequence */
 struct ns__StopAutoSequence
 {
@@ -1461,7 +1462,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAutoSequenceResponse
-#define SOAP_TYPE_ns__GetAutoSequenceResponse (206)
+#define SOAP_TYPE_ns__GetAutoSequenceResponse (207)
 /* ns:GetAutoSequenceResponse */
 struct ns__GetAutoSequenceResponse
 {
@@ -1471,7 +1472,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetAutoSequence
-#define SOAP_TYPE_ns__GetAutoSequence (207)
+#define SOAP_TYPE_ns__GetAutoSequence (208)
 /* ns:GetAutoSequence */
 struct ns__GetAutoSequence
 {
@@ -1483,7 +1484,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__SetDeviceSettings
-#define SOAP_TYPE_ns__SetDeviceSettings (209)
+#define SOAP_TYPE_ns__SetDeviceSettings (210)
 /* ns:SetDeviceSettings */
 struct ns__SetDeviceSettings
 {
@@ -1493,7 +1494,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__DiskSpace
-#define SOAP_TYPE_ns__DiskSpace (210)
+#define SOAP_TYPE_ns__DiskSpace (211)
 /* ns:DiskSpace */
 class SOAP_CMAC ns__DiskSpace
 {
@@ -1501,7 +1502,7 @@ public:
 	ULONG64 freeDiskSpace;	/* SOAP 1.2 RPC return element (when namespace qualified) */	/* required element of type xsd:unsignedLong */
 	ULONG64 DiskSize;	/* required element of type xsd:unsignedLong */
 public:
-	virtual int soap_type() const { return 210; } /* = unique id SOAP_TYPE_ns__DiskSpace */
+	virtual int soap_type() const { return 211; } /* = unique id SOAP_TYPE_ns__DiskSpace */
 	virtual void soap_default(struct soap*);
 	virtual void soap_serialize(struct soap*) const;
 	virtual int soap_put(struct soap*, const char*, const char*) const;
@@ -1514,7 +1515,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetFreeDiskSpace
-#define SOAP_TYPE_ns__GetFreeDiskSpace (213)
+#define SOAP_TYPE_ns__GetFreeDiskSpace (214)
 /* ns:GetFreeDiskSpace */
 struct ns__GetFreeDiskSpace
 {
@@ -1526,7 +1527,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetMACAddressResponse
-#define SOAP_TYPE_ns__GetMACAddressResponse (216)
+#define SOAP_TYPE_ns__GetMACAddressResponse (217)
 /* ns:GetMACAddressResponse */
 struct ns__GetMACAddressResponse
 {
@@ -1536,7 +1537,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_ns__GetMACAddress
-#define SOAP_TYPE_ns__GetMACAddress (217)
+#define SOAP_TYPE_ns__GetMACAddress (218)
 /* ns:GetMACAddress */
 struct ns__GetMACAddress
 {
@@ -1546,7 +1547,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (218)
+#define SOAP_TYPE_SOAP_ENV__Header (219)
 /* SOAP Header: */
 struct SOAP_ENV__Header
 {
@@ -1558,7 +1559,7 @@ private:
 #endif
 
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (219)
+#define SOAP_TYPE_SOAP_ENV__Code (220)
 /* SOAP Fault Code: */
 struct SOAP_ENV__Code
 {
@@ -1569,7 +1570,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (221)
+#define SOAP_TYPE_SOAP_ENV__Detail (222)
 /* SOAP-ENV:Detail */
 struct SOAP_ENV__Detail
 {
@@ -1581,7 +1582,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (223)
+#define SOAP_TYPE_SOAP_ENV__Reason (224)
 /* SOAP-ENV:Reason */
 struct SOAP_ENV__Reason
 {
@@ -1591,7 +1592,7 @@ public:
 #endif
 
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (224)
+#define SOAP_TYPE_SOAP_ENV__Fault (225)
 /* SOAP Fault: */
 struct SOAP_ENV__Fault
 {

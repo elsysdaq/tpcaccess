@@ -14,6 +14,7 @@
     <enumeration value="ns:maxBoards"/><!-- enum const = 16 -->
     <enumeration value="ns:maxInputs"/><!-- enum const = 8 -->
     <enumeration value="ns:maxInputRanges"/><!-- enum const = 11 -->
+    <enumeration value="ns:maxChargeInputRanges"/><!-- enum const = 12 -->
    </restriction>
   </simpleType>
   <complexType name="DateTime">
@@ -81,6 +82,7 @@
      <element name="inputCouplingOptions" type="xsd:int" minOccurs="1" maxOccurs="1"/>
      <element name="inputRanges" type="ns:Array11Ofdouble" minOccurs="1" maxOccurs="1" nillable="true"/>
      <element name="maxMarkerMask" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="chargeInputRanges" type="ns:Array12Ofint" minOccurs="1" maxOccurs="1" nillable="true"/>
    </sequence>
   </complexType>
   <complexType name="TaggedBoardInfo">
@@ -348,6 +350,13 @@
    <complexContent>
     <restriction base="SOAP-ENC:Array">
      <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:byte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="Array12Ofint">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]"/>
     </restriction>
    </complexContent>
   </complexType>

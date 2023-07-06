@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
   $Id: Device.cpp 30 2020-07-23 12:24:33Z roman $
@@ -647,16 +646,16 @@ TPC_ErrorCode Device::SetClusterNumbers(int* clusterNumbers)
   err = m_soap->SetClusterConfiguration(clusterNumbers);
   if (err != 0) return err;
 
-  // TODO: TpcAccess benï¿½tigt m_currentStatus.clusters.clusterNumbers fï¿½r die 
-  // Umsetzung der Boardadressen. Wenn die ClusterNummern nicht zurï¿½ckgelesen 
-  // wï¿½rden, kï¿½nnte es passieren, dass TpcAccess die Boardadressen falsch 
+  // TODO: TpcAccess benötigt m_currentStatus.clusters.clusterNumbers für die 
+  // Umsetzung der Boardadressen. Wenn die ClusterNummern nicht zurückgelesen 
+  // würden, könnte es passieren, dass TpcAccess die Boardadressen falsch 
   // umsetzt (passiert z.B beim laden vom tps File). Das Problem ist aber, 
-  // dass genau zu diesem Zeitpunkt auch der Thread dabei sein kï¿½nnte die 
-  // clusterNumbers zurï¿½ckzulesen, welche aber veraltet sind. Dieses Problem 
+  // dass genau zu diesem Zeitpunkt auch der Thread dabei sein könnte die 
+  // clusterNumbers zurückzulesen, welche aber veraltet sind. Dieses Problem 
   // tritt nicht nur bei den clusterNumbers zu sondern auch bei den Parametern 
   // und Attributen was aber nicht so tragisch ist.
-  // Also warten wir bis der Thread sicher fertig ist. Besser wï¿½hre es wenn 
-  // wir mit dem Thread synchronisieren kï¿½nnten.
+  // Also warten wir bis der Thread sicher fertig ist. Besser währe es wenn 
+  // wir mit dem Thread synchronisieren könnten.
   WaitableThread::sleep(200);
 
   return tpc_noError;
@@ -1506,8 +1505,9 @@ void Device::FillDeviceStatus(TPC_DeviceStatus* status)
   status->extStartState		= (TPC_ExtStartState)m_currentStatus.status.extStartState;
 
   CopyStruct(&status->gpsStatus,sizeof(TPC_GPSStatus),&m_currentStatus.status.gpsStatus, sizeof(TPC_GPSStatus));
-
+  
   CopyStruct(&status->tempStatus, sizeof(TPC_TempStatus), &m_currentStatus.status.tempStatus, sizeof(TPC_TempStatus));
+
   m_statusMutex.unlock();
 }
 
@@ -2196,7 +2196,7 @@ void Device::SetDeviceStatusError(TPC_ErrorCode err)
 void Device::SetParamAttr(const ParameterSet& params, const Attributes& attr, const AssociationRowList& assoc)
 {
   // Da diese Funktion nur von StatusObserverThread::ReloadParams() aufgerufen wird diese Funktion
-  // auserhalb gelocked. Dies ist nï¿½tig da ansonsten Parameter Updates die durch einen Callback
+  // auserhalb gelocked. Dies ist nötig da ansonsten Parameter Updates die durch einen Callback
   // ausgelesen werden inkonsisten sind.
   //m_statusMutex.lock();
 	

@@ -5,7 +5,9 @@ API for Elsys DAQ devices
 
 /bin : Windows precompiled DLLs for 32 and 64 Bit
 
-/src : Linux C++ and Python API 
+/src : Source code for Linux API
+/src/TpcAccessPy : VS Project for building Python Library under Windows
+
 
 /examples: 
 

@@ -11,11 +11,10 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
-// $Id: TpcSettings.h 28 2017-06-06 13:31:56Z roman $
+// $Id: TpcSettings.h 29 2019-09-26 10:22:37Z roman $
 
 #ifndef __TPCSETTINGS_H__
 #define __TPCSETTINGS_H__

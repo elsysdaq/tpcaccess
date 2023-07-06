@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 // $Id: TpcSettings.cpp 29 2019-09-26 10:22:37Z roman $
 
@@ -117,7 +116,7 @@ const Param paramTable[numKnownParameters] =
 	{ tpc_parGPSSync,						_TEXT("GPSSync"),						true },
 	{ tpc_parLXIMsgConfig,					_TEXT("LXIMsgConfig"),					false },
 	{ tpc_parSyncPingMode,				    _TEXT("SyncPingMode"),					true},
-	{ tpc_parSyncDelay,						_TEXT("SyncDelay"),						true },
+	{ tpc_parSyncDelay,						_TEXT("SyncDelay"),						true},
     //{ tpc_parEcrEnableDualMode, _TEXT("ecrEnableDualMode"), true },
     //{ tpc_parEcrEnableMultiChn, _TEXT("ecrEnableMultiChn"), true },
     //{ tpc_parEcrEnableRetrigger, _TEXT("ecrEnableRetrigger"), true },

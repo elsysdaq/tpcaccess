@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2021 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
   $Id: System.cpp 29 2019-09-26 10:22:37Z roman $
@@ -1198,7 +1197,7 @@ TPC_ErrorCode System::ExecuteSystemCommand(TPC_SystemCommand command)
 		return err;
 	} else {
 		if (command == tpc_cmdStop){
-			 // Der Stopp wird an alle Devices geschickt, um eventuelle Fehler zurï¿½ckzusetzten.
+			 // Der Stopp wird an alle Devices geschickt, um eventuelle Fehler zurückzusetzten.
 			vector<Device*>::iterator i;
 			for (i = m_devices.begin(); i != m_devices.end(); ++i) {
 				Device* d = *i;

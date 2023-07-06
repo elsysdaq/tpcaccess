@@ -7,7 +7,7 @@
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.7.12 2020-07-23 09:55:35 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.7.12 2022-08-12 12:59:19 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -450,6 +450,8 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		return soap_in_Array8Ofbyte(soap, NULL, NULL, "xsd:byte");
 	case SOAP_TYPE_Array16Ofbyte:
 		return soap_in_Array16Ofbyte(soap, NULL, NULL, "xsd:byte");
+	case SOAP_TYPE_Array12Ofint:
+		return soap_in_Array12Ofint(soap, NULL, NULL, "xsd:int");
 	case SOAP_TYPE_Array11Ofdouble:
 		return soap_in_Array11Ofdouble(soap, NULL, NULL, "xsd:double");
 	case SOAP_TYPE_Array16Ofint:
@@ -972,6 +974,10 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, int *type)
 		{	*type = SOAP_TYPE_Array16Ofbyte;
 			return soap_in_Array16Ofbyte(soap, NULL, NULL, NULL);
 		}
+		if (!soap_match_tag(soap, t, "xsd:int"))
+		{	*type = SOAP_TYPE_Array12Ofint;
+			return soap_in_Array12Ofint(soap, NULL, NULL, NULL);
+		}
 		if (!soap_match_tag(soap, t, "xsd:double"))
 		{	*type = SOAP_TYPE_Array11Ofdouble;
 			return soap_in_Array11Ofdouble(soap, NULL, NULL, NULL);
@@ -1344,6 +1350,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_Array8Ofbyte(soap, tag, id, (char (*))ptr, "xsd:byte");
 	case SOAP_TYPE_Array16Ofbyte:
 		return soap_out_Array16Ofbyte(soap, tag, id, (char (*))ptr, "xsd:byte");
+	case SOAP_TYPE_Array12Ofint:
+		return soap_out_Array12Ofint(soap, tag, id, (int (*))ptr, "xsd:int");
 	case SOAP_TYPE_Array11Ofdouble:
 		return soap_out_Array11Ofdouble(soap, tag, id, (double (*))ptr, "xsd:double");
 	case SOAP_TYPE_Array16Ofint:
@@ -1774,6 +1782,9 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 		break;
 	case SOAP_TYPE_Array16Ofbyte:
 		soap_serialize_Array16Ofbyte(soap, (char (*))ptr);
+		break;
+	case SOAP_TYPE_Array12Ofint:
+		soap_serialize_Array12Ofint(soap, (int (*))ptr);
 		break;
 	case SOAP_TYPE_Array11Ofdouble:
 		soap_serialize_Array11Ofdouble(soap, (double (*))ptr);
@@ -3145,6 +3156,7 @@ static const struct soap_code_map soap_codes_ns__TpcConstants[] =
 {	{ (long)ns__maxBoards, "ns:maxBoards" },
 	{ (long)ns__maxInputs, "ns:maxInputs" },
 	{ (long)ns__maxInputRanges, "ns:maxInputRanges" },
+	{ (long)ns__maxChargeInputRanges, "ns:maxChargeInputRanges" },
 	{ 0, NULL }
 };
 
@@ -17202,12 +17214,14 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_default_ns__InputInfo(struct soap *soap, struct 
 	soap_default_int(soap, &a->inputCouplingOptions);
 	soap_default_Array11Ofdouble(soap, a->inputRanges);
 	soap_default_int(soap, &a->maxMarkerMask);
+	soap_default_Array12Ofint(soap, a->chargeInputRanges);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ns__InputInfo(struct soap *soap, const struct ns__InputInfo *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_serialize_Array11Ofdouble(soap, a->inputRanges);
+	soap_serialize_Array12Ofint(soap, a->chargeInputRanges);
 }
 
 SOAP_FMAC3 int SOAP_FMAC4 soap_put_ns__InputInfo(struct soap *soap, const struct ns__InputInfo *a, const char *tag, const char *type)
@@ -17241,6 +17255,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ns__InputInfo(struct soap *soap, const char *
 	soap_out_Array11Ofdouble(soap, "inputRanges", -1, a->inputRanges, "");
 	if (soap_out_int(soap, "maxMarkerMask", -1, &a->maxMarkerMask, ""))
 		return soap->error;
+	soap_out_Array12Ofint(soap, "chargeInputRanges", -1, a->chargeInputRanges, "");
 	return soap_element_end_out(soap, tag);
 }
 
@@ -17264,6 +17279,7 @@ SOAP_FMAC3 struct ns__InputInfo * SOAP_FMAC4 soap_in_ns__InputInfo(struct soap *
 	size_t soap_flag_inputCouplingOptions = 1;
 	size_t soap_flag_inputRanges = 1;
 	size_t soap_flag_maxMarkerMask = 1;
+	size_t soap_flag_chargeInputRanges = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
 	a = (struct ns__InputInfo *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ns__InputInfo, sizeof(struct ns__InputInfo), 0, NULL, NULL, NULL);
@@ -17324,6 +17340,11 @@ SOAP_FMAC3 struct ns__InputInfo * SOAP_FMAC4 soap_in_ns__InputInfo(struct soap *
 				{	soap_flag_maxMarkerMask--;
 					continue;
 				}
+			if (soap_flag_chargeInputRanges && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_Array12Ofint(soap, "chargeInputRanges", a->chargeInputRanges, "xsd:int"))
+				{	soap_flag_chargeInputRanges--;
+					continue;
+				}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -17339,7 +17360,7 @@ SOAP_FMAC3 struct ns__InputInfo * SOAP_FMAC4 soap_in_ns__InputInfo(struct soap *
 		if (soap->body && soap_element_end_in(soap, tag))
 			return NULL;
 	}
-	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_inputClass > 0 || soap_flag_hardwareVersion > 0 || soap_flag_maxAdcSpeed > 0 || soap_flag_adcResolution > 0 || soap_flag_offsetOptions > 0 || soap_flag_filterOptions > 0 || soap_flag_diffOptions > 0 || soap_flag_inputCouplingOptions > 0 || soap_flag_inputRanges > 0 || soap_flag_maxMarkerMask > 0))
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_inputClass > 0 || soap_flag_hardwareVersion > 0 || soap_flag_maxAdcSpeed > 0 || soap_flag_adcResolution > 0 || soap_flag_offsetOptions > 0 || soap_flag_filterOptions > 0 || soap_flag_diffOptions > 0 || soap_flag_inputCouplingOptions > 0 || soap_flag_inputRanges > 0 || soap_flag_maxMarkerMask > 0 || soap_flag_chargeInputRanges > 0))
 	{	soap->error = SOAP_OCCURS;
 		return NULL;
 	}
@@ -20297,6 +20318,95 @@ SOAP_FMAC3 char * SOAP_FMAC4 soap_in_Array16Ofbyte(struct soap *soap, const char
 			return NULL;
 	}
 	return (char *)a;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_Array12Ofint(struct soap *soap, int a[12])
+{
+	int i;
+	(void)soap; /* appease -Wall -Werror */
+	for (i = 0; i < 12; i++)
+	soap_default_int(soap, a+i);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_Array12Ofint(struct soap *soap, int const a[12])
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_Array12Ofint(struct soap *soap, int const a[12], const char *tag, const char *type)
+{
+	register int id = soap_embed(soap, (void*)a, NULL, 0, tag, SOAP_TYPE_Array12Ofint);
+	if (soap_out_Array12Ofint(soap, tag, id, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_Array12Ofint(struct soap *soap, const char *tag, int id, int const a[12], const char *type)
+{
+	int i;
+	soap_array_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_Array12Ofint), "xsd:int[12]", 0);
+	for (i = 0; i < 12; i++)
+	{
+		soap_out_int(soap, "item", -1, a+i, "");
+	}
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 int * SOAP_FMAC4 soap_get_Array12Ofint(struct soap *soap, int a[12], const char *tag, const char *type)
+{	int (*p);
+	if ((p = soap_in_Array12Ofint(soap, tag, a, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 int * SOAP_FMAC4 soap_in_Array12Ofint(struct soap *soap, const char *tag, int a[12], const char *type)
+{
+	if (soap_element_begin_in(soap, tag, 0, NULL))
+		return NULL;
+	if (soap_match_array(soap, type))
+	{	soap->error = SOAP_TYPE;
+		return NULL;
+	}
+	a = (int (*))soap_id_enter(soap, soap->id, a, SOAP_TYPE_Array12Ofint, sizeof(int[12]), 0, NULL, NULL, NULL);
+	if (!a)
+		return NULL;
+	soap_default_Array12Ofint(soap, a);
+	if (soap->body && !*soap->href)
+	{	int i;
+		for (i = 0; i < 12; i++)
+		{	soap_peek_element(soap);
+			if (soap->position)
+			{	i = soap->positions[0];
+				if (i < 0 || i >= 12)
+				{	soap->error = SOAP_IOB;
+					return NULL;
+				}
+			}
+			if (!soap_in_int(soap, NULL, a+i, "xsd:int"))
+			{	if (soap->error != SOAP_NO_TAG)
+					return NULL;
+				soap->error = SOAP_OK;
+				break;
+			}
+		}
+		if (soap->mode & SOAP_C_NOIOB)
+			while (soap_element_end_in(soap, tag) == SOAP_SYNTAX_ERROR)
+			{	soap->peeked = 1;
+				soap_ignore_element(soap);
+			}
+		else if (soap_element_end_in(soap, tag))
+		{	if (soap->error == SOAP_SYNTAX_ERROR)
+				soap->error = SOAP_IOB;
+			return NULL;
+		}
+	}
+	else
+	{	a = (int (*))soap_id_forward(soap, soap->href, (void*)soap_id_enter(soap, soap->id, a, SOAP_TYPE_Array12Ofint, sizeof(int[12]), 0, NULL, NULL, NULL), 0, SOAP_TYPE_Array12Ofint, 0, sizeof(int[12]), 0, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return (int *)a;
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_Array11Ofdouble(struct soap *soap, double a[11])

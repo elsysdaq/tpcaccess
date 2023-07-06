@@ -1,8 +1,8 @@
 
 CC       = gcc
 CXX      = g++
-CFLAGS   = -fPIC -DPIC -pipe -O3 -Wall -D_LINUX -DXML_LIBRARY -fomit-frame-pointer
-CXXFLAGS = -fPIC -DPIC -pipe -O3 -Wall -D_LINUX -DXML_LIBRARY -fomit-frame-pointer
+CFLAGS   = -fPIC -DPIC -pipe -O3 -Wall -D_LINUX -DXML_LIBRARY -fomit-frame-pointer -DNOSETTINGSFILE
+CXXFLAGS = -fPIC -DPIC -pipe -O3 -Wall -D_LINUX -DXML_LIBRARY -fomit-frame-pointer -DNOSETTINGSFILE
 INCPATH  = -I. -I./gSOAP -I./gSOAPgenerated -I./SysDep
 LINK     = ar
 LFLAGS   = rcs

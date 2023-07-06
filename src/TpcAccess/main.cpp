@@ -11,9 +11,8 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
   $Id: main.cpp 24 2015-01-05 10:58:24Z roman $
@@ -67,16 +66,16 @@ Attributes.h, Attributes.cpp
 */
 
 //-------------------------------------------------------------------------------
-#include "System.h"
-#ifdef WIN32 
 
+#ifdef WIN32 
+#include "System.h"
 
 #include <windows.h>
 #include "TpcAccessInstance.h"
 #endif
 
 
-//#include "TransPC_Server.nsmap" // obtain the namespace mapping table
+#include "TransPC_Server.nsmap" // obtain the namespace mapping table
 
 
 
@@ -91,6 +90,7 @@ void DllDone()
 {
 	System::PrepareToQuitProgram();
 }
+
 #endif
 
 //=== Main entry point =================================================================
@@ -118,8 +118,8 @@ BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	// return FALSE to abort if initialization fails.
 	return TRUE;
 }
-#elif _PYTHON
 
+#elif _PYTHON
 
 #elif _LINUX
 

@@ -11,13 +11,12 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: TpcAccess.h 363 2018-01-15 14:43:51Z roman $
-  TransPC TPCX API.
+  $Id: TpcAccess.h 449 2022-08-31 13:42:41Z roman $
+  TraNET and TPCE API.
 --------------------------------------------------------------------------------*/
 #ifndef TpcAccess_h
 #define TpcAccess_h TpcAccess_h
@@ -498,8 +497,11 @@ extern "C" {
 	/// Max path length for bdf file path
 #define tpc_maxPathLength 128
 
-	/// Max number of input ranges
+	/// Max number of voltage input ranges
 #define tpc_maxInputRanges 11
+
+	/// Max number of charge input ranges
+#define tpc_maxChargeInputRanges 12
 
 	/// Get the TpcAccess API version number. 
 	/** This function is obsolete, please use \ref TPC_GetVersion 
@@ -1035,7 +1037,13 @@ extern "C" {
 		tpc_optIcpSource = 0x01,
 
 		/// 50 Ohm input coupling
-		tpc_opt50Ohm = 0x02
+		tpc_opt50Ohm = 0x02,
+
+		/// ICP Prog (programmable ICP/IEPE Current Source)
+		tpc_optIcpProg = 0x4,
+
+		/// Charge Module option
+		tpc_optCharge = 0x8,
 	};
 
 
@@ -1071,12 +1079,16 @@ extern "C" {
 		/// See \ref TPC_InputCouplingOptions for the meaning of the bits.
 		int inputCouplingOptions;
 
-		/// Input Range Array
-		/// List of supported input ranges
+		/// Voltage Input Range Array
+		/// List of supported voltage input ranges
 		double inputRanges[tpc_maxInputRanges];
 
 		/// Max Marker Signals
 		int maxMarkerMask;
+
+		/// Charge Input Range Array
+		/// List of support charge input ranges
+		int chargeInputRanges[tpc_maxChargeInputRanges];
 	};
 
 	/// Get information about an input.
@@ -1491,10 +1503,10 @@ extern "C" {
 	
 		//--- Input range
 	
-		/// Input coupling: DC, AC, ICP. 50 Ohm, See enum \ref TPC_InputCoupling
+		/// Input coupling: DC, AC, ICP. 50 Ohm, Charge See enum \ref TPC_InputCoupling
 		tpc_parInputCoupling = 22,
 
-		/// Input voltage range in Volt. Valid values: 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100.
+		/// Input voltage range in Volt or charge in pc. Valid values depend on board type
 		tpc_parRange = 23,
 
 		/// Input range offset in percent. Valid values from 0 to 100%.
@@ -1503,7 +1515,9 @@ extern "C" {
 		/// Set the invertion mode by a bit mask, see \ref TPC_InverterModeMask
 		tpc_parInvert = 25,
 
-	
+		/// Set IEPE/ICP Current (not available for all board types
+		tpc_parIEPECurrent = 78,
+
 		//--- Filter
 	
 		/// Filter mode: Off, 22kHz RC filter, 200kHz RC filter, Filter Module. See enum \ref TPC_FilterMode
@@ -1643,7 +1657,10 @@ extern "C" {
 		///Set Sync Ping Mode on/off
 		tpc_parSyncPingMode = 76,
 		/// Set SyncLink 2 Delay
-		tpc_parSyncDelay = 77
+		tpc_parSyncDelay = 77,
+
+		/// Set Charge Amplifier Mode 0 = Measure, 1 = Reset
+		tpc_parChargeMode = 79,
 	};
 
 	
@@ -1734,6 +1751,9 @@ extern "C" {
 
 		/// AC coupling 50 Ohm input impedance (Attention, 5V limit!)
 		tpc_inpCouplingAC50 = 5,
+
+		/// Charge input (optional)
+		tpc_inpCouplingCharge = 6,
 	};
 
 
@@ -2789,7 +2809,7 @@ extern "C" {
 		int Res1Temp;
 		int Res2Temp;
 	};
-	
+
 	/// Contains information about the status of a device.
 	struct TPC_DeviceStatus {
 		/// This field has the value tpc_noError if the device was initialized correctly,
@@ -2833,7 +2853,7 @@ extern "C" {
 
 		/// GPS Status
 		struct TPC_GPSStatus gpsStatus;
-		
+
 		/// Temp Status
 		struct TPC_TempStatus tempStatus;
 	};

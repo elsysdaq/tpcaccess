@@ -11,11 +11,9 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
-
 /*--------------------------------------------------------------------------------
   $Id: AssocRow.cpp 2 2009-01-13 08:45:52Z roman $
   AssocRow: Stores a local copy of association rows

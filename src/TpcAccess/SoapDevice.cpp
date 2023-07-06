@@ -11,12 +11,11 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: SoapDevice.cpp 28 2017-06-06 13:31:56Z roman $
+  $Id: SoapDevice.cpp 33 2022-10-10 15:29:29Z roman $
   Thin layer over the gSOAP connection to the remote device.
 --------------------------------------------------------------------------------*/
 
@@ -141,6 +140,10 @@ void Assign(TPC_InputInfo& d, const ns__InputInfo& s)
 	d.maxMarkerMask			= s.maxMarkerMask;
 	memset(d.inputRanges, 0x00, sizeof(d.inputRanges));
 	memcpy(d.inputRanges, s.inputRanges, sizeof(d.inputRanges));
+
+	memset(d.chargeInputRanges, 0x00, sizeof(d.chargeInputRanges));
+	memcpy(d.chargeInputRanges, s.chargeInputRanges, sizeof(d.chargeInputRanges));
+
 }
 
 

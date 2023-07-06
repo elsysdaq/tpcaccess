@@ -11,17 +11,17 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2019 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
 */
-
 //---------------------------------------------------------------------------
-// $Id: TpcAccess.cpp 28 2017-06-06 13:31:56Z roman $
+// $Id: TpcAccess.cpp 34 2022-11-01 13:43:21Z roman $
 
 //---------------------------------------------------------------------------------
 #define BUILDING_TPC_ACCESS 
 #include "System.h"
 #include "TpcAccess.h"
 #include "TpcAccessElsys.h"
+#include "TpcAccessA.h"
 #include "version.h"
 
 #include "sysThreading.h"
@@ -34,9 +34,9 @@ using namespace std;
 #include "Device.h"
 
 #include "SystemList.h"
-#include "TransPC_Server.nsmap" // obtain the namespace mapping table
-//#include "TpcSettings.h"
-
+#ifndef NOSETTINGSFILE
+#include "TpcSettings.h"
+#endif
 //---------------------------------------------------------------------------------
 
 
@@ -59,6 +59,90 @@ static TPC_ErrorCode CopyString(const string& s, char* buffer, int maxLen)
 
 	return retVal;
 }
+
+static void CopyStruct(void* dest, int destSize, const void* source, int sourceSize)
+{
+	int m = sourceSize;
+	if (m > destSize) m = destSize;
+	memcpy(dest, source, m);
+
+	int d = destSize - m;
+	if (d > 0) {
+		memset(((char*)dest) + m, 0, d);
+	}
+}
+
+/// Simplified Interface for Python 
+TPC_EXP TPC_ErrorCode  TPC_CC TPC_GetInputRange(int deviceIx, int boardAddress, int inputNumber, int RangeIdx, double* value) {
+	if (RangeIdx >= tpc_maxInputRanges)
+		return tpc_errInvalidIndex;
+
+	TPC_InputInfo inputInfo;
+	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
+	if (s == NULL) return tpc_errInvalidIndex;
+
+	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
+	s->GetInputInfo(deviceIx, boardAddress, inputNumber, &inputInfo, sizeof(TPC_InputInfo));
+
+	*value =  inputInfo.inputRanges[RangeIdx];
+	return tpc_noError;
+}
+
+/// Simplified Interface for Python 
+TPC_EXP TPC_ErrorCode  TPC_CC TPC_GetChargeInputRange(int deviceIx, int boardAddress, int inputNumber, int RangeIdx, double* value) {
+	if (RangeIdx >= tpc_maxChargeInputRanges)
+		return tpc_errInvalidIndex;
+
+	TPC_InputInfo inputInfo;
+	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
+	if (s == NULL) return tpc_errInvalidIndex;
+	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
+	s->GetInputInfo(deviceIx, boardAddress, inputNumber, &inputInfo, sizeof(TPC_InputInfo));
+
+	*value = inputInfo.chargeInputRanges[RangeIdx];
+	return tpc_noError;
+}
+
+/// Direct Board Status Access for Python
+TPC_EXP TPC_ErrorCode TPC_CC TPC_GetBoardStatus(int deviceIx, int boardAddress, TPC_BoardStatus* status, int structSize)
+{
+	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
+	if (s == NULL) return tpc_errInvalidDeviceIx;
+	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
+	
+	TPC_DeviceStatus devStatus; 
+
+	s->GetDeviceStatus(deviceIx, &devStatus, sizeof(TPC_DeviceStatus));
+
+	if (boardAddress > tpc_maxBoards) return tpc_errInvalidBoardAddress;
+	
+	CopyStruct(status, structSize, &devStatus.boards[boardAddress], sizeof(TPC_BoardStatus));
+
+	return tpc_noError;
+
+}
+
+/// Direct Input Status Access for Python
+TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputStatus(int deviceIx, int boardAddress, int inputNumber, TPC_InputStatus* status, int structSize)
+{
+	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
+	if (s == NULL) return tpc_errInvalidDeviceIx;
+	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
+
+	TPC_DeviceStatus devStatus;
+	s->GetDeviceStatus(deviceIx, &devStatus, sizeof(TPC_DeviceStatus));
+
+	if (boardAddress > tpc_maxBoards) return tpc_errInvalidBoardAddress;
+
+	if (inputNumber > tpc_maxInputs) return tpc_errInvalidInputNumber;
+	
+	CopyStruct(status, structSize, &devStatus.boards[boardAddress].inputs[inputNumber], sizeof(TPC_InputStatus));
+	return tpc_noError;
+
+}
+
+
+
 
 
 
@@ -156,8 +240,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_ErrorToString(int errorCode, char* errorString,
 	return err;
 }
 
-
-
 TPC_EXP int TPC_CC TPC_GetApiVersion()
 {
 	// The current version is 1.4. (obsolet)
@@ -169,7 +251,7 @@ TPC_EXP TPC_Version TPC_CC TPC_GetVersion(){
 	
 	TPC_Version version;
 	version.major = 1;
-	version.minor = 2;
+	version.minor = 3;
 	version.build = 0;
 	version.revision = REV_VERSION;
 	return version;
@@ -180,17 +262,13 @@ TPC_EXP void TPC_CC TPC_TerminateTpcAccess()
 	System::PrepareToQuitProgram();
 }
 
-
 //=== Devices ==========================================================================
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_BeginSystemDefinition()
 {
 	System::TheSystem()->ClearDeviceList();
 	return tpc_noError;
 }
-
-
 
 TPC_EXP int TPC_CC TPC_AddDevice(const char* url)
 {
@@ -223,14 +301,10 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_EndSystemDefinition(int connectionTimeoutMs)
 	}
 }
 
-
-
 TPC_EXP int TPC_CC TPC_NumDevices()
 {
 	return System::TheSystem()->NumDevices();
 }
-
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceUrl(int index, char* buffer, int maxLen)
 {
@@ -242,10 +316,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceUrl(int index, char* buffer, int maxLe
 	return err;
 }
 
-
-
 //=== Device information ===============================================================
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceInfo(int deviceIx, TPC_DeviceInfo* deviceInfo, int structSize)
 {
@@ -281,8 +352,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetBoardInfo(int deviceIx, int boardAddress,
 	return s->GetBoardInfo(deviceIx, boardAddress, boardInfo, structSize);
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputInfo(int deviceIx, int boardAddress, int inputNumber, 
 					 TPC_InputInfo* inputInfo, int structSize)
 {
@@ -292,16 +361,12 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputInfo(int deviceIx, int boardAddress, in
 	return s->GetInputInfo(deviceIx, boardAddress, inputNumber, inputInfo, structSize);
 }
 
-
-
 //=== Configuration reset ==============================================================
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ResetConfiguration()
 {
 	return System::TheSystem()->ResetConfiguration();
 }
-
 
 //=== Cluster configuration ============================================================
 
@@ -313,8 +378,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetClusterNumbers(int deviceIx, int* clusterNum
 	return s->GetClusterNumbers(deviceIx, clusterNumbers);
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetClusterNumbers(int deviceIx, int* clusterNumbers)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -322,7 +385,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetClusterNumbers(int deviceIx, int* clusterNum
     deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->SetClusterNumbers(deviceIx, clusterNumbers);
 }
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ClusterNumberToBoardAddress(int deviceIx, int clusterNumber, int *boardAddress)
 {
@@ -339,7 +401,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetClusterInfo(int deviceIx, int boardAddress,
 }
 */
 
-
 TPC_EXP TPC_ErrorCode TPC_CC CanBeClustered(int deviceIx1, int boardAddress1, int deviceIx2, int boardAddress2)
 {
     // First check if the two deviceIx are from the same system.
@@ -352,7 +413,6 @@ TPC_EXP TPC_ErrorCode TPC_CC CanBeClustered(int deviceIx1, int boardAddress1, in
 }
 
 
-
 //=== Parameters and Attributes ========================================================
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double value)
@@ -363,8 +423,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetParameter(int deviceIx, int boardAddress, in
 	return s->SetParameter(deviceIx, boardAddress, inputNumber, parameter, value);
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double* value)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -373,8 +431,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetParameter(int deviceIx, int boardAddress, in
 	return s->GetParameter(deviceIx, boardAddress, inputNumber, parameter, value);
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, const char* value)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -382,8 +438,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAttribute(int deviceIx, int boardAddress, in
     deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->SetAttribute(deviceIx, boardAddress, inputNumber, key, value);
 }
-
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, char* buffer, int maxLen)
 {
@@ -398,7 +452,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAttribute(int deviceIx, int boardAddress, in
 	return err;
 }
 
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllAttributes(int deviceIx, TPC_AttributeEnumeratorCallback callback, void* userData)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -407,28 +460,20 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllAttributes(int deviceIx, TPC_AttributeEnu
 	return s->GetAllAttributes(deviceIx, callback, userData);
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_BeginSet()
 {
 	return System::TheSystem()->BeginSet();
 }
-
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_EndSet()
 {
 	return System::TheSystem()->EndSet();
 }
 
-
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_CancelSet()
 {
 	return System::TheSystem()->CancelSet();
 }
-
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAssociatedChannels(int deviceIx, int boardAddress, int inputNumber, 
 													   TPC_AssociatedChannel* list, int* count)
@@ -439,7 +484,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAssociatedChannels(int deviceIx, int boardAd
 	return s->GetAssociatedChannels(deviceIx, boardAddress, inputNumber, list, count);
 }
 
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAssociatedChannels(int deviceIx, int boardAddress, int inputNumber, 
 													   TPC_AssociatedChannel* list, int count)
 {
@@ -449,21 +493,17 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAssociatedChannels(int deviceIx, int boardAd
 	return s->SetAssociatedChannels(deviceIx, boardAddress, inputNumber, list, count);
 }
 
-
 //=== Commands =========================================================================
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ExecuteSystemCommand(TPC_SystemCommand command)
 {
 	return System::TheSystem()->ExecuteSystemCommand(command);
 }
 
-
 TPC_EXP TPC_ErrorCode TPC_CC TPC_MakeMeasurement(int timeout, int *measurementNumber)
 {
 	return System::TheSystem()->MakeMeasurement(timeout, measurementNumber);
 }
-
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_StartCalibration(int deviceIx)
 {
@@ -472,7 +512,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_StartCalibration(int deviceIx)
     deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->StartCalibration(deviceIx, tpc_calAuto);
 }
-
 
 
 //=== Device status ====================================================================
@@ -484,7 +523,6 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceStatus(int deviceIx, TPC_DeviceStatus*
     deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->GetDeviceStatus(deviceIx, status, structSize);
 }
-
 
 /*
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetSystemStatus(TPC_SystemStatus* status, int structSize)
@@ -726,22 +764,30 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_CancelDeferredDataRequests()
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_WriteSettingFile(const char* filename)
 {
-    std::string errormsg;
-    //TPC_ErrorCode status = WriteSettingFile(filename, errormsg);
-    //if (status == tpc_errWriteSettingFile) {
-    //    // NYI: store errormsg for later access.
-    //}
-    return tpc_errWriteSettingFile;
+#ifndef NOSETTINGSFILE
+	std::string errormsg;
+    TPC_ErrorCode status = WriteSettingFile(filename, errormsg);
+    if (status == tpc_errWriteSettingFile) {
+        // NYI: store errormsg for later access.
+    }
+    return status;
+#else
+	return tpc_errNotImplemented;
+#endif
 }
 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_LoadSettingFile(const char* filename)
 {
-    std::string errormsg;
-    //TPC_ErrorCode status = LoadSettingFile(filename, errormsg);
-    //if (status == tpc_errLoadSettingFile) {
-    //    // NYI: store errormsg for later access.
-    //}
-    return tpc_errLoadSettingFile;
+#ifndef NOSETTINGSFILE
+	std::string errormsg;
+    TPC_ErrorCode status = LoadSettingFile(filename, errormsg);
+    if (status == tpc_errLoadSettingFile) {
+        // NYI: store errormsg for later access.
+    }
+    return status;
+#else
+	return tpc_errNotImplemented;
+#endif
 }
 
 
