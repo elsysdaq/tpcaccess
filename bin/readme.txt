@@ -1,3 +1,4 @@
 TpcAccess API for Windows
-Version: 1.2.0.30
-Copyright 2020 Elsys AG
+
+x64: 64 Bit Version 
+x86: 32 Bit Version

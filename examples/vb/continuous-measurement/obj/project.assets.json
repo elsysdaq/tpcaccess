@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\roman\\Documents\\projects\\tpcaccess\\repo\\examples\\vb\\continuous-measurement\\vb-continuous-measurement.vbproj",
+      "projectUniqueName": "C:\\Users\\roman\\Documents\\projects\\tpcaccess-github\\repo\\examples\\vb\\continuous-measurement\\vb-continuous-measurement.vbproj",
       "projectName": "vb-continuous-measurement",
-      "projectPath": "C:\\Users\\roman\\Documents\\projects\\tpcaccess\\repo\\examples\\vb\\continuous-measurement\\vb-continuous-measurement.vbproj",
+      "projectPath": "C:\\Users\\roman\\Documents\\projects\\tpcaccess-github\\repo\\examples\\vb\\continuous-measurement\\vb-continuous-measurement.vbproj",
       "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\roman\\Documents\\projects\\tpcaccess\\repo\\examples\\vb\\continuous-measurement\\obj\\",
+      "outputPath": "C:\\Users\\roman\\Documents\\projects\\tpcaccess-github\\repo\\examples\\vb\\continuous-measurement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config",

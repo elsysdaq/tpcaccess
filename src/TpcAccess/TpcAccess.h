@@ -11,11 +11,11 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2024 Elsys AG. All rights reserved.
 */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: TpcAccess.h 449 2022-08-31 13:42:41Z roman $
+  $Id: TpcAccess.h 460 2024-02-15 10:32:55Z roman $
   TraNET and TPCE API.
 --------------------------------------------------------------------------------*/
 #ifndef TpcAccess_h
@@ -2750,12 +2750,25 @@ extern "C" {
 		/// Input signal is under the lower input limit
 		tpc_overloadNegative = 2,
 	};
+
+	/// IEPE Connection State
+	enum TPC_IEPEStatus {
+		/// IEPE off
+		tpc_iepe_off = 0,
+		/// IEPE on, but no sensor connected
+		tpc_iepe_nosensor = 1,
+		/// IEPE on, sensor connected
+		tpc_iepe_ok = 2,
+	};
+
     /// Contains information about the input status, see bit mask \ref TPC_OverloadState
 	struct TPC_InputStatus{
 		/// Actual (live) overload status
 		int OverloadLive;
 		/// Overload status during this measurement.
 		int OverloadMeas;
+		/// IEPE Connection Status (TraNET FE 408 only)
+		int IEPEStatus;
 	};
 
 	/// Contains information about the status of a board. 

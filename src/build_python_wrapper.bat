@@ -1,0 +1,1 @@
+"../../swig/swig.exe" -c++ -python -o TpcAccessPy/tpcaccess_wrap.cxx tpcaccess.i 

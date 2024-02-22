@@ -11,12 +11,11 @@
  * WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE.
  *
- * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
+ * (C) Copyright 2005 - 2024 Elsys AG. All rights reserved.
 */
 //---------------------------------------------------------------------------
-// $Id: TpcAccess.cpp 34 2022-11-01 13:43:21Z roman $
+// $Id: TpcAccess.cpp 37 2024-01-29 15:58:48Z roman $
 
-//---------------------------------------------------------------------------------
 #define BUILDING_TPC_ACCESS 
 #include "System.h"
 #include "TpcAccess.h"
@@ -39,7 +38,7 @@ using namespace std;
 #endif
 //---------------------------------------------------------------------------------
 
-
+/// Copy string to char buffer
 static TPC_ErrorCode CopyString(const string& s, char* buffer, int maxLen)
 {
 	TPC_ErrorCode retVal = tpc_noError;
@@ -60,6 +59,7 @@ static TPC_ErrorCode CopyString(const string& s, char* buffer, int maxLen)
 	return retVal;
 }
 
+/// Copy struct with size check for preventing buffer overflow 
 static void CopyStruct(void* dest, int destSize, const void* source, int sourceSize)
 {
 	int m = sourceSize;
@@ -141,11 +141,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputStatus(int deviceIx, int boardAddress, 
 
 }
 
-
-
-
-
-
+/// Generate Error Message as string from error code
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ErrorToString(int errorCode, char* errorString, int maxLen)
 {
 	string s;
@@ -240,6 +236,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_ErrorToString(int errorCode, char* errorString,
 	return err;
 }
 
+/// get API version (obsolete)
 TPC_EXP int TPC_CC TPC_GetApiVersion()
 {
 	// The current version is 1.4. (obsolet)
@@ -247,44 +244,49 @@ TPC_EXP int TPC_CC TPC_GetApiVersion()
 	return 104;
 }
 
+// Get API Version info struct
 TPC_EXP TPC_Version TPC_CC TPC_GetVersion(){
 	
 	TPC_Version version;
 	version.major = 1;
-	version.minor = 3;
+	version.minor = 4;
 	version.build = 0;
 	version.revision = REV_VERSION;
 	return version;
 }
 
+/// Terminate the TpcAccess connection
 TPC_EXP void TPC_CC TPC_TerminateTpcAccess()
 {
 	System::PrepareToQuitProgram();
 }
 
-//=== Devices ==========================================================================
-
+/// Begin system definition
 TPC_EXP TPC_ErrorCode TPC_CC TPC_BeginSystemDefinition()
 {
 	System::TheSystem()->ClearDeviceList();
 	return tpc_noError;
 }
 
+/// Add a device defined by a IP address to the system
 TPC_EXP int TPC_CC TPC_AddDevice(const char* url)
 {
 	return System::TheSystem()->AddDevice(url,10,60);
 }
 
+/// Add a device defined by a IP address to the system, define separate receive and send timeout 
 TPC_EXP int TPC_CC TPC_AddDeviceEx(const char* url, int recvTimeOut, int sendTimeout)
 {
 	return System::TheSystem()->AddDevice(url,recvTimeOut,sendTimeout);
 }
 
+/// Remove a device from the system list
 TPC_EXP void TPC_CC TPC_RemoveDevice(const char* url)
 {
 	return System::TheSystem()->RemoveDevice(url);
 }
 
+/// end system generation and conenct to the defined devices
 TPC_EXP TPC_ErrorCode TPC_CC TPC_EndSystemDefinition(int connectionTimeoutMs)
 {
 	int t = 0;
@@ -301,11 +303,13 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_EndSystemDefinition(int connectionTimeoutMs)
 	}
 }
 
+/// get the number of devices per system
 TPC_EXP int TPC_CC TPC_NumDevices()
 {
 	return System::TheSystem()->NumDevices();
 }
 
+/// get the device url from a defined system
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceUrl(int index, char* buffer, int maxLen)
 {
 	string url;
@@ -316,8 +320,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceUrl(int index, char* buffer, int maxLe
 	return err;
 }
 
-//=== Device information ===============================================================
-
+/// get the device Info structure
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceInfo(int deviceIx, TPC_DeviceInfo* deviceInfo, int structSize)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -326,6 +329,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceInfo(int deviceIx, TPC_DeviceInfo* dev
 	return s->GetDeviceInfo(deviceIx, deviceInfo, structSize);
 }
 
+/// get free disk space on the target device
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetFreeDiskSpace(int deviceIx, uint64_t* freeDiskSpace,
 													uint64_t* DiskSize){
 	
@@ -336,6 +340,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetFreeDiskSpace(int deviceIx, uint64_t* f
 
 }
 
+/// write device settings to the tpcxsrv.ini and tpcxhw.ini files
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetDeviceSettings(int deviceIx, TPC_DeviceInfo deviceSettings){
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -343,6 +348,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetDeviceSettings(int deviceIx, TPC_DeviceInfo 
 	return s->SetDeviceSettings(deviceIx, deviceSettings);
 }
 
+/// get Board info structure
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetBoardInfo(int deviceIx, int boardAddress, 
 					 TPC_BoardInfo* boardInfo, int structSize)
 {
@@ -352,6 +358,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetBoardInfo(int deviceIx, int boardAddress,
 	return s->GetBoardInfo(deviceIx, boardAddress, boardInfo, structSize);
 }
 
+/// get the input info structure
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputInfo(int deviceIx, int boardAddress, int inputNumber, 
 					 TPC_InputInfo* inputInfo, int structSize)
 {
@@ -361,15 +368,13 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetInputInfo(int deviceIx, int boardAddress, in
 	return s->GetInputInfo(deviceIx, boardAddress, inputNumber, inputInfo, structSize);
 }
 
-//=== Configuration reset ==============================================================
-
+/// set all parameters to default state
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ResetConfiguration()
 {
 	return System::TheSystem()->ResetConfiguration();
 }
 
-//=== Cluster configuration ============================================================
-
+/// get the used cluster numbers from a device
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetClusterNumbers(int deviceIx, int* clusterNumbers)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -378,6 +383,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetClusterNumbers(int deviceIx, int* clusterNum
 	return s->GetClusterNumbers(deviceIx, clusterNumbers);
 }
 
+/// set the cluster configuration
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetClusterNumbers(int deviceIx, int* clusterNumbers)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -386,6 +392,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetClusterNumbers(int deviceIx, int* clusterNum
 	return s->SetClusterNumbers(deviceIx, clusterNumbers);
 }
 
+/// Returns the first board number of the device which is in the given cluster
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ClusterNumberToBoardAddress(int deviceIx, int clusterNumber, int *boardAddress)
 {
   System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -393,14 +400,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_ClusterNumberToBoardAddress(int deviceIx, int c
   return s->ClusterNumberToBoardAddress(clusterNumber, *boardAddress);
 }
 
-/*
-TPC_EXP TPC_ErrorCode TPC_CC TPC_GetClusterInfo(int deviceIx, int boardAddress,	
-					   TPC_ClusterInfo* clusterInfo, int structSize)
-{
-	return System::TheSystem()->GetClusterInfo(deviceIx, boardAddress, clusterInfo, structSize);
-}
-*/
-
+/// check wheter the system can be clusteres
 TPC_EXP TPC_ErrorCode TPC_CC CanBeClustered(int deviceIx1, int boardAddress1, int deviceIx2, int boardAddress2)
 {
     // First check if the two deviceIx are from the same system.
@@ -412,9 +412,7 @@ TPC_EXP TPC_ErrorCode TPC_CC CanBeClustered(int deviceIx1, int boardAddress1, in
 	return s1->CanBeClustered(deviceIx1, boardAddress1, deviceIx2, boardAddress2);
 }
 
-
-//=== Parameters and Attributes ========================================================
-
+/// set a parameter
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double value)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -423,6 +421,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetParameter(int deviceIx, int boardAddress, in
 	return s->SetParameter(deviceIx, boardAddress, inputNumber, parameter, value);
 }
 
+/// get a parameter
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double* value)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -431,6 +430,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetParameter(int deviceIx, int boardAddress, in
 	return s->GetParameter(deviceIx, boardAddress, inputNumber, parameter, value);
 }
 
+/// set an attribute key-value pair
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, const char* value)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -439,6 +439,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAttribute(int deviceIx, int boardAddress, in
 	return s->SetAttribute(deviceIx, boardAddress, inputNumber, key, value);
 }
 
+/// get an attribute value from a key
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, char* buffer, int maxLen)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -452,6 +453,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAttribute(int deviceIx, int boardAddress, in
 	return err;
 }
 
+/// get a list of all set attributes
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllAttributes(int deviceIx, TPC_AttributeEnumeratorCallback callback, void* userData)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -460,21 +462,25 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllAttributes(int deviceIx, TPC_AttributeEnu
 	return s->GetAllAttributes(deviceIx, callback, userData);
 }
 
+/// start a system build configuration
 TPC_EXP TPC_ErrorCode TPC_CC TPC_BeginSet()
 {
 	return System::TheSystem()->BeginSet();
 }
 
+/// end a system build configuration
 TPC_EXP TPC_ErrorCode TPC_CC TPC_EndSet()
 {
 	return System::TheSystem()->EndSet();
 }
 
+/// delete the defined set
 TPC_EXP TPC_ErrorCode TPC_CC TPC_CancelSet()
 {
 	return System::TheSystem()->CancelSet();
 }
 
+/// ECR single channel, get associated channels
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAssociatedChannels(int deviceIx, int boardAddress, int inputNumber, 
 													   TPC_AssociatedChannel* list, int* count)
 {
@@ -484,6 +490,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAssociatedChannels(int deviceIx, int boardAd
 	return s->GetAssociatedChannels(deviceIx, boardAddress, inputNumber, list, count);
 }
 
+/// ECR single channel, set the channel association list
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAssociatedChannels(int deviceIx, int boardAddress, int inputNumber, 
 													   TPC_AssociatedChannel* list, int count)
 {
@@ -493,18 +500,19 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetAssociatedChannels(int deviceIx, int boardAd
 	return s->SetAssociatedChannels(deviceIx, boardAddress, inputNumber, list, count);
 }
 
-//=== Commands =========================================================================
-
+/// Execute a system command
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ExecuteSystemCommand(TPC_SystemCommand command)
 {
 	return System::TheSystem()->ExecuteSystemCommand(command);
 }
 
+/// start a measurement and wait till done or timeout
 TPC_EXP TPC_ErrorCode TPC_CC TPC_MakeMeasurement(int timeout, int *measurementNumber)
 {
 	return System::TheSystem()->MakeMeasurement(timeout, measurementNumber);
 }
 
+/// start the auto calibration process
 TPC_EXP TPC_ErrorCode TPC_CC TPC_StartCalibration(int deviceIx)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -513,9 +521,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_StartCalibration(int deviceIx)
 	return s->StartCalibration(deviceIx, tpc_calAuto);
 }
 
-
-//=== Device status ====================================================================
-
+/// get the actual device status
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceStatus(int deviceIx, TPC_DeviceStatus* status, int structSize)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -524,22 +530,14 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetDeviceStatus(int deviceIx, TPC_DeviceStatus*
 	return s->GetDeviceStatus(deviceIx, status, structSize);
 }
 
-/*
-TPC_EXP TPC_ErrorCode TPC_CC TPC_GetSystemStatus(TPC_SystemStatus* status, int structSize)
-{
-	return System::TheSystem()->GetSystemStatus(status, structSize);
-}
-*/
 
+/// register a status callback function 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetStatusCallback(TPC_StatusCallbackFunc callback, void* userData)
 {
 	return System::TheSystem()->SetStatusCallback(callback, userData);
 }
 
-
-//=== Data readout =====================================================================
-
-
+/// get Y-Axis Meta data
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetYMetaData(int deviceIx, int boardAddress, int inputNumber, 
 					 int measurementNumber,
 					 TPC_YMetaData* metaData, int structSize)
@@ -551,7 +549,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetYMetaData(int deviceIx, int boardAddress, in
 					measurementNumber, metaData, structSize);
 }
 
-
+/// get the paramater which was set at the last measurement
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataParameter(int deviceIx, int boardAddress, int inputNumber, 
 								int measurementNumber, TPC_Parameter parameter, double* value)
 {
@@ -561,7 +559,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataParameter(int deviceIx, int boardAdd
 	return s->GetMetaDataParameter(deviceIx, boardAddress, inputNumber, measurementNumber, parameter, value);
 }
 
-
+/// get the attributes which was set at the last measurement
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataAttribute(int deviceIx, int boardAddress, int inputNumber, 
 							 int measurementNumber,
 							 const char* key, char* buffer, int maxLen)
@@ -576,7 +574,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataAttribute(int deviceIx, int boardAdd
 	return err;
 }
 
-
+/// get all attributes which were set at the last measurement
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllMetaDataAttributes(int deviceIx, 
 				  							    int measurementNumber,
 												TPC_AttributeEnumeratorCallback callback, void* userData)
@@ -587,7 +585,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllMetaDataAttributes(int deviceIx,
 	return s->GetAllMetaDataAttributes(deviceIx, measurementNumber, callback, userData);
 }
 
-
+/// get the associated channel list valid during the last measurement
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataAssociatedChannels(int deviceIx, int boardAddress, int inputNumber, 
 													  int measurementNumber, TPC_AssociatedChannel* list, int* count)
 {
@@ -598,7 +596,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMetaDataAssociatedChannels(int deviceIx, int
 }
 
 
-
+/// Get Time-Meta data 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetTMetaData(int deviceIx, int boardAddress, int blockNumber, 
 					 int measurementNumber,
 					 TPC_TMetaData* metaData, int structSize)
@@ -612,6 +610,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetTMetaData(int deviceIx, int boardAddress, in
 	return err;
 }
 
+/// get all time-meta data as a list
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllTMetaData(int deviceIx, int boardAddress, int blockNumberFrom, 
 					 int blockNumberTo, int measurementNumber,
 					 TPC_TMetaData* metaData, int structSize)
@@ -625,7 +624,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetAllTMetaData(int deviceIx, int boardAddress,
 	return err;
 }
 
-
+/// get measurement data scaled to the volt or charge
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				int measurementNumber, uint64_t dataStart, int dataLength, double* data)
 {
@@ -638,7 +637,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetData(int deviceIx, int boardAddress, int inp
 }
 
 
-
+/// get raw integer date 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetRawData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				int measurementNumber, uint64_t dataStart, int dataLength, int32_t* data)
 {
@@ -650,8 +649,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetRawData(int deviceIx, int boardAddress, int 
 			    dataLength, data, Device::readoutRange);
 }
 
-
-
+/// register a data request, scaled to volt or charge
 TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				uint64_t dataStart, int dataLength, double* data, TPC_ErrorCode* error)
 {
@@ -664,7 +662,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetData(int deviceIx, int boardAddress,
 }
 
 
-
+/// register a data request in  raw format
 TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetRawData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 								uint64_t dataStart, int dataLength, int32_t* data, TPC_ErrorCode* error)
 {
@@ -677,7 +675,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetRawData(int deviceIx, int boardAddre
 }
 
 
-
+/// get min-max envelope data, scalled to volt or charge
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMinMaxData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				int measurementNumber, uint64_t dataStart, uint64_t dataLength, 
 			    int resultLength, double* data)
@@ -693,8 +691,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetMinMaxData(int deviceIx, int boardAddress, i
 			    resultLength, data, Device::readoutMinMax);
 }
 
-
-
+/// get min-max envelope raw data
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetRawMinMaxData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				int measurementNumber, uint64_t dataStart, uint64_t dataLength, 
 			    int resultLength, int32_t* data)
@@ -710,8 +707,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetRawMinMaxData(int deviceIx, int boardAddress
 			    resultLength, data, Device::readoutMinMax);
 }
 
-
-
+/// register a deferred min-max data request
 TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetMinMaxData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 				uint64_t dataStart, uint64_t dataLength, 
 			    int resultLength, double* data, TPC_ErrorCode* error)
@@ -728,7 +724,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetMinMaxData(int deviceIx, int boardAd
 }
 
 
-
+/// register a deferred raw min-max data request
 TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetRawMinMaxData(int deviceIx, int boardAddress, int inputNumber, int blockNumber, 
 								uint64_t dataStart, uint64_t dataLength, 
 								int resultLength, int32_t* data, TPC_ErrorCode* error)
@@ -744,24 +740,19 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_DeferredGetRawMinMaxData(int deviceIx, int boar
 			    resultLength, data, error, Device::readoutMinMax);
 }
 
-
-
+/// process all registered data requests
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ProcessDeferredDataRequests(int measurementNumber)
 {
 	return System::TheSystem()->ProcessDeferredDataRequests(measurementNumber);
 }
 
-
-
+/// cancel all registered data requestes
 TPC_EXP TPC_ErrorCode TPC_CC TPC_CancelDeferredDataRequests()
 {
 	return System::TheSystem()->CancelDeferredDataRequests();
 }
 
-
-
-//=== Setting files ====================================================================
-
+/// Write hardware settings to xml a settings file (not implemented on all repos)
 TPC_EXP TPC_ErrorCode TPC_CC TPC_WriteSettingFile(const char* filename)
 {
 #ifndef NOSETTINGSFILE
@@ -776,6 +767,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_WriteSettingFile(const char* filename)
 #endif
 }
 
+/// Load hardware settings for a xml settings file (not implemented on all repos)
 TPC_EXP TPC_ErrorCode TPC_CC TPC_LoadSettingFile(const char* filename)
 {
 #ifndef NOSETTINGSFILE
@@ -790,7 +782,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_LoadSettingFile(const char* filename)
 #endif
 }
 
-
+/// send server custom command (no function impemented)
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SendServerCustomCommand(int deviceIx, char *command, char *result, int length)
 {
   System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -799,9 +791,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SendServerCustomCommand(int deviceIx, char *com
   return s->SendServerCustomCommand(deviceIx, command, result, length);
 }
 
-
-//=== Easy trigger & recording functions ==============================================
-
+/// set new EasyTrigger parameter 
 TPC_EXP TPC_ErrorCode TPC_CC TPC_SetTrigger(int deviceIx, int boardAddress, int inputNumber, TPC_EasyTriggerMode mode, TPC_EasyTriggerComperatorMode comp, TPC_EasyTriggerFlags flags, double level, double hysteresis, int time, int time2)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -811,6 +801,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_SetTrigger(int deviceIx, int boardAddress, int 
 	return s->SetTrigger(deviceIx, boardAddress, inputNumber, mode, comp, flags, level, hysteresis, time, time2);
 }
 
+///get new EasyTrigger parameters
 TPC_EXP TPC_ErrorCode TPC_CC TPC_GetTrigger(int deviceIx, int boardAddress, int inputNumber, TPC_EasyTriggerMode *mode, TPC_EasyTriggerComperatorMode *compMode, TPC_EasyTriggerFlags *flags, double *level, double *hysteresis, int *time, int *time2)
 {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -820,9 +811,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_GetTrigger(int deviceIx, int boardAddress, int 
 	return s->GetTrigger(deviceIx, boardAddress, inputNumber, mode, compMode, flags, level, hysteresis, time, time2);
 }
 
-
-//=== Serial protocol trigger functions ==============================================
-	
+/// Reset serial protocol trigger 
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ResetSerTrg(int deviceIx, int boardAddress) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -831,6 +820,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ResetSerTrg(int deviceIx, int boardAddress
 	return s->ResetSerTrg(deviceIx, boardAddress);
 }
 
+/// get serial protocol trigger parameters
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetSerTrgProtocol(int deviceIx, int boardAddress, TPC_SerialTriggerProtocol *protocol) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -839,6 +829,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetSerTrgProtocol(int deviceIx, int boardA
 	return s->GetSerTrgProtocol(deviceIx, boardAddress, protocol);
 }
 
+///set I2C protocol trigger parameters
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetI2CTrigger(int deviceIx, int boardAddress, TPC_I2CTriggerSettings *settings) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -847,6 +838,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetI2CTrigger(int deviceIx, int boardAddre
 	return s->SetI2CTrigger(deviceIx, boardAddress, settings);
 }
 
+/// get I2C protocol trigger parameters
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetI2CTrigger(int deviceIx, int boardAddress, TPC_I2CTriggerSettings *settings) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -855,6 +847,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetI2CTrigger(int deviceIx, int boardAddre
 	return s->GetI2CTrigger(deviceIx, boardAddress, settings);
 }
 
+/// set CAN protocol trigger parameters
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetCANTrigger(int deviceIx, int boardAddress, TPC_CANTriggerSettings *settings) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -863,6 +856,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetCANTrigger(int deviceIx, int boardAddre
 	return s->SetCANTrigger(deviceIx, boardAddress, settings);
 }
 
+/// get CAN protocol trigger parameters
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetCANTrigger(int deviceIx, int boardAddress, TPC_CANTriggerSettings *settings) {
 	System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
     if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -871,9 +865,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetCANTrigger(int deviceIx, int boardAddre
 	return s->GetCANTrigger(deviceIx, boardAddress, settings);
 }
 
-//=== Elsys functions ==================================================================
-
-
+/// Start Full, Fast or auto calibration routing
 TPC_EXP TPC_ErrorCode TPC_CC TPC_Elsys_StartCalibration(int deviceIx, TPC_CalibrationType command)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -882,8 +874,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_Elsys_StartCalibration(int deviceIx, TPC_Calibr
 	return s->StartCalibration(deviceIx, command);
 }
 
-
-
+/// Low Level Access: write to EEPROM or FPGA register directly
 TPC_EXP TPC_ErrorCode TPC_CC TPC_WriteDev(int deviceIx, int boardAddress, int type, unsigned count, void* data, unsigned aux1, unsigned aux2)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -893,7 +884,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_WriteDev(int deviceIx, int boardAddress, int ty
 }
 
 
-
+/// low Level Access: read from EEPROM or FPGA register directly
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ReadDev(int deviceIx, int boardAddress, int type, unsigned count, void* data, unsigned aux1, unsigned aux2)
 {
     System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -902,7 +893,7 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_ReadDev(int deviceIx, int boardAddress, int typ
 	return s->ReadDev(deviceIx, boardAddress, type, count, data, aux1, aux2);
 }
 
-
+/// I2C Interface access
 TPC_EXP TPC_ErrorCode TPC_CC TPC_ReadWriteTwi(int deviceIx, int boardAddress, int amplifier, int count, char *data)
 {
   System* s = SystemList::TheSystemList()->FindSystem(deviceIx);
@@ -911,20 +902,20 @@ TPC_EXP TPC_ErrorCode TPC_CC TPC_ReadWriteTwi(int deviceIx, int boardAddress, in
   return s->ReadWriteTwi(deviceIx, boardAddress, amplifier, count, data);
 }
 
-
-//##################
-
+/// create a new system definition
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_NewSystem(int* id)
 {
     *id = SystemList::TheSystemList()->NewSystem();
     return tpc_noError;
 }
 
+/// delete a system definition
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_DeleteSystem(int id)
 {
     return SystemList::TheSystemList()->DeleteSystem(id);
 }
 
+/// start a new system definition lsit
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_BeginSystemDefinitionSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -933,6 +924,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_BeginSystemDefinitionSystem(int id)
 	return tpc_noError;
 }
 
+/// add a new device to a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_AddDeviceSystem(int id, const char* url, int* deviceIx)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -941,6 +933,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_AddDeviceSystem(int id, const char* url, i
     return tpc_noError;
 }
 
+/// add a new device to a specific system and define timeouts
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_AddDeviceSystemEx(int id, const char* url, int recvTimeout, int sendTimeOut,int* deviceIx )
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -949,6 +942,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_AddDeviceSystemEx(int id, const char* url,
     return tpc_noError;
 }
 
+/// remove a device from a system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_RemoveDeviceSystem(int id, const char* url)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -957,6 +951,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_RemoveDeviceSystem(int id, const char* url
     return tpc_noError;
 }
 
+/// stop the system definition list creation process and connect
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_EndSystemDefinitionSystem(int id, int connectionTimeoutMilliseconds)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -975,6 +970,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_EndSystemDefinitionSystem(int id, int conn
 	}
 }
 
+/// get the number of device from a system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_NumDevicesSystem(int id, int* n)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -983,6 +979,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_NumDevicesSystem(int id, int* n)
     return tpc_noError;
 }
 
+/// get a devcie URL from a system and device
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetDeviceUrlSystem(int id, int index, char* buffer, int maxLen)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -995,6 +992,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetDeviceUrlSystem(int id, int index, char
 	return err;
 }
 
+/// reset a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ResetConfigurationSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1002,6 +1000,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ResetConfigurationSystem(int id)
 	return s->ResetConfiguration();
 }
 
+/// begin system definition
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_BeginSetSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1009,6 +1008,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_BeginSetSystem(int id)
 	return s->BeginSet();
 }
 
+/// end system definition
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_EndSetSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1016,6 +1016,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_EndSetSystem(int id)
 	return s->EndSet();
 }
 
+/// cancel a system list
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_CancelSetSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1023,6 +1024,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_CancelSetSystem(int id)
 	return s->CancelSet();
 }
 
+/// execute a command on a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ExecuteSystemCommandSystem(int id, enum TPC_SystemCommand command)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1030,6 +1032,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ExecuteSystemCommandSystem(int id, enum TP
 	return s->ExecuteSystemCommand(command);
 }
 
+/// register the status callback functiuon for a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetStatusCallbackSystem(int id, TPC_StatusCallbackFunc callback, void* userData)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1037,6 +1040,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_SetStatusCallbackSystem(int id, TPC_Status
 	return s->SetStatusCallback(callback, userData);
 }
 
+/// process all registers data requests for a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ProcessDeferredDataRequestsSystem(int id, int measurementNumber)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1044,6 +1048,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_ProcessDeferredDataRequestsSystem(int id, 
 	return s->ProcessDeferredDataRequests(measurementNumber);
 }
 
+/// cancel all registers data request from a specific system
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_CancelDeferredDataRequestsSystem(int id)
 {
     System* s = SystemList::TheSystemList()->FindSystem(id);
@@ -1051,7 +1056,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_CancelDeferredDataRequestsSystem(int id)
 	return s->CancelDeferredDataRequests();
 }
 
-/**********************************************************************************/
+/// Send and store an autosequence/measurement flow control file on the remote device
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_LoadAutosequence(	int deviceIx, char * cData, int iLength){
 	System * s = SystemList::TheSystemList()->FindSystem(deviceIx);
 	if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -1059,21 +1064,24 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_LoadAutosequence(	int deviceIx, char * cDa
 	return s->LoadAutosequence(deviceIx, cData, iLength);
 
 }
-/**********************************************************************************/
+
+/// Read the stored autosequence / Measurement flow control file
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetAutoSequence(	int deviceIx, char * cData, int iLength){
 	System * s = SystemList::TheSystemList()->FindSystem(deviceIx);
 	if (s == NULL) return tpc_errInvalidDeviceIx;
 	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->GetAutoSequence(deviceIx, cData, iLength);
 }
-/**********************************************************************************/
+
+/// Start Remote Auto Sequence/Measurement Flow Control
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_StartAutoSequence(int deviceIx){
 	System * s = SystemList::TheSystemList()->FindSystem(deviceIx);
 	if (s == NULL) return tpc_errInvalidDeviceIx;
 	deviceIx = deviceIx % SYSTEM_MULTIPLIER;
 	return s->StartAutoSequence(deviceIx);
 }
-/**********************************************************************************/
+
+/// Stop Remote Auto Sequence/Measurement Flow Control
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_StopAutoSequence(	int deviceIx){
 	System * s = SystemList::TheSystemList()->FindSystem(deviceIx);
 	if (s == NULL) return tpc_errInvalidDeviceIx;
@@ -1081,7 +1089,7 @@ TPC_EXP enum TPC_ErrorCode TPC_CC TPC_StopAutoSequence(	int deviceIx){
 	return s->StopAutoSequence(deviceIx);
 }
 
-/**********************************************************************************/
+/// Get the GPS log list as char array
 TPC_EXP enum TPC_ErrorCode TPC_CC TPC_GetGPSLogList(int deviceIx, int from, int to, char *log){
 	System * s = SystemList::TheSystemList()->FindSystem(deviceIx);
 	if (s == NULL) return tpc_errInvalidDeviceIx;

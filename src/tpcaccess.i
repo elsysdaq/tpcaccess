@@ -9,8 +9,8 @@
 %module TpcAccess
  %{
 	/* Put header files here or function declarations like below */
-	#include "TpcAccess/TpcAccessA.h"
-	#include "TpcAccess.h"
+	#include "../TpcAccess/TpcAccessA.h"
+	#include "../TpcAccess.h"
  %}
 
 %include "TpcAccess/TpcAccessA.h"

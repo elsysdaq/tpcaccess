@@ -1,6 +1,6 @@
 # **************************************************************
 # Python Example for Elsys TpcAccess API
-# Copyright 2017 Elsys AG
+# Copyright 2024 Elsys AG
 # www.elsys-instruments.com
 # Author: Roman Bertschi
 # info@elsys-instruments.com
@@ -24,8 +24,8 @@ NumberOfInputs = 8
 
 # Define Device Connection
 EL.TPC_BeginSystemDefinition()
-deviceId = EL.TPC_AddDevice("192.168.0.33:10010")  # Change to what ever your device IP is
-EL.TPC_EndSystemDefinition(5000)
+deviceId = EL.TPC_AddDevice("127.0.0.1:10010")  # Change to what ever your device IP is
+EL.TPC_EndSystemDefinition(5000)    # The connection is built up, if failed it waits till timeout (5000)
 
 # Reset all settings
 EL.TPC_ResetConfiguration()
@@ -37,7 +37,7 @@ for board in range(0, NumberOfBoards):
         EL.TPC_SetParameter(deviceId, board, input, EL.tpc_parRange,            5)    # Set 5V Input Range
         EL.TPC_SetParameter(deviceId, board, input, EL.tpc_parOffset,           40)  # Set 40% Offset
         EL.TPC_SetParameter(deviceId, board, input, EL.tpc_parPhysFactor,        100)  # Scale data with cactor 100
-        EL.TPC_SetParameter(deviceId, board, input, EL.tpc_parPhysConstant,      100)  # Add offset
+        EL.TPC_SetParameter(deviceId, board, input, EL.tpc_parPhysConstant,      5)  # Add an offset
         
 
         #Set Trigger Board 0, Channel 0, Positive Slope at 1V, 0.1V hysteris
@@ -71,8 +71,9 @@ for block in range(0, NUMBER_OF_BLOCKS):
     time.sleep(0.1)
 
 
-dataset1 = tpc.getPyDataVoltage(deviceId,0,0,0,status.measurementNumber, 0, BLOCK_LENGTH)   # Data in voltage
+dataset1 = tpc.getPyDataVoltage(deviceId,0,0,0,status.measurementNumber, 0, BLOCK_LENGTH)   # Data in voltage or pC
 dataset2 = tpc.getPyDataPhyiscal(deviceId,0,0,0,status.measurementNumber, 0, BLOCK_LENGTH)  # Data scaled to physical unit
+dataset3 = tpc.getMarkerData(deviceId,0,0,0,status.measurementNumber, 0, BLOCK_LENGTH)      # Digital Marker signals
 
 # Get time mete data
 tMeta = EL.TPC_TMetaData()

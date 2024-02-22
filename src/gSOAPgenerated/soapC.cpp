@@ -7,7 +7,7 @@
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.7.12 2022-08-12 12:59:19 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.7.12 2024-01-29 10:46:26 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -10618,6 +10618,7 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_default_ns__InputStatus(struct soap *soap, struc
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_default_int(soap, &a->OverloadLive);
 	soap_default_int(soap, &a->OverloadMeas);
+	soap_default_int(soap, &a->IEPEStatus);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_ns__InputStatus(struct soap *soap, const struct ns__InputStatus *a)
@@ -10641,6 +10642,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_ns__InputStatus(struct soap *soap, const char
 		return soap->error;
 	if (soap_out_int(soap, "OverloadMeas", -1, &a->OverloadMeas, ""))
 		return soap->error;
+	if (soap_out_int(soap, "IEPEStatus", -1, &a->IEPEStatus, ""))
+		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
 
@@ -10656,6 +10659,7 @@ SOAP_FMAC3 struct ns__InputStatus * SOAP_FMAC4 soap_in_ns__InputStatus(struct so
 {
 	size_t soap_flag_OverloadLive = 1;
 	size_t soap_flag_OverloadMeas = 1;
+	size_t soap_flag_IEPEStatus = 1;
 	if (soap_element_begin_in(soap, tag, 0, type))
 		return NULL;
 	a = (struct ns__InputStatus *)soap_id_enter(soap, soap->id, a, SOAP_TYPE_ns__InputStatus, sizeof(struct ns__InputStatus), 0, NULL, NULL, NULL);
@@ -10676,6 +10680,11 @@ SOAP_FMAC3 struct ns__InputStatus * SOAP_FMAC4 soap_in_ns__InputStatus(struct so
 				{	soap_flag_OverloadMeas--;
 					continue;
 				}
+			if (soap_flag_IEPEStatus && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_int(soap, "IEPEStatus", &a->IEPEStatus, "xsd:int"))
+				{	soap_flag_IEPEStatus--;
+					continue;
+				}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -10691,7 +10700,7 @@ SOAP_FMAC3 struct ns__InputStatus * SOAP_FMAC4 soap_in_ns__InputStatus(struct so
 		if (soap->body && soap_element_end_in(soap, tag))
 			return NULL;
 	}
-	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_OverloadLive > 0 || soap_flag_OverloadMeas > 0))
+	if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_OverloadLive > 0 || soap_flag_OverloadMeas > 0 || soap_flag_IEPEStatus > 0))
 	{	soap->error = SOAP_OCCURS;
 		return NULL;
 	}

@@ -15,7 +15,7 @@
 */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: Device.cpp 30 2020-07-23 12:24:33Z roman $
+  $Id: Device.cpp 37 2024-01-29 15:58:48Z roman $
   This class holds all information and state for one device.
 --------------------------------------------------------------------------------*/
 #include "System.h"
@@ -1469,7 +1469,7 @@ void Device::CallStatusCallback()
   m_system->ExecuteCallback(m_index, &status);
 }
 
-
+/// Copy/Fill the device status from the current internal device status.
 void Device::FillDeviceStatus(TPC_DeviceStatus* status)
 {
   status->deviceError = CheckStatus();
@@ -1488,6 +1488,7 @@ void Device::FillDeviceStatus(TPC_DeviceStatus* status)
 	for (int i = 0; i < tpc_maxInputs; i++){
 		status->boards[b].inputs[i].OverloadLive = m_currentStatus.status.boards[b].inputs[i].OverloadLive;
 		status->boards[b].inputs[i].OverloadMeas = m_currentStatus.status.boards[b].inputs[i].OverloadMeas;
+        status->boards[b].inputs[i].IEPEStatus = m_currentStatus.status.boards[b].inputs[i].IEPEStatus;
 	}
   }
   status->settingsChangesCounter = m_settingsChangesCounter;

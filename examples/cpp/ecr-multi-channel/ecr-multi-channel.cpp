@@ -60,7 +60,7 @@ int main(){
 
 	// Connecting to one device:
 	TPC_BeginSystemDefinition();
-	deviceIx = TPC_AddDevice("localhost:10030");		 // Replace the IP address with your device address
+	deviceIx = TPC_AddDevice("localhost:10010");		 // Replace the IP address with your device address
 	err = TPC_EndSystemDefinition(1000); // 1s timeout till connection failed
 	if(!CheckErrorCode(err))
 		return 1;

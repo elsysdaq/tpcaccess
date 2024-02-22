@@ -13,11 +13,11 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /D /Y &quot;$(SolutionDir)..\bin\$(PlatformName)\TpcAccess.dll&quot; &quot;$(TargetDir)&quot;" />
+    <Exec Command="xcopy /D /Y &quot;$(SolutionDir)..\bin\$(PlatformName)\v1.4\TpcAccess.dll&quot; &quot;$(TargetDir)&quot;" />
   </Target>
   <ItemGroup>
     <Reference Include="Elsys.TpcAccess">
-      <HintPath>..\..\..\bin\x64\Elsys.TpcAccess.dll</HintPath>
+      <HintPath>..\..\..\bin\x64\v1.4\Elsys.TpcAccess.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

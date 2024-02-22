@@ -959,6 +959,7 @@ struct ns__InputStatus
 public:
 	int OverloadLive;	/* required element of type xsd:int */
 	int OverloadMeas;	/* required element of type xsd:int */
+	int IEPEStatus;	/* required element of type xsd:int */
 };
 #endif
 

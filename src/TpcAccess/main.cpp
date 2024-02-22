@@ -68,12 +68,12 @@ Attributes.h, Attributes.cpp
 //-------------------------------------------------------------------------------
 
 #ifdef WIN32 
-#include "System.h"
+
 
 #include <windows.h>
 #include "TpcAccessInstance.h"
 #endif
-
+#include "System.h"
 
 #include "TransPC_Server.nsmap" // obtain the namespace mapping table
 

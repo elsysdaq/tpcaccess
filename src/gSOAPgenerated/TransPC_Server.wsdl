@@ -196,6 +196,7 @@
    <sequence>
      <element name="OverloadLive" type="xsd:int" minOccurs="1" maxOccurs="1"/>
      <element name="OverloadMeas" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+     <element name="IEPEStatus" type="xsd:int" minOccurs="1" maxOccurs="1"/>
    </sequence>
   </complexType>
   <complexType name="BoardStatus">

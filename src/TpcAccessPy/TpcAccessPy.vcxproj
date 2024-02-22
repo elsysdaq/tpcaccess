@@ -78,7 +78,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(LOCALAPPDATA)\Programs\Python\Python310\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\bin\x64;$(LOCALAPPDATA)\Programs\Python\Python310\libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\bin\x64\v1.4;$(LOCALAPPDATA)\Programs\Python\Python310\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -152,7 +152,7 @@
     <ClInclude Include="..\TpcAccess\TpcAccessA.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\tpcaccess_wrap.cxx" />
+    <ClCompile Include="tpcaccess_wrap.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

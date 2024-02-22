@@ -34,7 +34,7 @@ Namespace Elsys.TpcAccess.ContMeasurementExample
         Private Shared m_iMeasurementNumber As Integer
 
         Public Shared Sub Main(ByVal args As String())
-            Dim url = "192.168.0.60:10010"          ' Replace the IP address with your device address
+            Dim url = "192.168.0.33:10010"          ' Replace the IP address with your device address
             Dim deviceIx As Integer
             Dim err As ErrorCode
 

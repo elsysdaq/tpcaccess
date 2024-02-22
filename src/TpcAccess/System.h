@@ -15,7 +15,7 @@
 */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: System.h 28 2017-06-06 13:31:56Z roman $
+  $Id: System.h 37 2024-01-29 15:58:48Z roman $
   This class holds all information and state for the system.
 --------------------------------------------------------------------------------*/
 #ifndef System_h
@@ -39,7 +39,8 @@ using namespace std;
 
 class System
 {
-public: // Device list
+public: 
+	// Device list
 	void ClearDeviceList();
 	int AddDevice(const char* url,int recvTimeOut,int sendTimeOut);
 	void RemoveDevice(const char* url);
@@ -47,44 +48,45 @@ public: // Device list
 	TPC_ErrorCode GetDeviceUrl(int index, string& url);
 	TPC_ErrorCode GetConnectionState();
 
-public: // Device info and settings
+	// Device info and settings
 	TPC_ErrorCode GetDeviceInfo(int deviceIx, TPC_DeviceInfo* deviceInfo, int structSize);
 	TPC_ErrorCode SetDeviceSettings(int deviceIx, TPC_DeviceInfo deviceInfo);
 	TPC_ErrorCode GetBoardInfo(int deviceIx, int boardAddress, TPC_BoardInfo* boardInfo, int structSize);
 	TPC_ErrorCode GetInputInfo(int deviceIx, int boardAddress, int inputNumber, TPC_InputInfo* inputInfo, int structSize);
 	TPC_ErrorCode GetFreeDiskSpace(int deviceIx, uint64_t* freeDiskSpace, uint64_t* DiskSize);
-public: // Synchronisation
-  static bool DeviceComparator(Device *d1, Device *d2);
-  void GetSortedDevicesList(vector<Device *> &devices);
-  TPC_ErrorCode AcquireSystemLock();
-  TPC_ErrorCode ReleaseSystemLock();
+	
+	// Synchronisation
+	static bool DeviceComparator(Device *d1, Device *d2);
+	void GetSortedDevicesList(vector<Device *> &devices);
+	TPC_ErrorCode AcquireSystemLock();
+	TPC_ErrorCode ReleaseSystemLock();
 
-public: // Configuration reset
+	// Configuration reset
 	TPC_ErrorCode ResetConfiguration();
 
-public: // Cluster configuration 
+	// Cluster configuration 
 	TPC_ErrorCode GetClusterNumbers(int deviceIx, int* clusterNumbers);
 	TPC_ErrorCode SetClusterNumbers(int deviceIx, int* clusterNumbers);
 //	TPC_ErrorCode GetClusterInfo(int deviceIx, int boardAddress,	TPC_ClusterInfo* clusterInfo, int structSize);
 	TPC_ErrorCode CanBeClustered(int deviceIx1, int boardAddress1, int deviceIx2, int boardAddress2);
 
-public: // Parameters and Attributes
-  static bool IsTimebaseParameter(TPC_Parameter parameter);
-  static bool IsBoardParameter(TPC_Parameter parameter);
-  void GetTimebaseParameterList(vector<TPC_Parameter> &parameters);
-  TPC_ErrorCode GetAllClusterNumbers(vector<int> &clusterNumbers);
-  TPC_ErrorCode ClusterNumberToBoardAddress(int clusterNumber, int &boardAddress);
-  TPC_ErrorCode SetTimebaseParameter(int clusterNumber, TPC_Parameter parameter, double value);
-  TPC_ErrorCode GetTimebaseParameter(int clusterNumber, TPC_Parameter parameter, double *value);
-  TPC_ErrorCode GetTimebaseParameterChecked(int clusterNumber, TPC_Parameter parameter, double *value);
-  template <class T> 
-  TPC_ErrorCode IterateThroughAll(int clusterNumber, T &Func);
-  TPC_ErrorCode HasCluster(bool *clustered);
-  TPC_ErrorCode RestrictParameterValue(int clusterNumber, TPC_Parameter parameter, double *value);
-  TPC_ErrorCode SynchronizeTimebaseParameters();
-  TPC_ErrorCode CheckTimebaseParameters();
+	// Parameters and Attributes
+	static bool IsTimebaseParameter(TPC_Parameter parameter);
+	static bool IsBoardParameter(TPC_Parameter parameter);
+	void GetTimebaseParameterList(vector<TPC_Parameter> &parameters);
+	TPC_ErrorCode GetAllClusterNumbers(vector<int> &clusterNumbers);
+	TPC_ErrorCode ClusterNumberToBoardAddress(int clusterNumber, int &boardAddress);
+	TPC_ErrorCode SetTimebaseParameter(int clusterNumber, TPC_Parameter parameter, double value);
+	TPC_ErrorCode GetTimebaseParameter(int clusterNumber, TPC_Parameter parameter, double *value);
+	TPC_ErrorCode GetTimebaseParameterChecked(int clusterNumber, TPC_Parameter parameter, double *value);
+	template <class T> 
+	TPC_ErrorCode IterateThroughAll(int clusterNumber, T &Func);
+	TPC_ErrorCode HasCluster(bool *clustered);
+	TPC_ErrorCode RestrictParameterValue(int clusterNumber, TPC_Parameter parameter, double *value);
+	TPC_ErrorCode SynchronizeTimebaseParameters();
+	TPC_ErrorCode CheckTimebaseParameters();
 
-  TPC_ErrorCode SetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double value);
+	TPC_ErrorCode SetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double value);
 	TPC_ErrorCode GetParameter(int deviceIx, int boardAddress, int inputNumber, TPC_Parameter parameter, double* value);
 	TPC_ErrorCode SetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, const char* value);
 	TPC_ErrorCode GetAttribute(int deviceIx, int boardAddress, int inputNumber, const char* key, string& value);
@@ -109,16 +111,16 @@ public: // Parameters and Attributes
 	TPC_ErrorCode EndSet();
 	TPC_ErrorCode CancelSet();
 
-public: // Commands 
+	// Commands 
 	TPC_ErrorCode ExecuteSystemCommand(TPC_SystemCommand command);
 	TPC_ErrorCode MakeMeasurement(int timeout, int *measurementNumber);
 	TPC_ErrorCode StartCalibration(int deviceIx, TPC_CalibrationType command);
 
-public: // Device status 
+	// Device status 
 	TPC_ErrorCode GetDeviceStatus(int deviceIx, TPC_DeviceStatus* status, int structSize);
 	TPC_ErrorCode SetStatusCallback(TPC_StatusCallbackFunc callback, void* userData);
 
-public: // Data readout 
+	// Data readout 
 	TPC_ErrorCode GetYMetaData(int deviceIx, int boardAddress, int inputNumber, 
 					 int measurementNumber,
 					 TPC_YMetaData* metaData, int structSize);
@@ -155,20 +157,15 @@ public: // Data readout
 	TPC_ErrorCode ProcessDeferredDataRequests(int measurementNumber);
 	TPC_ErrorCode CancelDeferredDataRequests();
 
-public:
-  TPC_ErrorCode SendServerCustomCommand(int deviceIx, char *command, char *result, int length);
+	TPC_ErrorCode SendServerCustomCommand(int deviceIx, char *command, char *result, int length);
 
-public: // Elsys functions
 	TPC_ErrorCode WriteDev(int deviceIx, int boardAddress, int type, unsigned count, void* data, unsigned aux1, unsigned aux2);
 	TPC_ErrorCode ReadDev(int deviceIx, int boardAddress, int type, unsigned count, void* data, unsigned aux1, unsigned aux2);
-  TPC_ErrorCode ReadWriteTwi(int deviceIx, int boardAddress, int amplifier, int count, char *data);
+	TPC_ErrorCode ReadWriteTwi(int deviceIx, int boardAddress, int amplifier, int count, char *data);
 
-public:
-	// Currently there is only one system.
 	static System* TheSystem();
 	static void PrepareToQuitProgram();
 
-public:
 	// Auto Sequence Functions
 	TPC_ErrorCode LoadAutosequence(	int deviceIx, char * cData, int iLength);
 	TPC_ErrorCode GetAutoSequence(	int deviceIx, char * cData, int iLength);
@@ -180,8 +177,6 @@ private:
 	System();
 	~System();
 	static System* s_singleton;
-
-private:
 	vector<Device*> m_devices;
 
 	TPC_StatusCallbackFunc m_callback;
@@ -192,7 +187,6 @@ private:
 	Device* FindDevice(int ix);
 	Device* FindDevice(const char* url);
 
-private:
 	friend class Device;
 	friend class SystemList;
 	void ExecuteCallback(int deviceIx, TPC_DeviceStatus* status);
