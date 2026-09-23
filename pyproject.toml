@@ -1,0 +1,29 @@
+[build-system]
+requires = [
+	"scikit-build-core>=1.0.3",
+    "swig>=4.0",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "tpcaccess"
+version = "1.5.1"
+requires-python = ">=3.9"
+
+[tool.scikit-build]
+build.targets = ["pytpcaccess"]
+cmake.build-type = "Release"
+wheel.packages = []
+wheel.py-api = "cp39"
+
+[tool.scikit-build.cmake.define]
+BUILD_PYTHON_WRAPPERS = true
+CMAKE_CONFIGURATION_TYPES = "Debug;Release"
+DISABLE_PREBUILT = true
+ENABLE_BUILD_FLAG_DEFAULTS = true
+INSTALL_BINARIES = false
+INSTALL_TPCACCESS = false
+INSTALL_PYTPCACCESS = true
+INSTALL_TPCACCESS_STANDALONE_SOURCE = false
+INSTALL_VERSION_INFO = false
+SKIP_HDF5 = true

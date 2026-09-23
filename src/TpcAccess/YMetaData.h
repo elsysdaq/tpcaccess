@@ -12,10 +12,10 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: YMetaData.h 2 2009-01-13 08:45:52Z roman $
+  $Id: YMetaData.h 36 2023-07-06 15:16:35Z roman $
   Keeps y meta data for each input
 --------------------------------------------------------------------------------*/
 #ifndef YMetaData_h
@@ -26,36 +26,31 @@
 
 //---------------------------------------------------------------------------------
 
-struct RawYMetaData
-{
-	bool isActive;
-	int resolutionInBits;
-	unsigned int analogMask;
-	unsigned int markerMask;
-	int numberOfMarkerBits;
-	int bytesPerSample;
-	double binToVoltFactor;
-	double binToVoltConst;
-	double voltToPhysicalFactor;		
-	double voltToPhysicalConstant;	
+struct RawYMetaData {
+    bool isActive;
+    int resolutionInBits;
+    unsigned int analogMask;
+    unsigned int markerMask;
+    int numberOfMarkerBits;
+    int bytesPerSample;
+    double binToVoltFactor;
+    double binToVoltConst;
+    double voltToPhysicalFactor;
+    double voltToPhysicalConstant;
 };
 
+class YMetaDataList {
+   public:
+    YMetaDataList();
 
-class YMetaDataList
-{
-public:
-	YMetaDataList();
+    void SetMetaData(int boardAddress, int inputNumber, const RawYMetaData& metadata);
+    bool GetMetaData(int boardAddress, int inputNumber, RawYMetaData* metadata);
 
-	void SetMetaData(int boardAddress, int inputNumber, const RawYMetaData& metadata);
-	bool GetMetaData(int boardAddress, int inputNumber, RawYMetaData* metadata);
+    void Clear();
 
-	void Clear();
-
-private:
-	RawYMetaData m_data[tpc_maxBoards][tpc_maxInputs];
+   private:
+    RawYMetaData m_data[tpc_maxBoards][tpc_maxInputs];
 };
-
 
 //---------------------------------------------------------------------------------
-#endif // YMetaData_h
-
+#endif  // YMetaData_h

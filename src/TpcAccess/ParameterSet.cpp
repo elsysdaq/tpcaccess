@@ -12,10 +12,10 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: ParameterSet.cpp 2 2009-01-13 08:45:52Z roman $
+  $Id: ParameterSet.cpp 46 2025-03-21 10:42:51Z philipp $
   ParameterSet: Stores a local copy of all parameters
   ParameterModificationList: Keeps a growing list of parameters to be set
 --------------------------------------------------------------------------------*/
@@ -24,115 +24,85 @@
 
 //-------------------------------------------------------------------------------
 
-
-
-bool operator<(const ParameterSetKey& lhs, const ParameterSetKey& rhs)
-{
-	if (lhs.boardAddress() < rhs.boardAddress()) return true;
-	if (lhs.boardAddress() > rhs.boardAddress()) return false;
-	if (lhs.inputNumber() < rhs.inputNumber()) return true;
-	if (lhs.inputNumber() > rhs.inputNumber()) return false;
-	if (lhs.parameterIndex() < rhs.parameterIndex()) return true;
-	return false;
+// Lexical ordering
+bool operator<(const ParameterSetKey& lhs, const ParameterSetKey& rhs) {
+    if (lhs.boardAddress() != rhs.boardAddress()) return lhs.boardAddress() < rhs.boardAddress();
+    if (lhs.inputNumber() != rhs.inputNumber()) return lhs.inputNumber() < rhs.inputNumber();
+    return lhs.parameterIndex() < rhs.parameterIndex();
 }
 
-
-bool operator==(const ParameterSetKey& lhs, const ParameterSetKey& rhs)
-{
-	if (lhs.boardAddress() != rhs.boardAddress()) return false;
-	if (lhs.inputNumber() != rhs.inputNumber()) return false;
-	if (lhs.parameterIndex() != rhs.parameterIndex()) return false;
-	return true;
+bool operator==(const ParameterSetKey& lhs, const ParameterSetKey& rhs) {
+    return lhs.boardAddress() == rhs.boardAddress() && lhs.inputNumber() == rhs.inputNumber() &&
+           lhs.parameterIndex() == rhs.parameterIndex();
 }
-
 
 //----------------------------
 
-
-ParameterSet::ParameterSet()
-{
+bool ParameterSet::operator==(const ParameterSet& rhs) const {
+    return (m_parameters_dict == rhs.m_parameters_dict);
 }
 
-
-ParameterSet::ParameterSet(const ParameterSet& p)
-{
-	m_dictionary = p.m_dictionary;
+void ParameterSet::SetParameter(int boardAddress, int inputNumber, int parameterIndex, double value) {
+    ParameterSetKey key(boardAddress, inputNumber, parameterIndex);
+    m_parameters_dict[key] = value;
 }
 
-
-ParameterSet& ParameterSet::operator=(const ParameterSet& rhs)
-{
-	m_dictionary = rhs.m_dictionary;
-	return *this; 
+void ParameterSet::SetParameterAvailableValues(int boardAddress, int inputNumber, int parameterIndex,
+                                               std::vector<double> values, TPC_ParameterAvailableValuesType type) {
+    ParameterSetKey key(boardAddress, inputNumber, parameterIndex);
+    m_parameters_available_vals_dict[key] = {values, type};
 }
 
+// TODO change to std::optional
+bool ParameterSet::GetParameter(int boardAddress, int inputNumber, int parameterIndex, double* value) {
+    ParameterSetKey key = ParameterSetKey(boardAddress, inputNumber, parameterIndex);
 
-bool ParameterSet::operator==(const ParameterSet& rhs) const
-{
-	return (m_dictionary == rhs.m_dictionary);
+    if (auto it = m_parameters_dict.find(key); it != m_parameters_dict.end()) {
+        *value = it->second;
+        return true;
+    }
+    else {
+        // not found
+        return false;
+    }
 }
 
+std::optional<ParameterAvailableValues> ParameterSet::GetParameterAvailableValues(int boardAddress, int inputNumber,
+                                                                                  int parameterIndex) {
+    ParameterSetKey key = ParameterSetKey(boardAddress, inputNumber, parameterIndex);
 
-void ParameterSet::SetParameter(int boardAddress, int inputNumber, int parameterIndex, double value)
-{
-	ParameterSetKey key = ParameterSetKey(boardAddress, inputNumber, parameterIndex);
-	if (m_dictionary.find(key) != m_dictionary.end()) {
-		m_dictionary.erase(key);
-	}
-	m_dictionary[key] = value;
+    if (auto it = m_parameters_available_vals_dict.find(key); it != m_parameters_available_vals_dict.end()) {
+        return it->second;
+    }
+    else {
+        return {};
+    }
 }
 
-
-bool ParameterSet::GetParameter(int boardAddress, int inputNumber, int parameterIndex, double* value)
-{
-	ParameterSetKey key = ParameterSetKey(boardAddress, inputNumber, parameterIndex);
-
-	if (m_dictionary.find(key) != m_dictionary.end()) {
-		*value = (*const_cast<map<ParameterSetKey, double>* >(&m_dictionary))[key];
-		return true;
-	}
-	else {
-		// not found
-		return false;
-	}
+void ParameterSet::ClearParameters() {
+    m_parameters_dict.clear();
 }
 
-
-void ParameterSet::Clear()
-{
-	m_dictionary.clear();
+void ParameterSet::ClearAvailableValues() {
+    m_parameters_available_vals_dict.clear();
 }
-
-
 
 //-------------------------------------------------------------------------------
 
-
-ParameterModificationList::ParameterModificationList()
-{
+void ParameterModificationList::Add(int boardAddress, int inputNumber, int parameterIndex, double value) {
+    Entry e;
+    e.boardAddress   = boardAddress;
+    e.inputNumber    = inputNumber;
+    e.parameterIndex = parameterIndex;
+    e.value          = value;
+    e.roundedValue   = value;
+    e.error          = 0;
+    m_entries.push_back(e);
 }
 
-
-void ParameterModificationList::Add(int boardAddress, int inputNumber, int parameterIndex, double value)
-{
-	Entry e;
-	e.boardAddress = boardAddress;
-	e.inputNumber = inputNumber;
-	e.parameterIndex = parameterIndex;
-	e.value = value;
-	e.roundedValue = value;
-	e.error = 0;
-	m_entries.push_back(e);
+void ParameterModificationList::SetResult(int index, double roundedValue, int error) {
+    m_entries[index].roundedValue = roundedValue;
+    m_entries[index].error        = error;
 }
-
-
-void ParameterModificationList::SetResult(int index, double roundedValue, int error)
-{
-	m_entries[index].roundedValue = roundedValue;
-	m_entries[index].error = error;
-}
-
 
 //-------------------------------------------------------------------------------
-
-

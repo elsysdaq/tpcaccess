@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E9BECC0A-2362-4B1D-864E-082F86D581BD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Elsys.TpcAccess</RootNamespace>
+    <AssemblyName>Elsys.TpcAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Static Analysis Tools\Rule Sets\MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enumerations\ADCOverloadState.cs" />
+    <Compile Include="Enumerations\AutoseqStatus.cs" />
+    <Compile Include="Enumerations\AveragingMode.cs" />
+    <Compile Include="Enumerations\AveragingOptions.cs" />
+    <Compile Include="Enumerations\ComparatorMode.cs" />
+    <Compile Include="Enumerations\DifferentialInputOptions.cs" />
+    <Compile Include="Enumerations\ExternalTriggerMode.cs" />
+    <Compile Include="Enumerations\ExternStartState.cs" />
+    <Compile Include="Enumerations\FilterMode.cs" />
+    <Compile Include="Enumerations\FilterOptions.cs" />
+    <Compile Include="Enumerations\FirmwareCapabilities.cs" />
+    <Compile Include="Enumerations\InputCoupling.cs" />
+    <Compile Include="Enumerations\InputCouplingOptions.cs" />
+    <Compile Include="Enumerations\InputMode.cs" />
+    <Compile Include="Enumerations\InvertMask.cs" />
+    <Compile Include="Enumerations\LANTriggerMode.cs" />
+    <Compile Include="Enumerations\OffsetOptions.cs" />
+    <Compile Include="Enumerations\OperationModeOptions.cs" />
+    <Compile Include="Enumerations\ParameterAvailableValuesType.cs" />
+    <Compile Include="Enumerations\RecordingState.cs" />
+    <Compile Include="Enumerations\ErrorCode.cs" />
+    <Compile Include="Enumerations\StrainBridgeType.cs" />
+    <Compile Include="Enumerations\StrainVoltageSense.cs" />
+    <Compile Include="Enumerations\TimeBaseMode.cs" />
+    <Compile Include="Enumerations\TimeBaseSource.cs" />
+    <Compile Include="Enumerations\TPC_SystemCommand.cs" />
+    <Compile Include="Enumerations\TPC_TriggerComparatorMode.cs" />
+    <Compile Include="Enumerations\TriggerExtensionOptions.cs" />
+    <Compile Include="Enumerations\TriggerMode.cs" />
+    <Compile Include="Enumerations\TriggerState.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Enumerations\OperationModeBits.cs" />
+    <Compile Include="Enumerations\Parameter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\TPC_AssociatedChannel.cs" />
+    <Compile Include="Structs\TPC_BitReadoutTestResult.cs" />
+    <Compile Include="Structs\TPC_BoardInfo.cs" />
+    <Compile Include="Enumerations\TPC_EasyTriggerComparatorMode.cs" />
+    <Compile Include="Enumerations\TPC_EasyTriggerFlags.cs" />
+    <Compile Include="Enumerations\TPC_EasyTriggerMode.cs" />
+    <Compile Include="Enumerations\TriggerModeBits.cs" />
+    <Compile Include="Structs\TPC_BoardStatus.cs" />
+    <Compile Include="Structs\TPC_DateTime.cs" />
+    <Compile Include="Structs\TPC_DeviceInfo.cs" />
+    <Compile Include="Structs\TPC_DeviceStatus.cs" />
+    <Compile Include="Structs\TPC_GPSStatus.cs" />
+    <Compile Include="Enumerations\TPC_IEPEStatus.cs" />
+    <Compile Include="Structs\TPC_InputInfo.cs" />
+    <Compile Include="Structs\TPC_InputStatus.cs" />
+    <Compile Include="Structs\TPC_TempStatus.cs" />
+    <Compile Include="Structs\TPC_TMetaData.cs" />
+    <Compile Include="Structs\TPC_YMetaData.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,17 @@
+set(PROJECT_DIR "${PROJECT_SOURCE_DIR}/src/wrappers/pytpcaccess")
+set(DESTINATION_DIR "${PYTPCACCESS_INSTALL_DIR}")
+
+tpc_install(
+	TARGETS pytpcaccess
+	COMPONENT pytpcaccess
+	ARCHIVE DESTINATION "${DESTINATION_DIR}"
+	LIBRARY DESTINATION "${DESTINATION_DIR}"
+	RUNTIME DESTINATION "${DESTINATION_DIR}"
+)
+
+tpc_install(
+	FILES "${PROJECT_DIR}/generated/TpcAccess.py"
+	FILES "${PROJECT_DIR}/__init__.py"
+	COMPONENT pytpcaccess
+	DESTINATION "${DESTINATION_DIR}"
+)

@@ -36,9 +36,9 @@ Building Xerces:
     to it.
 
 Setting up TpcAccess to use it:
- 1. Add an environement variable XERCES that points to the directory where you 
-    unzipped the xerces source code. e.g. if you unzipped the contents of 
-    "xerces-c-src_2_7_0" from the zip into c:\xerces\xerces-c-src_2_7_0, 
+ 1. Add an environement variable XERCES that points to the directory where you
+    unzipped the xerces source code. e.g. if you unzipped the contents of
+    "xerces-c-src_2_7_0" from the zip into c:\xerces\xerces-c-src_2_7_0,
     set XERCES = c:\xerces\xerces-c-src_2_7_0  (no backslash at the end)
  2. Add $(XERCES)\src to the additional include directories.
  3. Add $(XERCES)\lib\<platform>\Xerces-c_static_2D.lib and
@@ -57,16 +57,16 @@ Instructions for Linux:
 */
 
 #ifndef XML_LIBRARY
-# error "The symbol XML_LIBRARY must be defined in the project settings."
+#error "The symbol XML_LIBRARY must be defined in the project settings."
 #endif
 
 #ifdef _MSC_VER
-# pragma comment(lib, "ws2_32.lib")
-# pragma comment(lib, "advapi32.lib")
-# ifdef NDEBUG
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "advapi32.lib")
+#ifdef NDEBUG
 // #  pragma comment(lib, "../../xerces/lib/Xerces-c_static_2.lib")
-# endif
-# ifdef _DEBUG
+#endif
+#ifdef _DEBUG
 // #  pragma comment(lib, "../../xerces/lib/Xerces-c_static_2D.lib")
-# endif
+#endif
 #endif /*_MSC_VER*/

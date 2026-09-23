@@ -1,0 +1,59 @@
+BasedOnStyle: Google
+Standard: c++20
+
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveMacros: Consecutive
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: false
+  AlignCaseArrows: true
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+
+AllowAllArgumentsOnNextLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+
+BracedInitializerIndentWidth: 2
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterExternBlock: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyNamespace: false
+  SplitEmptyRecord: false
+BreakTemplateDeclarations: MultiLine
+
+ColumnLimit: 120
+DerivePointerAlignment: false
+IndentWidth: 4
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: false
+  AtStartOfFile: false
+NamespaceIndentation: Inner
+PackConstructorInitializers: CurrentLine
+RequiresClausePosition: WithPreceding
+ShortNamespaceLines: 3
+SortIncludes: false
+SortUsingDeclarations: LexicographicNumeric
+
+# Parse this versioning macro as a struct declaration.
+Macros:
+  - VERSIONED_STRUCT(x,v)=struct x
+

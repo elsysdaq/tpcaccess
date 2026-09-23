@@ -12,9 +12,9 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
-// $Id: StringConversions.cpp 21 2014-01-14 16:12:52Z roman $
+// $Id: StringConversions.cpp 36 2023-07-06 15:16:35Z roman $
 
 #include "StringConversions.h"
 
@@ -22,84 +22,74 @@
 #include <stdexcept>
 #include <sstream>
 
+// TODO move into utils lib
+
 #ifdef _LINUX
-  #include "errno.h"
+#include "errno.h"
 #endif
 using namespace std;
 
 #if _MSC_VER >= 1400
-#pragma warning(push)
-#pragma warning(disable: 4996) /* 4996: 'xxx' was declared deprecated */
+#pragma warning(disable : 4996) /* 4996: 'xxx' was declared deprecated */
 #endif
 
-
-nstring IntToString(int x)
-{
-   TCHAR s[80];
+nstring IntToString(int x) {
+    TCHAR s[80];
 #if defined(UNICODE) || defined(_UNICODE)
-   _itow(x, s, 10);
+    _itow(x, s, 10);
 #else
-   sprintf(s,"%20d",x);
+    sprintf(s, "%20d", x);
 #endif
-   return s;
+    return s;
 }
 
-int StringToInt(const nstring& s)
-{
-   TCHAR* end;
-   errno=0;
+int StringToInt(const nstring& s) {
+    TCHAR* end;
+    errno = 0;
 #if defined(UNICODE) || defined(_UNICODE)
-   long x = wcstol(s.c_str(), &end, 10);
+    long x = wcstol(s.c_str(), &end, 10);
 #else
-   long x = strtol(s.c_str(), &end, 10);
+    long x = strtol(s.c_str(), &end, 10);
 #endif
-   int xint = int(x);
-   if (errno || end == s.c_str() || xint != x) {
-      throw std::invalid_argument("invalid int syntax");
-   }
-   while (*end != _TEXT('\0')) {
-      if (*end != _TEXT(' ') && *end != _TEXT('\t')) {
-         throw std::invalid_argument("invalid int syntax");
-      }
-      ++end;
-   }
-   return x;
+    int xint = int(x);
+    if (errno || end == s.c_str() || xint != x) {
+        throw std::invalid_argument("invalid int syntax");
+    }
+    while (*end != _TEXT('\0')) {
+        if (*end != _TEXT(' ') && *end != _TEXT('\t')) {
+            throw std::invalid_argument("invalid int syntax");
+        }
+        ++end;
+    }
+    return x;
 }
 
-nstring DoubleToString(double x)
-{
-   TCHAR s[80];
+nstring DoubleToString(double x) {
+    TCHAR s[80];
 #if defined(UNICODE) || defined(_UNICODE)
-   swprintf(s,_TEXT("%.20G"),x);
+    swprintf(s, _TEXT("%.20G"), x);
 #else
-   sprintf(s,_TEXT("%.20G"),x);
+    sprintf(s, _TEXT("%.20G"), x);
 #endif
-   return s;
+    return s;
 }
 
-double StringToDouble(const nstring& s)
-{
-   TCHAR* end;
-   errno=0;
+double StringToDouble(const nstring& s) {
+    TCHAR* end;
+    errno = 0;
 #if defined(UNICODE) || defined(_UNICODE)
-   double x = wcstod(s.c_str(), &end);
+    double x = wcstod(s.c_str(), &end);
 #else
-   double x = strtod(s.c_str(), &end);
+    double x = strtod(s.c_str(), &end);
 #endif
-   if (errno || end == s.c_str()) {
-      throw std::invalid_argument("invalid double syntax");
-   }
-   while (*end != _TEXT('\0')) {
-      if (*end != _TEXT(' ') && *end != _TEXT('\t')) {
-         throw std::invalid_argument("invalid double syntax");
-      }
-      ++end;
-   }
-   return x;
+    if (errno || end == s.c_str()) {
+        throw std::invalid_argument("invalid double syntax");
+    }
+    while (*end != _TEXT('\0')) {
+        if (*end != _TEXT(' ') && *end != _TEXT('\t')) {
+            throw std::invalid_argument("invalid double syntax");
+        }
+        ++end;
+    }
+    return x;
 }
-
-
-#if _MSC_VER >= 1400
-#pragma warning(default: 4996)
-#pragma warning(pop)
-#endif

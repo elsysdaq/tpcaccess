@@ -1,0 +1,6 @@
+#ifndef COMMON_REVISION_H
+#define COMMON_REVISION_H
+
+#define REVISION 0
+
+#endif  // COMMON_REVISION_H

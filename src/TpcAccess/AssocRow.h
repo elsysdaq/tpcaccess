@@ -12,10 +12,10 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: AssocRow.h 2 2009-01-13 08:45:52Z roman $
+  $Id: AssocRow.h 45 2025-03-19 12:46:37Z philipp $
   AssocRow: Stores a local copy of association rows
 --------------------------------------------------------------------------------*/
 #ifndef AssocRow_h
@@ -24,67 +24,55 @@
 
 #include <vector>
 #include <map>
-using namespace std;
 
 #include "TpcAccess.h"
 
 //---------------------------------------------------------------------------------
 
-class AssociationRow
-{
-public:
-	AssociationRow(int boardAddress, int inputNumber);
+class AssociationRow {
+   public:
+    AssociationRow(int boardAddress, int inputNumber);
 
-	int Count() const { return m_entries.size(); }
+    int Count() const { return static_cast<int>(m_entries.size()); }
 
-	int GetBoardAddress() const { return m_boardAddress; }
-	int GetInputNumber() const { return m_inputNumber; }
+    int GetBoardAddress() const { return m_boardAddress; }
+    int GetInputNumber() const { return m_inputNumber; }
 
-	void GetAssociatedChannels(TPC_AssociatedChannel* list, int count) const;
-	void SetAssociatedChannels(TPC_AssociatedChannel* list, int count);
+    void GetAssociatedChannels(TPC_AssociatedChannel* list, int count) const;
+    void SetAssociatedChannels(TPC_AssociatedChannel* list, int count);
 
-	bool operator==(const AssociationRow& rhs) const;
-	bool operator!=(const AssociationRow& rhs) const { return !(*this == rhs); }
+    bool operator==(const AssociationRow& rhs) const;
+    bool operator!=(const AssociationRow& rhs) const { return !(*this == rhs); }
 
-	const TPC_AssociatedChannel& operator[](int index) const { return m_entries[index]; }
+    const TPC_AssociatedChannel& operator[](int index) const { return m_entries[index]; }
 
-private:
-	int m_boardAddress;
-	int m_inputNumber;
-	vector<TPC_AssociatedChannel> m_entries;
+   private:
+    int m_boardAddress;
+    int m_inputNumber;
+    std::vector<TPC_AssociatedChannel> m_entries;
 };
 
+class AssociationRowList {
+   public:
+    int Count() const { return static_cast<int>(m_entries.size()); }
 
+    void Clear() { m_entries.clear(); }
 
-class AssociationRowList
-{
-public:
-	int Count() const { return m_entries.size(); }
+    TPC_ErrorCode GetAssociatedChannels(int boardAddress, int inputNumber, TPC_AssociatedChannel* list,
+                                        int* count) const;
 
-	void Clear() { m_entries.clear(); }
+    TPC_ErrorCode SetAssociatedChannels(int boardAddress, int inputNumber, TPC_AssociatedChannel* list, int count);
 
-	TPC_ErrorCode GetAssociatedChannels(int boardAddress, int inputNumber, 
-										TPC_AssociatedChannel* list, int* count) const;
+    bool operator==(const AssociationRowList& rhs) const;
+    bool operator!=(const AssociationRowList& rhs) const { return !(*this == rhs); }
 
-	TPC_ErrorCode SetAssociatedChannels(int boardAddress, int inputNumber, 
-										TPC_AssociatedChannel* list, int count);
+    const AssociationRow& operator[](int index) const { return m_entries[index]; }
 
-	bool operator==(const AssociationRowList& rhs) const;
-	bool operator!=(const AssociationRowList& rhs) const { return !(*this == rhs); }
+   private:
+    std::vector<AssociationRow> m_entries;
 
-	const AssociationRow& operator[](int index) const { return m_entries[index]; }
-
-private:
-	vector<AssociationRow> m_entries;
-
-	int FindEntry(int boardAddress, int inputNumber) const;
+    int FindEntry(int boardAddress, int inputNumber) const;
 };
-
-
-
-
-
 
 //---------------------------------------------------------------------------------
-#endif // AssocRow_h
-
+#endif  // AssocRow_h

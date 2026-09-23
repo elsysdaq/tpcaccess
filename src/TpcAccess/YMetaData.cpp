@@ -12,10 +12,10 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: YMetaData.cpp 2 2009-01-13 08:45:52Z roman $
+  $Id: YMetaData.cpp 36 2023-07-06 15:16:35Z roman $
   Keeps y meta data for each input
 --------------------------------------------------------------------------------*/
 
@@ -25,37 +25,25 @@
 
 //-------------------------------------------------------------------------------
 
-
-YMetaDataList::YMetaDataList()
-{
-	Clear();
+YMetaDataList::YMetaDataList() {
+    Clear();
 }
 
-	
-void YMetaDataList::SetMetaData(int boardAddress, int inputNumber, const RawYMetaData& metadata)
-{
-	if (boardAddress < 0 || boardAddress >= tpc_maxBoards) return;
-	if (inputNumber < 0 || inputNumber >= tpc_maxInputs) return;
-	m_data[boardAddress][inputNumber] = metadata;
+void YMetaDataList::SetMetaData(int boardAddress, int inputNumber, const RawYMetaData& metadata) {
+    if (boardAddress < 0 || boardAddress >= tpc_maxBoards) return;
+    if (inputNumber < 0 || inputNumber >= tpc_maxInputs) return;
+    m_data[boardAddress][inputNumber] = metadata;
 }
 
-
-bool YMetaDataList::GetMetaData(int boardAddress, int inputNumber, RawYMetaData* metadata)
-{
-	if (boardAddress < 0 || boardAddress >= tpc_maxBoards) return false;
-	if (inputNumber < 0 || inputNumber >= tpc_maxInputs) return false;
-	*metadata = m_data[boardAddress][inputNumber];
-	return true;
+bool YMetaDataList::GetMetaData(int boardAddress, int inputNumber, RawYMetaData* metadata) {
+    if (boardAddress < 0 || boardAddress >= tpc_maxBoards) return false;
+    if (inputNumber < 0 || inputNumber >= tpc_maxInputs) return false;
+    *metadata = m_data[boardAddress][inputNumber];
+    return true;
 }
 
-
-void YMetaDataList::Clear()
-{
-	memset(m_data, 0, sizeof(m_data));
+void YMetaDataList::Clear() {
+    memset(m_data, 0, sizeof(m_data));
 }
-
-
 
 //-------------------------------------------------------------------------------
-
-
