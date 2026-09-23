@@ -1,0 +1,33 @@
+{
+  "$comment": "Used by cmake/Version.cmake. This is not meant to serve as a general package metadata format",
+  "common": {
+    "major": 1,
+    "minor": 9,
+    "patch": 0
+  },
+  "libbdf": {
+    "major": 2,
+    "minor": 0,
+    "patch": 0
+  },
+  "tpcaccess": {
+    "major": 1,
+    "minor": 5,
+    "patch": 1
+  },
+  "tpcdebugui": {
+    "major": 0,
+    "minor": 1,
+    "patch": 0
+  },
+  "tpcefwupdate": {
+    "major": 2,
+    "minor": 0,
+    "patch": 0
+  },
+  "tpcplltool": {
+    "major": 1,
+    "minor": 1,
+    "patch": 1
+  }
+}

@@ -1,0 +1,4 @@
+#ifndef SOAPCONNECTION_H
+#define SOAPCONNECTION_H
+
+#endif  // SOAPCONNECTION_H

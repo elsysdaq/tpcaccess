@@ -12,15 +12,15 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
-// $Id: TpcSettingsToXml.h 2 2009-01-13 08:45:52Z roman $
+// $Id: TpcSettingsToXml.h 36 2023-07-06 15:16:35Z roman $
 
 #ifndef __TPCSETTINGSTOXML_H__
 #define __TPCSETTINGSTOXML_H__
 
 #include "XercesUtils.h"
 
-DOMDocumentHandle CreateXmlTpcSettings(); // throws TPC_ErrorCode on Tpc errors
+DOMDocumentHandle CreateXmlTpcSettings();  // throws TPC_ErrorCode on Tpc errors
 
-#endif /*__TPCSETTINGSTOXML_H__*/
+#endif                                     /*__TPCSETTINGSTOXML_H__*/

@@ -12,9 +12,9 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
-// $Id: TpcSettingsFromXml.h 2 2009-01-13 08:45:52Z roman $
+// $Id: TpcSettingsFromXml.h 36 2023-07-06 15:16:35Z roman $
 
 #ifndef __TPCSETTINGSFROMXML_H__
 #define __TPCSETTINGSFROMXML_H__

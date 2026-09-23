@@ -12,24 +12,24 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
 /*--------------------------------------------------------------------------------
-  $Id: Attributes.h 2 2009-01-13 08:45:52Z roman $
+  $Id: Attributes.h 45 2025-03-19 12:46:37Z philipp $
   Attribute container.
 ----------------------------------------------------------------------------------
 
 Attributes are strings that can be assigned to each channel.
-	(boardAddress, inputNumber, name) -> string attribute.
+        (boardAddress, inputNumber, name) -> string attribute.
 
 Example:
-	attr.SetAttribute(0, 1, "Remark", "Any string can be added as an attribute");
-	attr.SetAttribute(0, 1, "Baseline", "2.345e-5");
+        attr.SetAttribute(0, 1, "Remark", "Any string can be added as an attribute");
+        attr.SetAttribute(0, 1, "Baseline", "2.345e-5");
 
-	string x = attr.GetAttribute(0, 1, "Remark");
+        string x = attr.GetAttribute(0, 1, "Remark");
 
-To clear an attribute, set it to "". 
-If the attribute is not found, "" is returned. 
+To clear an attribute, set it to "".
+If the attribute is not found, "" is returned.
 
 --------------------------------------------------------------------------------*/
 #ifndef Attributes_h
@@ -38,83 +38,68 @@ If the attribute is not found, "" is returned.
 
 #include <string>
 #include <map>
-using namespace std;
 
 //---------------------------------------------------------------------------------
 
+class AttributeKey {
+   public:
+    AttributeKey() {}
 
-class AttributeKey
-{
-public:
-	AttributeKey() 
-	{}
+    AttributeKey(int boardAddress, int inputNumber, const std::string& name) {
+        m_boardAddress = boardAddress;
+        m_inputNumber  = inputNumber;
+        m_name         = name;
+    }
 
-	AttributeKey(int boardAddress, int inputNumber, const string& name)
-	{
-		m_boardAddress = boardAddress;
-		m_inputNumber = inputNumber;
-		m_name = name;
-	}
-	
-	int boardAddress() const  { return m_boardAddress; }
-	int inputNumber() const { return m_inputNumber; }
-	string name() const { return m_name; }
+    int boardAddress() const { return m_boardAddress; }
+    int inputNumber() const { return m_inputNumber; }
+    std::string name() const { return m_name; }
 
-private:
-	int m_boardAddress;
-	int m_inputNumber;
-	string m_name;
+   private:
+    int m_boardAddress;
+    int m_inputNumber;
+    std::string m_name;
 };
-
 
 bool operator<(const AttributeKey& lhs, const AttributeKey& rhs);
 bool operator==(const AttributeKey& lhs, const AttributeKey& rhs);
 
+class Attributes {
+   public:
+    Attributes();
+    Attributes(const Attributes&);
+    Attributes& operator=(const Attributes&);
 
+    bool operator==(const Attributes& rhs) const;
+    bool operator!=(const Attributes& rhs) const { return !(*this == rhs); }
 
+    // Does not allow "" to be stored. This will clear the corresponding entry.
+    void SetAttribute(int boardAddress, int inputNumber, const std::string& name, const std::string& value);
 
-class Attributes 
-{
-public:
-	Attributes();
-	Attributes(const Attributes&);
-	Attributes& operator=(const Attributes&);
+    // Stores "" entries. This is used to convey settings of "" over the net.
+    void SetAttributeE(int boardAddress, int inputNumber, const std::string& name, const std::string& value);
 
-	bool operator==(const Attributes& rhs) const;
-	bool operator!=(const Attributes& rhs) const { return !(*this == rhs); }
+    std::string GetAttribute(int boardAddress, int inputNumber, const std::string& name) const;
 
-	// Does not allow "" to be stored. This will clear the corresponding entry.
-	void SetAttribute(int boardAddress, int inputNumber, const string& name, const string& value);
+    void Clear();
 
-	// Stores "" entries. This is used to convey settings of "" over the net. 
-	void SetAttributeE(int boardAddress, int inputNumber, const string& name, const string& value);
+    class AttributeEnumerator {
+       public:
+        virtual bool Callback(int index, int boardAddress, int inputNumber, const std::string& name,
+                              const std::string& value) = 0;
+    };
 
-	string GetAttribute(int boardAddress, int inputNumber, const string& name) const;
+    void EnumerateAttributes(AttributeEnumerator* callback);
 
-	void Clear();
+    int Count() const { return static_cast<int>(m_dictionary.size()); }
 
-	class AttributeEnumerator
-	{
-	public:
-		virtual void SetTotal(int count) = 0;
-		virtual bool Callback(int index, int boardAddress, int inputNumber, const string& name, const string& value) = 0;
-	};
+    typedef std::map<AttributeKey, std::string>::const_iterator const_iterator;
+    const_iterator begin() const { return m_dictionary.begin(); }
+    const_iterator end() const { return m_dictionary.end(); }
 
-	void EnumerateAttributes(AttributeEnumerator* callback);
-
-	int Count() const { return m_dictionary.size(); }
-
-	typedef map<AttributeKey, string>::const_iterator const_iterator;
-	const_iterator begin() const { return m_dictionary.begin(); }
-	const_iterator end() const { return m_dictionary.end(); }
-
-private:
-	map<AttributeKey, string> m_dictionary;
+   private:
+    std::map<AttributeKey, std::string> m_dictionary;
 };
 
-
-
-
 //---------------------------------------------------------------------------------
-#endif // Attributes_h
-
+#endif  // Attributes_h

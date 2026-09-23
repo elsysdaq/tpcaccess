@@ -12,18 +12,36 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
-// $Id: StringConversions.h 2 2009-01-13 08:45:52Z roman $
+// $Id: StringConversions.h 36 2023-07-06 15:16:35Z roman $
 
 #ifndef __STRINGCONVERSIONS_H__
 #define __STRINGCONVERSIONS_H__
 
 #include "XercesUtils.h"
 
-nstring IntToString   (int x);
-int     StringToInt   (const nstring& s);
+nstring IntToString(int x);
+int StringToInt(const nstring& s);
 nstring DoubleToString(double x);
-double  StringToDouble(const nstring& s);
+double StringToDouble(const nstring& s);
+
+// Convert std::string to nstring (handles UTF-8->wide conversion on Windows with UNICODE)
+#if defined(UNICODE) || defined(_UNICODE)
+#include <common/utils/win_utils.h>
+inline nstring StringToNstring(const std::string& s) {
+    return utils::utf8ToWide(s);
+}
+inline std::string NstringToString(const nstring& ws) {
+    return utils::wideToUtf8(ws);
+}
+#else
+inline nstring StringToNstring(const std::string& s) {
+    return s;
+}
+inline std::string NstringToString(const nstring& s) {
+    return s;
+}
+#endif
 
 #endif /*__STRINGCONVERSIONS_H__*/

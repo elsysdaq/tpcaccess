@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>
+    </RootNamespace>
+    <Platforms>x64</Platforms>
+    <TpcAccessPrebuiltDir>$(ProjectDir)..\..\..\tpcaccess-prebuilt\bin\x86_64-windows-release</TpcAccessPrebuiltDir>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(ProjectDir)**\*.cs</DefaultItemExcludes>
+    <OptionCompare>Binary</OptionCompare>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <Target Name="CopyTpcAccessRuntime" AfterTargets="Build">
+    <Copy SourceFiles="$(TpcAccessPrebuiltDir)\TpcAccess.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\wrappers\Elsys.TpcAccess\Elsys.TpcAccess.csproj" />
+  </ItemGroup>
+</Project>

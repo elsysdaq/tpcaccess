@@ -1,26 +1,11 @@
-﻿################################################################################
-# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
-################################################################################
+x64*
+packages/
+*.user
+.vs/
 
-/.vs
-/bin/x64/continuouse-measurement.pdb
-/bin/x64/continuouse-measurement.ilk
-/bin/x64/continuouse-measurement.exe
-/examples/cpp/vs-projects/.vs/vs-projects/v16/ipch/AutoPCH
-/examples/cpp/vs-projects/.vs/vs-projects/v16
-/examples/cpp/vs-projects/continuouse-measurement/x64/Debug
-/examples/cpp/vs-projects/continuouse-measurement/data_ch0.bin
-/examples/cpp/vs-projects/continuouse-measurement/data_ch1.bin
-/examples/cpp/vs-projects/x64/Debug
-/examples/cpp/vs-projects/continuouse-measurement/Debug
-/examples/cpp/vs-projects/Debug
-/examples/.vs/vs-projects/v16/ipch/AutoPCH/6c73e4f3b5d453f3
-/examples/cpp/continuous-measurement/x64/Debug
-/examples/.vs/vs-projects/v16/Browse.VC.opendb
-/examples/.vs/vs-projects/v16/Browse.VC.db-wal
-/examples/.vs/vs-projects/v16/Browse.VC.db-shm
-/examples/.vs/vs-projects/v16/Browse.VC.db
-/examples/.vs/vs-projects/v16/.suo
-/examples/cpp/continuous-measurement/x64/Release
-/examples/.vs/vs-projects/DesignTimeBuild/.dtbcache.v2
-/examples/.vs/vs-projects/v16
+bin/
+out/
+obj/
+*.o
+
+__pycache__/

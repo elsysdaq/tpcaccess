@@ -12,10 +12,10 @@
  * PARTICULAR PURPOSE.
  *
  * (C) Copyright 2005 - 2023 Elsys AG. All rights reserved.
-*/
+ */
 //---------------------------------------------------------------------------
-// $Id: TpcAccessInstance.h 2 2009-01-13 08:45:52Z roman $
+// $Id: TpcAccessInstance.h 36 2023-07-06 15:16:35Z roman $
 
-#include <windows.h>
+#include <common/clean_windows.h>
 
 extern HINSTANCE TpcAccessInstance;
