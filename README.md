@@ -71,6 +71,10 @@ python -m pip wheel . --wheel-dir dist
 
 TpcAccess is distributed under the MIT License. See [`LICENSE`](LICENSE).
 
+## Support
+
+Contact Elsys AG via info@elsys.ch for support
+
 ## Version History
 
 ### [1.5.1] — 2026-09-23
