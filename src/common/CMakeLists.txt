@@ -37,6 +37,7 @@ if(COMPILER_GCC_CLANG)
     target_compile_options(${TARGET}
         PRIVATE
             $<$<COMPILE_LANGUAGE:CXX>:-Wno-register>
+            -Wno-format-overflow
     )
 
 	# Module-specific compile definitions

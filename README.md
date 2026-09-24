@@ -22,11 +22,11 @@ cmake/ and build/                Build infrastructure
 TpcAccess requires CMake 3.25 or newer and a C++20-capable compiler. Its third-party dependencies are included.
 
 ```sh
-cmake -S . -B build -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release --target tpcaccess
+cmake -S . -B out/build -DENABLE_BUILD_FLAG_DEFAULTS=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build out/build --config Release --target tpcaccess --parallel
 ```
 
-Use the `tpcaccess_static` target to build the static library. To build the included examples, omit `-DBUILD_EXAMPLES=OFF`.
+Use the `tpcaccess_static` target to build the static library.
 
 ## Examples
 
@@ -41,8 +41,8 @@ On Windows, open [`examples/tpcaccess-examples/vs-examples.sln`](examples/tpcacc
 The C++ examples can be built together with TpcAccess:
 
 ```sh
-cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release
+cmake -S . -B out/build -DENABLE_BUILD_FLAG_DEFAULTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build out/build --config Release --parallel
 ```
 
 The available example targets are `cont-example`, `ecr-example`, and `scope-example`. To build only one example, append `--target <name>` to the second command.

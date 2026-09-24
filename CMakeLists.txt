@@ -82,13 +82,13 @@ endfunction()
 add_static_xerces()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    # target_compile_options(xerces-c PRIVATE -w)
+    target_compile_options(xerces-c PRIVATE -w)
 elseif(MSVC)
     target_compile_options(xerces-c PRIVATE /wd4018 /wd4244 /wd4996 )
 endif()
 
 add_subdirectory(src/common)
-add_subdirectory(src/tpcaccess)
+add_subdirectory(src/TpcAccess)
 
 if(BUILD_PYTHON_WRAPPERS)
 	add_subdirectory(src/wrappers/pytpcaccess)
@@ -104,7 +104,7 @@ if(ENABLE_INSTALL)
     endfunction()
 
 	include(GNUInstallDirs)
-    if(INSTALL_TPACESS)
+    if(INSTALL_TPCACESS)
 		install(TARGETS tpcaccess)
     endif()
 
